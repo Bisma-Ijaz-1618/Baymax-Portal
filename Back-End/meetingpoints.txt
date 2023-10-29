@@ -1,0 +1,112 @@
+Meeting Notes
+_________________________
+
+1.Login authentication and authorization in the front-end. Persist Login until the refresh token expires.
+2. Restructured Backend for my FYP and created controllers for Doctors, Patients and Admins.
+3. Made Protected rolebased routes in the Front-End.
+4. Designed Admin dashbaord at the front end with the following functionalities:
+    a. Add new user accounts.
+    b. Delete existing user accounts.
+    c. Edit doctor/patients profile data.
+4. Implemented react-query throughout.
+5. Studied about useCallBack and useMemo.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+DONE //helper function/utility folder for file uploads
+//delete using cascading in mogoose
+//use the same format for response
+DONE//pagination in get all=> takes pagelimit and page number/current page and page size from query params+
+can add filters getPaginated=>single method that applies to all queries
+
+//react.memo
+//use callback
+//react query pa
+//
+
+//image urls
+//active links
+//pagination
+//AWS:
+USERNAME:EMAIL
+PASSWORD:Bisma123_
+
+
+
+
+
+
+
+
+
+
+
+
+//roles: admin patient doctor
+* for all: edit profile/sensors
+//public pages:
+>nav login register Faq user guide
+>footer: copy right /about us/contact
+
+//patient/user
+>view doctor/profile
+>symptom checker >direct to doc and chat
+>sensors data
+>add medical docs
+//admin
+
+>users controller
+>make new admin
+>make doc acount
+>verification
+>profile
+
+//doctor
+>view patient requests
+>view patient History
+>contact other docs/consult
+>view all docs
+>profile:duty timings > online / ftf+location
+>
+
+///////meeting notes
+sensors data within login registeration
+
+>sensors
+
+

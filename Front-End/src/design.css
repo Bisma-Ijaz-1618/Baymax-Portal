@@ -1,0 +1,620 @@
+@import url('https://fonts.googleapis.com/css2?family=Nunito&display=swap');
+
+
+:root {
+  /* COLORS */
+  --BGCOLOR:rgb(0, 0, 0);
+  --BORDER-COLOR-LIGHT: #FFF;
+  --BORDER-COLOR-DARK:rgb(2, 2, 20);
+  --COLOR: #FFF;
+  --ERROR: firebrick;
+  --SUCCESS:green;
+  --INACTIVE: lightgray;
+  --LINK-COLOR: whitesmoke;
+  --LINK-HOVER: rgba(245, 245, 245, 0.9);
+  --ACCOUNT-BGCOLOR: red(240, 64%, 27%, 0.65);
+  --STATUS-COMPLETE: limegreen;
+  --STATUS-OPEN: firebrick;
+  --TABLE-BGCOLOR: #FFF;
+  --FORM-BGCOLOR: #FFF;
+  --TABLE-COLOR: #000;
+  --DARK-COMPONENT-BG:rgb(64, 44, 190);
+  --DARK-COMPONENT-COLOR:rgb(112, 146, 148);
+  --LIGHT-COMPONENT-BG:rgb(163, 201, 203);
+  --LIGHT-COMPONENT-COLOR:rgb(64, 44, 190);
+  
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+
+  #root {
+    min-height: 100vh;
+    display: flex;
+    flex-flow: column nowrap;
+  }
+  
+body {
+  font-family: 'Nunito', sans-serif !important;
+  min-height: 100vh;
+  background-color: var(--BGCOLOR) !important;
+  color: var(--COLOR) !important;
+  /* background-image: url('./img/Baymax.jpg'); */
+  background-size: cover;
+  background-position: top right;
+  background-blend-mode: multiply;
+}
+/* Custom styles for carousel */
+
+.navbar{
+  font-family: 'Nunito', sans-serif;
+
+  font-size: 20px;
+  border-bottom: 1px solid white;
+  border-top: 1px solid white;
+}
+.nav-item .dropdown-menu {
+  background:black;
+  border: 1px solid var(--HOVER-ELEMENT);
+}
+
+.nav-item .dropdown-item {
+  color: var(--COLOR);
+}
+
+.nav-item .dropdown-item:hover {
+  background: var(--HOVER-ELEMENT)
+}
+
+
+/* Custom styles for carousel */
+/* Custom styles for carousel */
+.carousel-container {
+    background-color: black;
+    position: relative;
+    overflow: hidden;
+    padding: 20px;
+  }
+  
+  .carousel-img {
+    position: relative;
+    bottom: 0;
+    right: 50%;
+    left: 10%;
+    margin-bottom: 40px;
+    max-width: 35%;
+    max-width: 35%;
+
+  }
+  
+  .carousel-caption {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-end;
+    position: relative;
+    top: 0;
+    bottom: 0;
+    right: 15% !important;
+    left: 12% !important;
+    padding: 20px;
+    color: white;
+    width: 50%;
+  }
+
+  /* Media query for smaller screens */
+
+
+.nav_button{
+    width: 100px;
+    margin: 5px 10px !important;
+}
+
+
+.public,
+.welcome {
+    display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  padding: 30px;
+}
+
+.public {
+    flex-grow: 1;
+}
+
+.public__main{
+    flex-grow: 1;
+  border-top: 2px solid var(--BORDER-COLOR-LIGHT);
+}
+
+.public__addr {
+    margin-top: 1em;
+}
+
+
+a {
+    text-decoration: none;
+}
+
+a,
+a:visited {
+  color: var(--LINK-COLOR);
+}
+
+a:hover,
+a:focus-visible {
+    color: var(--LINK-HOVER);
+}
+
+
+.welcome a::before {
+    content: "➜ "
+}
+.dash-header {
+  padding-top: 20px;
+  padding-bottom: 40px;
+}
+
+.dash-header__container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.icons-container {
+  display: flex;
+  align-items: center;
+  position: relative; /* Ensure parent container has position set */
+  overflow: visible; /* Adjust overflow property as needed */
+}
+
+.icon-circle {
+  background-color: #ccc;
+  border-radius: 50%;
+  margin-right: 10px;
+  padding: 5px;
+  color: #333;
+}
+#user-dropdown{
+  display: none !important;
+}
+footer {
+    font-size: 1rem;
+    position: sticky;
+    bottom: 0;
+    background-color: var(--BGCOLOR);
+  border-top: 1px solid var(--BORDER-COLOR-LIGHT);
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: flex-start;
+  gap: 1em;
+}
+.footer-list{
+    list-style-type:circle;
+}
+.footer-container{
+  border-top: 2px solid var(--COLOR);
+  width: 100% !important;
+  padding-top: 2em;
+}
+.dash-footer__button {
+    font-size: 1rem;
+  width: auto;
+  height: auto;
+}
+
+
+button {
+  padding: 0.5rem;
+}
+
+label,
+button {
+  margin-top: 1rem;
+}
+
+.valid {
+  color: limegreen;
+  margin-left: 0.25rem;
+}
+
+.invalid {
+  color: red;
+  margin-left: 0.25rem;
+}
+
+a, a:visited {
+  color: #fff;
+}
+
+.hide {
+    display: none;
+  }
+  .nowrap {
+    white-space: nowrap;
+  }
+  
+  .icon-button {
+    width: 48px;
+    height: 48px;
+    font-size: 1.8rem;
+    background-color: transparent;
+    border: none;
+    color: var(--COLOR);
+  }
+  .header-holder{
+padding-right:20px;
+padding-left:10px;
+padding-top: 1em;
+  }
+  
+  .icon-button:hover,
+  .icon-button:focus-visible {
+    transform: scale(1.1);
+  }
+  
+  .icon-button[disabled] {
+    visibility: hidden;
+  }
+  
+  
+  input,
+  button,
+  textarea,
+  select {
+      font: inherit;
+  }
+
+
+  section {
+    width: 100%;
+}
+
+section.authSection{
+    max-width: 420px;
+    min-height: 400px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  padding: 1rem;
+  background-color:inherit;
+  margin: auto;
+  border: 2px solid white;
+  border-radius: 15px ;
+}
+section.success{
+  max-width: 420px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  padding: 1rem;
+  background-color: rgba(0,0,0,0.4);
+  margin: auto;
+}
+.auto{
+  margin:auto
+}
+
+
+.authForm {
+    display: flex;
+    flex-direction: column;
+  justify-content: space-evenly;
+  flex-grow: 1;
+  padding-bottom: 1rem;
+  border: 1px solid #ccc;
+  padding: 20px;
+  border-radius: 5px;
+  max-width: 400px;
+}
+
+.errMsg {
+    font-size: 0.75rem;
+  border-radius: 0.5rem;
+  background:var(--ERROR);
+  color: #fff;
+  border: 0.2em solid black;
+  padding: 0.25rem;
+  position: relative;
+  bottom: -10px;
+}
+
+.successMsg{
+  font-size: 0.75rem;
+  border-radius: 0.5rem;
+  background:var(--SUCCESS);
+  color: #fff;
+  border: 0.2em solid black;
+  padding: 0.25rem;
+  position: relative;
+  bottom: -10px;
+}
+.instructions {
+  font-size: 0.75rem;
+  border-radius: 0.5rem;
+  border: 2px solid var(--COLOR);
+  background: rgb(20, 19, 19);
+  color: #fff;
+  padding: 0.25rem;
+  position: relative;
+  bottom: -10px;
+}
+
+.instructions > svg {
+  margin-right: 0.25rem;
+}
+
+.reg-button{
+    margin-top: 1em;
+}
+
+@media (max-width: 767px) {
+
+      
+    .carousel-caption {
+      position: absolute;
+      right: 10% !important;
+      left: 10% !important;
+
+
+
+      background-color: rgba(128, 128, 128, 0.6); /* Grey transparent background */
+      padding: 10px;
+    }
+  
+    .carousel-caption-text {
+      text-align: center;
+    }
+    section.authSection{
+        width: 100%;
+        border: none;
+
+    }
+
+  }
+
+.data-card{
+    background-color: var(--BGCOLOR) !important;    
+}
+.data-card:hover{
+    transform: scale(1.05);
+}
+.grid-filter{
+  border-right: 2px solid var(--COLOR) !important;
+  padding-top: 2em;
+  padding-bottom: 2em;
+}
+.grid-container{
+  padding: 2em 4em;
+}
+/*Color filter*/
+.checkbox-filter {
+  padding: 10px;
+  background-color: var(--BGCOLOR);
+}
+
+.checkbox-container {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.checkbox-button {
+  position: relative;
+  width: 30px;
+  height: 30px;
+  border: 1px solid #ccc;
+  border-radius: 50%; /* Circular shape */
+  margin: 5px;
+  display: inline-block;
+  cursor: pointer;
+  overflow: hidden; /* Hide checkbox border */
+}
+.checkbox-button-square {
+  position: relative;
+  width: 30px;
+  height: 30px;
+  border: 1px solid #ccc;
+  border-radius: 2%; /* Circular shape */
+  margin: 5px;
+  display: inline-block;
+  cursor: pointer;
+  overflow: hidden; /* Hide checkbox border */
+}
+
+.checkbox-text-square{
+  background-color: transparent;
+}
+
+.checkbox-button input {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+  width: 100%;
+  height: 100%;
+}
+
+.tick {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: white;
+  font-size: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+}
+
+.checkbox-text {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: white;
+  font-size: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+}
+
+.checkbox-button.checked {
+  border-color: #f9f9f9;
+}
+
+.checkbox-button.checked .tick {
+  background-color: rgb(30, 165, 30);
+  color: rgb(30, 165, 30); 
+}
+/*price range filters*/
+.price-filter, .data-filter {
+  padding: 10px;
+  background-color: var(--BGCOLOR); /* Black background */
+  color: var(--COLOR); /* Text color */
+}
+
+.input-range {
+  padding-top: 60px;
+
+}
+
+.input-range__slider {
+  background-color: #007bff;
+  border: none;
+  box-shadow: none;
+  cursor: pointer;
+  height: 20px;
+  width: 20px;
+  margin-left: -10px;
+  margin-top: -12px;
+}
+
+.input-range__slider:click {
+  background-color: #0056b3;
+  transform: scale(1.5);
+  border-radius: 50%;
+  height: max-content;
+}
+
+.input-range__slider:active {
+  background-color: #003380;
+}
+.price{
+  color: green;
+}
+
+.input-range__label--max, .input-range__label--min{
+  display: none;
+}
+.dash-nav-container{
+  height: 100% !important;
+}
+.dash-nav,.dash-content{
+  padding: 30px  !important;
+  bottom:0px;
+  height: 100vh; /* Set a fixed height, adjust as needed */
+  overflow-y: auto; /* Allow vertical scrolling */
+  border-right: 2px solid var(--COLOR);
+}
+
+/* Target the scrollbar track */
+.dash-nav::-webkit-scrollbar {
+  width: 3px; /* Adjust the width as needed */
+}
+
+/* Target the scrollbar thumb */
+.dash-nav::-webkit-scrollbar-thumb {
+  background-color: var(--DARK-COMPONENT-COLOR); /* Color of the thumb */
+  border-radius: 5px; /* Rounded corners */
+}
+
+
+/* Target the scrollbar track on hover */
+.dash-nav::-webkit-scrollbar-track {
+  background-color:var(--COLOR); /* Color of the track */
+}
+
+.link-item , .accordion-button{
+  padding:0.2rem;  
+
+}
+.link-item{
+  display: block;
+}
+
+.link-item:hover {
+  color: var(--DARK-COMPONENT-COLOR); /* Add desired background color on hover */
+}
+
+
+.accordion{
+  --bs-accordion-color: var(--COLOR);
+  --bs-accordion-bg: var(--BGCOLOR);
+  --bs-accordion-btn-color: var(--COLOR);
+  --bs-accordion-btn-focus-border-color: #86b7fe;
+  --bs-accordion-btn-focus-box-shadow: 0;
+  --bs-accordion-active-color: rgba(var(--LIGHT-COMPONENT-COLOR),0.5);
+  --bs-accordion-active-bg: var(--LIGHT-COMPONENT-BG);
+}
+.link-item-text{
+display: inline-block;
+}
+.link-item-icon{
+  display: inline-block;
+  padding: 0.4rem 0.5rem ;
+}
+.dash-img{
+display: inline-block;
+width: 3.8rem;
+margin-bottom: 0.5rem;
+}
+.link-item-container{
+  margin-top: 1.5rem;
+}
+
+.active{
+  color: var(--DARK-COMPONENT-COLOR);
+}
+.deleteCanvas{
+  margin: auto;
+  width: 40%;
+  height:max-content !important;
+}
+
+/* PatientProfile.css */
+.custom-card {
+  background-color: white; /* White background for the card */
+  color: black; /* Black text color */
+}
+
+
+.text-primary {
+  color: black; /* Override the primary text color to black */
+}
+
+.horizontal-image {
+  position: relative;
+  width: 100%;
+  height: 140px; /* Adjust as needed */
+  background-size: cover;
+  background-position: center;
+}
+
+.circular-image {
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  border: 3px solid white;
+  border-radius: 50%;
+  width: 120px; /* Adjust as needed */
+  height: 120px; /* Adjust as needed */
+}

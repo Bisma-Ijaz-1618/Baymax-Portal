@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Navigation</title>
+    <link rel="stylesheet" href="css/style.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@500;700&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+
+  <body>
+    <header>
+      <div class="title"><h3>BAYMAX</h3></div>
+      <nav class="navbar">
+        <ul>
+          <li><a href="#">Home</a></li>
+          <li><a href="#">Women</a></li>
+          <li><a href="#">Men</a></li>
+          <li><a href="#">About</a></li>
+          <li><a href="#">Services</a></li>
+          <li><a href="#">Contact us</a></li>
+          <div class="search">
+            <input
+              type="text"
+              name="search"
+              id="search"
+              placeholder="Search this website"
+            />
+          </div>
+        </ul>
+      </nav>
+    </header>
+    <h1>Node.js File Uploader</h1>
+    <form id="uploadForm">
+      <input type="file" id="myFiles" accept="image/*" multiple />
+      <button>Submit</button>
+    </form>
+    <h2></h2>
+    <h3></h3>
+    <!-- The list of clickable links -->
+    <ul id="linkList"></ul>
+
+    <!-- Container to display the selected image -->
+    <div id="imageContainer"></div>
+    <script>
+      const form = document.getElementById("uploadForm");
+
+      function displayImage(url) {
+        // Clear any existing content from the imageContainer
+        imageContainer.innerHTML = "";
+
+        // Create an <img> tag with the src set to the selected URL
+        const img = document.createElement("img");
+        img.src = url;
+
+        // Append the image to the imageContainer
+        imageContainer.appendChild(img);
+      }
+      const sendFiles = async () => {
+        // Object
+        const myFiles = document.getElementById("myFiles").files;
+        const formData = new FormData();
+        Object.keys(myFiles).forEach((key) => {
+          formData.append(myFiles.item(key).name, myFiles.item(key));
+        });
+
+        const response = await fetch("http://localhost:3050/upload", {
+          method: "POST",
+          body: formData,
+        });
+
+        const json = await response.json();
+
+        const h2 = document.querySelector("h2");
+        h2.textContent = `Status: ${json?.status}`;
+
+        const h3 = document.querySelector("h3");
+        h3.textContent = json?.message;
+
+        const linkList = document.getElementById("linkList");
+        const imageContainer = document.getElementById("imageContainer");
+
+        json.urls.forEach((url) => {
+          const listItem = document.createElement("li");
+          const a = document.createElement("a");
+          a.href = url;
+          a.textContent = url;
+          a.target = "_blank"; // To open the link in a new tab/window
+
+          // Attach a click event to the anchor tag to display the selected image
+          a.addEventListener("click", (event) => {
+            event.preventDefault();
+            displayImage(url);
+          });
+
+          listItem.appendChild(a);
+          linkList.appendChild(listItem);
+        });
+      };
+
+      form.addEventListener("submit", (e) => {
+        e.preventDefault();
+        sendFiles();
+      });
+    </script>
+  </body>
+</html>

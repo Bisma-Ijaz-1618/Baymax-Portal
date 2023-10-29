@@ -1,0 +1,50 @@
+@import url("https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@500;700&display=swap");
+.navbar {
+  background-color: rgb(83, 12, 26);
+  border-radius: 30px;
+}
+.navbar ul {
+  overflow: auto;
+}
+.navbar li {
+  float: left;
+  list-style: none;
+  margin: 13px 20px;
+}
+.navbar li a {
+  padding: 3px 3px;
+  text-decoration: none;
+  color: white;
+  font-size: 20px;
+}
+.navbar li a:hover {
+  color: rgb(179, 152, 152);
+}
+.search {
+  float: right;
+  color: white;
+  padding: 12px 75px;
+}
+.navbar input {
+  border: 2px solid black;
+  border-radius: 14px;
+  padding: 3px 17px;
+  width: 129px;
+}
+.title {
+  font-family: "Roboto Mono", monospace;
+  margin: auto;
+  text-align: center;
+  font-size: larger;
+  color: rgb(83, 12, 26);
+}
+input,button {
+  font: inherit;
+  width: max-content;
+}
+
+form {
+  display: flex;
+  flex-flow: column nowrap;
+  gap: 1.5rem;
+}
