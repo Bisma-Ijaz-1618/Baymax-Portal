@@ -2,7 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 import useAxiosPrivate from "../../../hooks/useAxiosPrivate";
 import { useNavigate, useLocation } from "react-router-dom";
 import { useState, useEffect } from "react";
-import UsersTable from "../../doctor/UsersTable";
+import UsersTable from "../UsersTable";
 import usePatientApi from "../../../api/patient";
 const Patients = () => {
   const { getPatients } = usePatientApi();

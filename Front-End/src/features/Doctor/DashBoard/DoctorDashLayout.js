@@ -1,6 +1,6 @@
 import { Image, Accordion, Row, Col, Container } from "react-bootstrap";
 import { Link, Outlet } from "react-router-dom"; // Import Link from React Router
-import AdminDashHeader from "./AdminDashHeader";
+import DoctorDashHeader from "./DoctorDashHeader";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { faEdit, faInbox, fadel } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -46,7 +46,7 @@ function Example() {
                 <FontAwesomeIcon icon={faEdit} />
               </span>
               <span className="link-item-text">
-                <h5>Account Summary</h5>
+                <h5>DashBoard</h5>
               </span>
             </Link>
             <Link
@@ -59,7 +59,7 @@ function Example() {
                 <FontAwesomeIcon icon={faEdit} />
               </span>
               <span className="link-item-text">
-                <h5>Doctors Summary</h5>
+                <h5>Schedule</h5>
               </span>
             </Link>
             <Link
@@ -72,7 +72,46 @@ function Example() {
                 <FontAwesomeIcon icon={faEdit} />
               </span>
               <span className="link-item-text">
-                <h5>Patients Summary</h5>
+                <h5>Messages</h5>
+              </span>
+            </Link>
+            <Link
+              to="item1"
+              className={
+                currentPath.includes("item1") ? "active link-item" : "link-item"
+              }
+            >
+              <span className="link-item-icon">
+                <FontAwesomeIcon icon={faEdit} />
+              </span>
+              <span className="link-item-text">
+                <h5>Invoices</h5>
+              </span>
+            </Link>
+            <Link
+              to="item1"
+              className={
+                currentPath.includes("item1") ? "active link-item" : "link-item"
+              }
+            >
+              <span className="link-item-icon">
+                <FontAwesomeIcon icon={faEdit} />
+              </span>
+              <span className="link-item-text">
+                <h5>Reviews</h5>
+              </span>
+            </Link>
+            <Link
+              to="item1"
+              className={
+                currentPath.includes("item1") ? "active link-item" : "link-item"
+              }
+            >
+              <span className="link-item-icon">
+                <FontAwesomeIcon icon={faEdit} />
+              </span>
+              <span className="link-item-text">
+                <h5>Invoices</h5>
               </span>
             </Link>
           </Container>
@@ -106,9 +145,7 @@ function Example() {
                         ? "active link-item"
                         : "link-item"
                     }
-                  >
-                    Add Account
-                  </Link>
+                  ></Link>
                   <Link
                     to="editPatientProfile"
                     className={
@@ -117,7 +154,7 @@ function Example() {
                         : "link-item"
                     }
                   >
-                    Edit Account
+                    Urgent
                   </Link>
                   <Link
                     to="deletePatientProfile"
@@ -127,7 +164,17 @@ function Example() {
                         : "link-item"
                     }
                   >
-                    Delete Account{" "}
+                    Regular{" "}
+                  </Link>
+                  <Link
+                    to="deletePatientProfile"
+                    className={
+                      currentPath.includes("deletePatientProfile")
+                        ? "active link-item"
+                        : "link-item"
+                    }
+                  >
+                    Cancelled{" "}
                   </Link>
                 </Accordion.Body>
               </Accordion.Item>
@@ -138,7 +185,7 @@ function Example() {
               >
                 <Accordion.Header className="transparent">
                   <Link>
-                    <h5 className="link-item">Doctors</h5>
+                    <h5 className="link-item">Profile</h5>
                   </Link>
                 </Accordion.Header>
                 <Accordion.Body className="transparent">
@@ -150,7 +197,7 @@ function Example() {
                         : "link-item"
                     }
                   >
-                    View All
+                    View
                   </Link>
                   <Link
                     to="addDoctor"
@@ -160,7 +207,27 @@ function Example() {
                         : "link-item"
                     }
                   >
-                    Add Account
+                    Education
+                  </Link>
+                  <Link
+                    to="addDoctor"
+                    className={
+                      currentPath.includes("addDoctor")
+                        ? "active link-item"
+                        : "link-item"
+                    }
+                  >
+                    Experience
+                  </Link>
+                  <Link
+                    to="addDoctor"
+                    className={
+                      currentPath.includes("addDoctor")
+                        ? "active link-item"
+                        : "link-item"
+                    }
+                  >
+                    Specialization
                   </Link>
                   <Link
                     to="editDoctorProfile"
@@ -170,7 +237,7 @@ function Example() {
                         : "link-item"
                     }
                   >
-                    Edit Account
+                    Password Settings
                   </Link>
                   <Link
                     to="deleteDoctorProfile"
@@ -192,14 +259,14 @@ function Example() {
               >
                 <Accordion.Header className="transparent">
                   <Link>
-                    <h5 className="link-item">Admins</h5>
+                    <h5 className="link-item">Appointments</h5>
                   </Link>
                 </Accordion.Header>
                 <Accordion.Body className="transparent">
                   <Link
-                    to="viewAllAdmins"
+                    to="viewAllDoctors"
                     className={
-                      currentPath.includes("viewAllAdmins")
+                      currentPath.includes("viewAllDoctors")
                         ? "active link-item"
                         : "link-item"
                     }
@@ -207,27 +274,27 @@ function Example() {
                     View All
                   </Link>
                   <Link
-                    to="addAdmin"
+                    to="addDoctor"
                     className={
-                      currentPath.includes("addAdmin")
+                      currentPath.includes("addDoctor")
                         ? "active link-item"
                         : "link-item"
                     }
                   >
-                    Add Account
+                    Urgent
                   </Link>
                   <Link
-                    to="addAdminProfile"
+                    to="addDoctorProfile"
                     className={
-                      currentPath.includes("addAdminProfile")
+                      currentPath.includes("addDoctorProfile")
                         ? "active link-item"
                         : "link-item"
                     }
                   >
-                    Edit Account
+                    Regular
                   </Link>
                   <Link to="/item3" className="link-item">
-                    Delete Account{" "}
+                    Reschedule{" "}
                   </Link>
                 </Accordion.Body>
               </Accordion.Item>
@@ -244,6 +311,12 @@ function Example() {
                 <Accordion.Body className="transparent">
                   <Link to="/item1" className="link-item">
                     View All{" "}
+                  </Link>
+                  <Link to="/item1" className="link-item">
+                    Urgent{" "}
+                  </Link>
+                  <Link to="/item1" className="link-item">
+                    Regular{" "}
                   </Link>
                   <Link to="/item2" className="link-item">
                     Add Appointment{" "}
@@ -263,7 +336,7 @@ function Example() {
           <Row>
             <Col>
               <Container>
-                <AdminDashHeader />
+                <DoctorDashHeader />
               </Container>
             </Col>
           </Row>

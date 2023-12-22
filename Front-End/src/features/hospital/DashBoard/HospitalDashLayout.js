@@ -1,6 +1,6 @@
 import { Image, Accordion, Row, Col, Container } from "react-bootstrap";
 import { Link, Outlet } from "react-router-dom"; // Import Link from React Router
-import AdminDashHeader from "./AdminDashHeader";
+import HospitalDashHeader from "./HopitalDashHeader";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { faEdit, faInbox, fadel } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -192,14 +192,14 @@ function Example() {
               >
                 <Accordion.Header className="transparent">
                   <Link>
-                    <h5 className="link-item">Admins</h5>
+                    <h5 className="link-item">Hospitals</h5>
                   </Link>
                 </Accordion.Header>
                 <Accordion.Body className="transparent">
                   <Link
-                    to="viewAllAdmins"
+                    to="viewAllHospitals"
                     className={
-                      currentPath.includes("viewAllAdmins")
+                      currentPath.includes("viewAllHospitals")
                         ? "active link-item"
                         : "link-item"
                     }
@@ -207,9 +207,9 @@ function Example() {
                     View All
                   </Link>
                   <Link
-                    to="addAdmin"
+                    to="addHospital"
                     className={
-                      currentPath.includes("addAdmin")
+                      currentPath.includes("addHospital")
                         ? "active link-item"
                         : "link-item"
                     }
@@ -217,9 +217,9 @@ function Example() {
                     Add Account
                   </Link>
                   <Link
-                    to="addAdminProfile"
+                    to="addHospitalProfile"
                     className={
-                      currentPath.includes("addAdminProfile")
+                      currentPath.includes("addHospitalProfile")
                         ? "active link-item"
                         : "link-item"
                     }
@@ -263,7 +263,7 @@ function Example() {
           <Row>
             <Col>
               <Container>
-                <AdminDashHeader />
+                <HospitalDashHeader />
               </Container>
             </Col>
           </Row>

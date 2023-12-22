@@ -3,7 +3,7 @@ import { Table, Image, Pagination, Button, Form } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEdit, faEye, faTrash } from "@fortawesome/free-solid-svg-icons";
 import { Link, useNavigate } from "react-router-dom";
-import DeleteAccount from "./DeleteAccount";
+import DeleteAccount from "../admin/DeleteAccount";
 
 function UsersTable({ headers, data, userRole, deleteProfileFunction }) {
   const itemsPerPage = 5;

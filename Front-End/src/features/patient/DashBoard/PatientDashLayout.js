@@ -1,6 +1,6 @@
 import { Image, Accordion, Row, Col, Container } from "react-bootstrap";
 import { Link, Outlet } from "react-router-dom"; // Import Link from React Router
-import AdminDashHeader from "./AdminDashHeader";
+import PatientDashHeader from "./PatientDashHeader";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { faEdit, faInbox, fadel } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -59,7 +59,7 @@ function Example() {
                 <FontAwesomeIcon icon={faEdit} />
               </span>
               <span className="link-item-text">
-                <h5>Doctors Summary</h5>
+                <h5>Patients Summary</h5>
               </span>
             </Link>
             <Link
@@ -138,14 +138,14 @@ function Example() {
               >
                 <Accordion.Header className="transparent">
                   <Link>
-                    <h5 className="link-item">Doctors</h5>
+                    <h5 className="link-item">Patients</h5>
                   </Link>
                 </Accordion.Header>
                 <Accordion.Body className="transparent">
                   <Link
-                    to="viewAllDoctors"
+                    to="viewAllPatients"
                     className={
-                      currentPath.includes("viewAllDoctors")
+                      currentPath.includes("viewAllPatients")
                         ? "active link-item"
                         : "link-item"
                     }
@@ -153,9 +153,9 @@ function Example() {
                     View All
                   </Link>
                   <Link
-                    to="addDoctor"
+                    to="addPatient"
                     className={
-                      currentPath.includes("addDoctor")
+                      currentPath.includes("addPatient")
                         ? "active link-item"
                         : "link-item"
                     }
@@ -163,9 +163,9 @@ function Example() {
                     Add Account
                   </Link>
                   <Link
-                    to="editDoctorProfile"
+                    to="editPatientProfile"
                     className={
-                      currentPath.includes("editDoctorProfile")
+                      currentPath.includes("editPatientProfile")
                         ? "active link-item"
                         : "link-item"
                     }
@@ -173,9 +173,9 @@ function Example() {
                     Edit Account
                   </Link>
                   <Link
-                    to="deleteDoctorProfile"
+                    to="deletePatientProfile"
                     className={
-                      currentPath.includes("deleteDoctorProfile")
+                      currentPath.includes("deletePatientProfile")
                         ? "active link-item"
                         : "link-item"
                     }
@@ -192,14 +192,14 @@ function Example() {
               >
                 <Accordion.Header className="transparent">
                   <Link>
-                    <h5 className="link-item">Admins</h5>
+                    <h5 className="link-item">Patients</h5>
                   </Link>
                 </Accordion.Header>
                 <Accordion.Body className="transparent">
                   <Link
-                    to="viewAllAdmins"
+                    to="viewAllPatients"
                     className={
-                      currentPath.includes("viewAllAdmins")
+                      currentPath.includes("viewAllPatients")
                         ? "active link-item"
                         : "link-item"
                     }
@@ -207,9 +207,9 @@ function Example() {
                     View All
                   </Link>
                   <Link
-                    to="addAdmin"
+                    to="addPatient"
                     className={
-                      currentPath.includes("addAdmin")
+                      currentPath.includes("addPatient")
                         ? "active link-item"
                         : "link-item"
                     }
@@ -217,9 +217,9 @@ function Example() {
                     Add Account
                   </Link>
                   <Link
-                    to="addAdminProfile"
+                    to="addPatientProfile"
                     className={
-                      currentPath.includes("addAdminProfile")
+                      currentPath.includes("addPatientProfile")
                         ? "active link-item"
                         : "link-item"
                     }
@@ -263,7 +263,7 @@ function Example() {
           <Row>
             <Col>
               <Container>
-                <AdminDashHeader />
+                <PatientDashHeader />
               </Container>
             </Col>
           </Row>

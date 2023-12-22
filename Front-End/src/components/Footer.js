@@ -5,37 +5,88 @@ const Footer = () => {
   const currentYear = new Date().getFullYear();
 
   return (
-    <Container className="footer-container">
-      <Row className="footer-links">
-        <Col>
+    <Container fluid className="footer footer-container">
+      <Row className="justify-content-center align-items-center py-4">
+        <Col md="3">
           <ul className="footer-list">
             <li>
-              <a href="/">Home</a>
+              <a className="footer-link" href="/">
+                Home
+              </a>
             </li>
             <li>
-              <a href="/about">About Us</a>
+              <a className="footer-link" href="/about">
+                About Us
+              </a>
             </li>
             <li>
-              <a href="/services">Services</a>
+              <a className="footer-link" href="/services">
+                Services
+              </a>
+            </li>
+
+            <li>
+              <a className="footer-link" href="/about">
+                About Us
+              </a>
+            </li>
+            <li>
+              <a className="footer-link" href="/services">
+                Services
+              </a>
             </li>
             {/* Add more links to other important pages */}
           </ul>
         </Col>
-        <Col>
+        <Col md="3">
           <ul className="footer-list">
             <li>
-              <a href="/contact">Contact Us</a>
+              <a className="footer-link" href="/contact">
+                Contact Us
+              </a>
             </li>
             <li>
-              <a href="/faq">FAQ</a>
+              <a className="footer-link" href="/faq">
+                FAQ
+              </a>
+            </li>
+            <li>
+              <a className="footer-link" href="/contact">
+                Contact Us
+              </a>
+            </li>
+            <li>
+              <a className="footer-link" href="/faq">
+                FAQ
+              </a>
             </li>
             {/* Add more links to other important pages */}
           </ul>
         </Col>
-      </Row>
-      <Row className="footer-bottom">
-        <Col className="text-center">
-          <p>&copy; {currentYear} WhiteFox Apparel. All rights reserved.</p>
+        <Col md="3">
+          <ul className="footer-list">
+            <li>
+              <a className="footer-link" href="/contact">
+                Contact Us
+              </a>
+            </li>
+            <li>
+              <a className="footer-link" href="/faq">
+                FAQ
+              </a>
+            </li>
+            <li>
+              <a className="footer-link" href="/contact">
+                Contact Us
+              </a>
+            </li>
+            <li>
+              <a className="footer-link" href="/faq">
+                FAQ
+              </a>
+            </li>
+            {/* Add more links to other important pages */}
+          </ul>
         </Col>
       </Row>
     </Container>

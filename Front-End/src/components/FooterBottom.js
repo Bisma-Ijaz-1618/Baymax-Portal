@@ -12,9 +12,10 @@ import {
   faTwitter,
 } from "@fortawesome/free-brands-svg-icons";
 
-const Header = () => {
+const FooterBottom = () => {
+  const currentYear = new Date().getFullYear();
   return (
-    <Container fluid>
+    <Container fluid className="footer-bottom">
       <Row ms={8} className="justify-content-sm-center header-holder">
         <Col xs={12} sm={"auto"}>
           <p>
@@ -39,25 +40,30 @@ const Header = () => {
         >
           <Row className="justify-content-md-end justify-content-sm-center">
             <Col xs={"auto"} sm={"auto"} className="icon-button">
-              <a href="https://www.instagram.com/">
+              <a className="footer-link" href="https://www.instagram.com/">
                 <FontAwesomeIcon icon={faInstagram} />
               </a>
             </Col>
             <Col xs={"auto"} sm={"auto"} className="icon-button">
-              <a href="https://www.facebook.com/">
+              <a className="footer-link" href="https://www.facebook.com/">
                 <FontAwesomeIcon icon={faFacebook} />
               </a>
             </Col>
             <Col xs={"auto"} sm={"auto"} className="icon-button">
-              <a href="https://twitter.com/">
+              <a className="footer-link" href="https://twitter.com/">
                 <FontAwesomeIcon icon={faTwitter} />
               </a>
             </Col>
           </Row>
         </Col>
       </Row>
+      <Row className="footer-bottom copy-right py-3">
+        <Col className="text-center">
+          <h7>&copy; {currentYear} BAYMAX PORTAL. All rights reserved.</h7>
+        </Col>
+      </Row>
     </Container>
   );
 };
 
-export default Header;
+export default FooterBottom;

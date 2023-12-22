@@ -4,7 +4,9 @@ import Form from "react-bootstrap/Form";
 import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
 import NavDropdown from "react-bootstrap/NavDropdown";
-import logo from "../img/background.jpg";
+import Image from "react-bootstrap/Image";
+import logo from "../img/Logo.png";
+
 import { Link } from "react-router-dom";
 function Navigation_Bar() {
   return (
@@ -12,24 +14,24 @@ function Navigation_Bar() {
       <Navbar
         justify="true"
         expand="lg"
-        variant="dark"
-        bg="dark"
-        className="bg-black"
+        variant="light"
+        bg="light"
+        className="bg-white"
       >
         <Container fluid>
-          <Navbar.Brand href="#">
-            <h3>Baymax Portal</h3>
+          <Navbar.Brand href="/">
+            <h3 className="logo-letters">BAYMAX PORTAL</h3>
           </Navbar.Brand>
           <Navbar.Toggle aria-controls="navbarScroll" />
           <Navbar.Collapse id="navbarScroll">
             <Nav
               justify
               className="me-auto my-2 my-lg-0 justify-content-end"
-              bg="dark"
-              variant="dark"
+              bg="light"
+              variant="light"
               navbarScroll
             >
-              <Nav.Link href="#action1">Home</Nav.Link>
+              <Nav.Link href="/">Home</Nav.Link>
               <NavDropdown title="Doctors" id="navbarScrollingDropdown">
                 <NavDropdown.Item href="#action3">Dashboard</NavDropdown.Item>
                 <NavDropdown.Item href="#action4">Apointments</NavDropdown.Item>
