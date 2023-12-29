@@ -59,7 +59,21 @@ function Example() {
                 <FontAwesomeIcon icon={faEdit} />
               </span>
               <span className="link-item-text">
-                <h5>Patients Summary</h5>
+                <h5>Patient Summary</h5>
+              </span>
+            </Link>
+
+            <Link
+              to="item1"
+              className={
+                currentPath.includes("item1") ? "active link-item" : "link-item"
+              }
+            >
+              <span className="link-item-icon">
+                <FontAwesomeIcon icon={faEdit} />
+              </span>
+              <span className="link-item-text">
+                <h5>Medical Summary</h5>
               </span>
             </Link>
             <Link
@@ -72,7 +86,20 @@ function Example() {
                 <FontAwesomeIcon icon={faEdit} />
               </span>
               <span className="link-item-text">
-                <h5>Patients Summary</h5>
+                <h5>Profile</h5>
+              </span>
+            </Link>
+            <Link
+              to="item1"
+              className={
+                currentPath.includes("item1") ? "active link-item" : "link-item"
+              }
+            >
+              <span className="link-item-icon">
+                <FontAwesomeIcon icon={faEdit} />
+              </span>
+              <span className="link-item-text">
+                <h5>Invoices</h5>
               </span>
             </Link>
           </Container>
@@ -85,7 +112,7 @@ function Example() {
               >
                 <Accordion.Header className="transparent">
                   <Link>
-                    <h5 className="link-item">Patients</h5>
+                    <h5 className="link-item">Baymax Kit Connetion</h5>
                   </Link>
                 </Accordion.Header>
                 <Accordion.Body className="transparent">
@@ -192,7 +219,7 @@ function Example() {
               >
                 <Accordion.Header className="transparent">
                   <Link>
-                    <h5 className="link-item">Patients</h5>
+                    <h5 className="link-item">Doctors</h5>
                   </Link>
                 </Accordion.Header>
                 <Accordion.Body className="transparent">

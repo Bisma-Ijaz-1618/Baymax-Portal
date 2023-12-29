@@ -13,7 +13,7 @@ function AdminDashHeader() {
   return (
     <header className="dash-header">
       <div className="dash-header__container">
-        <h3>ADMIN DASH BOARD HEADER</h3>
+        <h3>Doctor DASH BOARD HEADER</h3>
         <div className="icons-container">
           <Dropdown align="end">
             <Dropdown.Toggle

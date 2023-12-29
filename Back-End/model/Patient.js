@@ -6,23 +6,43 @@ const PatientProfileSchema = new mongoose.Schema({
     required: true,
     ref: "User",
   },
-  weight: {
-    value: {
-      type: Number,
-      default: null,
-    },
-    unit: {
+  address: {
+    address: {
       type: String,
-      enum: ["kg", "None"],
+      default: "",
+    },
+    city: {
+      type: String,
       default: "None",
     },
+  },
+  contactNumber: {
+    type: Number,
+    default: null,
   },
   age: {
     type: Number,
     default: null,
   },
-  height: {
+  cnicNumber: {
     type: Number,
+    required: true,
+    default: null,
+  },
+  eContactNumber: {
+    type: Number,
+    default: null,
+  },
+  gender: {
+    type: String,
+    default: "None", // You can set the default gender as per your requirement
+  },
+  bloodGroup: {
+    type: String,
+    default: "null",
+  },
+  DOB: {
+    type: Date,
     default: null,
   },
   isDeleted: {
@@ -30,56 +50,6 @@ const PatientProfileSchema = new mongoose.Schema({
     required: true,
     default: false,
   },
-  bloodGroup: {
-    type: String,
-    enum: ["A+", "A-", "B+", "B-", "AB+", "AB-", "O+", "O-", "None"],
-    default: "None",
-  },
-  phoneNumber: {
-    type: Number,
-    default: null,
-  },
-  gender: {
-    type: String,
-    enum: ["M", "F", "O", "None"],
-    default: "None", // You can set the default gender as per your requirement
-  },
-  appointments: [
-    {
-      doctor: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "DoctorProfile",
-      },
-      appointmentTime: {
-        type: Date,
-        default: Date.now,
-      },
-      appointmentContext: {
-        type: String,
-        default: "",
-      },
-    },
-  ],
-
-  payments: [
-    {
-      appointment: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "Appointment",
-      },
-      amount: {
-        type: Number,
-        default: 0,
-      },
-      status: {
-        type: String,
-        enum: ["Pending", "Paid"],
-        default: "Pending",
-      },
-    },
-  ],
 });
 
-const PatientProfile = mongoose.model("PatientProfile", PatientProfileSchema);
-
-module.exports = PatientProfile;
+module.exports = mongoose.model("PatientProfile", PatientProfileSchema);

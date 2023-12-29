@@ -13,7 +13,7 @@ function HospitalDashHeader() {
   return (
     <header className="dash-header">
       <div className="dash-header__container">
-        <h3>Hospital DASH BOARD HEADER</h3>
+        <h3>HOSPITAL DASH BOARD HEADER</h3>
         <Logout />
         <div className="icons-container">
           <Dropdown align="end">
@@ -26,7 +26,7 @@ function HospitalDashHeader() {
               <Dropdown.Item>Action 3</Dropdown.Item>
             </Dropdown.Menu>
           </Dropdown>
-          <Dropdown align="end">
+          <Dropdown align="start">
             <Dropdown.Toggle variant="link" id="user-dropdown">
               <FontAwesomeIcon icon={faUser} size="lg" />
             </Dropdown.Toggle>

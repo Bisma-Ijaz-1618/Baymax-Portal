@@ -1,6 +1,7 @@
 import { Image, Accordion, Row, Col, Container } from "react-bootstrap";
 import { Link, Outlet } from "react-router-dom"; // Import Link from React Router
-import HospitalDashHeader from "./HopitalDashHeader";
+import HospitalDashHeader from "./HospitalDashHeader";
+import HospitalDashFooter from "./HospitalDashFooter";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { faEdit, faInbox, fadel } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -274,6 +275,7 @@ function Example() {
           </Row>
         </Col>
       </Row>
+      <HospitalDashFooter />
     </Container>
   );
 }

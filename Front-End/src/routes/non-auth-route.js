@@ -4,6 +4,7 @@ import { Routes, Route } from "react-router-dom";
 import Layout from "../components/Layout";
 import Public from "../components/Public";
 import Register from "../features/auth/Register";
+import Registeration from "../features/auth/Registeration";
 import RegType from "../features/auth/RegType";
 import RegHospital from "../features/auth/RegHospital";
 import RegDoctor from "../features/auth/RegDoctor";
@@ -15,7 +16,7 @@ import Login from "../features/auth/Login";
 const NonAuthRoute = () => {
   return (
     <Routes>
-      <Route path="/register">
+      <Route path="/register" element={<Registeration />}>
         <Route path="hospital" element={<RegHospital />} />
         <Route path="doctor" element={<RegDoctor />} />
         <Route path="patient" element={<RegPatient />} />

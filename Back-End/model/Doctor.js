@@ -6,14 +6,17 @@ const DoctorProfileSchema = new mongoose.Schema({
     required: true,
     ref: "User",
   },
-  education: [
-    {
-      date: Date,
-      qualification: String,
-      institute: String,
+  address: {
+    address: {
+      type: String,
+      default: "",
     },
-  ],
-  phoneNumber: {
+    city: {
+      type: String,
+      default: "None",
+    },
+  },
+  licenseNumber: {
     type: Number,
     default: null,
   },
@@ -21,10 +24,29 @@ const DoctorProfileSchema = new mongoose.Schema({
     type: Number,
     default: null,
   },
+  yearsOfExperience: {
+    type: Number,
+    default: null,
+  },
   gender: {
     type: String,
-    enum: ["M", "F", "O", "None"],
     default: "None", // You can set the default gender as per your requirement
+  },
+  cnicNumber: {
+    type: Number,
+    default: null,
+  },
+  contactNumber: {
+    type: Number,
+    default: null,
+  },
+  hispitalAffiliation: {
+    type: String,
+    default: "None", // You can set the default gender as per your requirement
+  },
+  graduationDate: {
+    type: Date,
+    default: null,
   },
   department: {
     type: String,
@@ -48,6 +70,13 @@ const DoctorProfileSchema = new mongoose.Schema({
     ],
     default: "None",
   },
+  education: [
+    {
+      date: Date,
+      qualification: String,
+      institute: String,
+    },
+  ],
   isDeleted: {
     type: Boolean,
     required: true,

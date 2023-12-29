@@ -126,7 +126,7 @@ const Login = () => {
                 onClick={(e) => navigate("/register", { replace: false })}
                 className="mx-2 water-bg"
               >
-                Log In
+                Register Now!
               </Button>
             </Row>
           </Col>

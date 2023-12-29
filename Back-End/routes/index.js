@@ -14,7 +14,6 @@ router.use("/auth", require("./api/auth"));
 
 router.use(verifyJWT);
 
-router.use("/post", require("./api/post"));
 router.use("/Users", require("./api/users"));
 router.use("/Doctors", require("./api/doctor"));
 router.use("/Admins", require("./api/admin"));

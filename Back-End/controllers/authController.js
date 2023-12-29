@@ -1,6 +1,7 @@
 const User = require("../model/User");
 const Doctor = require("../model/Doctor");
 const Patient = require("../model/Patient");
+const Hospital = require("../model/Hospital");
 const Admin = require("../model/Admin");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
@@ -156,6 +157,237 @@ const handleNewUser = async (req, res) => {
     return res.status(500).json({ message: err.message });
   }
 };
+const handleNewHospital = async (req, res) => {
+  const {
+    email,
+    username,
+    password,
+    roles,
+    contactNumber,
+    regNumber,
+    address,
+  } = req.body;
+  if (
+    !email ||
+    !username ||
+    !password ||
+    !roles ||
+    !contactNumber ||
+    !regNumber ||
+    !address
+  )
+    return res
+      .status(400)
+      .json({ message: "Required fields have not been entered!" });
+  const duplicate = await User.findOne({ email: email }).exec();
+  if (duplicate) return res.status(409).json({ message: "Duplicate email" });
+  try {
+    //encrypt password
+    const hashedPwd = await bcrypt.hash(password, 10);
+    //create and store new user
+    console.log("roles in register?", roles);
+    const result = await User.create({
+      username: username,
+      email: email,
+      password: hashedPwd,
+      roles: roles,
+      isDeleted: false,
+      //default role and object id automatically given
+    });
+    console.log(
+      "we sure can get the ID in the register controller",
+      result._id
+    );
+    console.log(result);
+    if (result) {
+      let profile;
+      profile = await Hospital.create({
+        userId: result._id,
+        contactNumber: contactNumber,
+        address: address,
+        regNumber: regNumber,
+        isDeleted: false,
+      });
+
+      console.log("profile::", profile);
+      return res.status(201).json({
+        message: `New user ${username} created! You can now update the profile!`,
+        result,
+        profileId: profile._id,
+      });
+    } else {
+      return res.status(400).json({ message: "Invalid user data received" });
+    }
+  } catch (err) {
+    return res.status(500).json({ message: err.message });
+  }
+};
+const handleNewPatient = async (req, res) => {
+  const {
+    email,
+    username,
+    password,
+    address,
+    contactNumber,
+    age,
+    gender,
+    eContactNumber,
+    cnicNumber,
+    bloodGroup,
+    DOB,
+    roles,
+  } = req.body;
+  if (
+    !email ||
+    !username ||
+    !password ||
+    !roles ||
+    !contactNumber ||
+    !eContactNumber ||
+    !address ||
+    !cnicNumber ||
+    !bloodGroup ||
+    !DOB ||
+    !age ||
+    !gender
+  )
+    return res
+      .status(400)
+      .json({ message: "Required fields have not been entered!" });
+  const duplicate = await User.findOne({ email: email }).exec();
+  if (duplicate)
+    return res
+      .status(409)
+      .json({ message: "An account with the provided email already exists" });
+  try {
+    //encrypt password
+    const hashedPwd = await bcrypt.hash(password, 10);
+    //create and store new user
+    console.log("roles in register?", roles);
+
+    const result = await User.create({
+      username: username,
+      email: email,
+      password: hashedPwd,
+      roles: roles,
+      isDeleted: false,
+      //default role and object id automatically given
+    });
+    console.log(result._id);
+    console.log(result);
+    if (result) {
+      let profile;
+      profile = await Patient.create({
+        userId: result._id,
+        contactNumber: contactNumber,
+        address: address,
+        isDeleted: false,
+        eContactNumber: eContactNumber,
+        cnicNumber: cnicNumber,
+        bloodGroup: bloodGroup,
+        DOB: DOB,
+        age: age,
+        gender: gender,
+      });
+
+      console.log("profile::", profile);
+      return res.status(201).json({
+        message: `New user ${username} created! You can now update the profile!`,
+        result,
+        profileId: profile._id,
+      });
+    } else {
+      return res.status(400).json({ message: "Invalid user data received" });
+    }
+  } catch (err) {
+    return res.status(500).json({ message: err.message });
+  }
+};
+const handleNewDoctor = async (req, res) => {
+  const {
+    email,
+    username,
+    password,
+    roles,
+    address,
+    licenseNumber,
+    age,
+    gender,
+    cnicNumber,
+    contactNumber,
+    hospitalAffiliation,
+    graduationDate,
+    department,
+    yearsOfExperience,
+  } = req.body;
+  if (
+    !email ||
+    !username ||
+    !password ||
+    !roles ||
+    !contactNumber ||
+    !licenseNumber ||
+    !address ||
+    !cnicNumber ||
+    !hospitalAffiliation ||
+    !graduationDate ||
+    !department ||
+    !yearsOfExperience
+  )
+    return res
+      .status(400)
+      .json({ message: "Required fields have not been entered!" });
+  const duplicate = await User.findOne({ email: email }).exec();
+  if (duplicate)
+    return res
+      .status(409)
+      .json({ message: "An account with the provided email already exists" });
+  try {
+    //encrypt password
+    const hashedPwd = await bcrypt.hash(password, 10);
+    //create and store new user
+    console.log("roles in register?", roles);
+
+    const result = await User.create({
+      username: username,
+      email: email,
+      password: hashedPwd,
+      roles: roles,
+      isDeleted: false,
+      //default role and object id automatically given
+    });
+    console.log(result._id);
+    console.log(result);
+    if (result) {
+      let profile;
+      profile = await Patient.create({
+        userId: result._id,
+        address: address,
+        licenseNumber: licenseNumber,
+        age: age,
+        yearsOfExperience: yearsOfExperience,
+        gender: gender,
+        cnicNumber: cnicNumber,
+        contactNumber: contactNumber,
+        hospitalAffiliation: hospitalAffiliation,
+        graduationDate: graduationDate,
+        department: department,
+        isDeleted: false,
+      });
+
+      console.log("profile::", profile);
+      return res.status(201).json({
+        message: `New user ${username} created! You can now update the profile!`,
+        result,
+        profileId: profile._id,
+      });
+    } else {
+      return res.status(400).json({ message: "Invalid user data received" });
+    }
+  } catch (err) {
+    return res.status(500).json({ message: err.message });
+  }
+};
 
 const handleRefreshToken = async (req, res) => {
   const cookies = req.cookies;
@@ -260,4 +492,7 @@ module.exports = {
   handleNewUser,
   handleLogout,
   handleLogin,
+  handleNewDoctor,
+  handleNewHospital,
+  handleNewPatient,
 };

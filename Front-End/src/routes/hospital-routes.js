@@ -11,7 +11,7 @@ import EditPatient from "../features/hospital/PatientSettings/EditPatientProfile
 import EditDoctor from "../features/hospital/DoctorSettings/EditDoctorProfile";
 import ViewDoctors from "../features/hospital/DoctorSettings/ViewDoctorProfiles";
 import Test from "../components/Test";
-
+import RegPateint from "../features/auth/RegPatient";
 const HospitalRoutes = () => {
   return (
     <Routes>
@@ -23,6 +23,7 @@ const HospitalRoutes = () => {
         <Route path="users" element={<UsersList />} />
         <Route path="viewAllPatients" element={<ViewPatients />} />
         <Route path="addPatient" element={<AddUser userRole="Patient" />} />
+        {/* <Route path="addPatient" element={<RegPateint />} /> */}
         <Route path="editPatientProfile" element={<EditPatient />} />
         <Route path="deletePatientProfile" element={<ViewPatients />} />
         <Route path="test" element={<Test />} />

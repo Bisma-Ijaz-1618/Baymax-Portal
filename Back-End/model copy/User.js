@@ -39,6 +39,14 @@ const UserSchema = new Schema(
       Patient: Number,
       Hospital: Number,
     },
+    profileId: {
+      type: mongoose.Schema.Types.ObjectId,
+      refPath: "rolesRef", // dynamic reference to different schemas based on roles
+    },
+    rolesRef: {
+      type: String,
+      enum: ["Admin", "Doctor", "Patient", "Hospital"],
+    },
     refreshToken: [String],
   },
   { timestamps: true }

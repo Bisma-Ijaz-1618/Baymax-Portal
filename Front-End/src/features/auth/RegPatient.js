@@ -1,41 +1,57 @@
-import { useRef, useState, useEffect, useContext } from "react";
+import { useRef, useState, useEffect } from "react";
 import { Container, Row, Col, Button, Form, Image } from "react-bootstrap";
 import axios from "../../api/axios";
-import { Link, Navigate, useNavigate, useLocation } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import useAuth from "../../hooks/useAuthHook";
 import flag from "../../img/pakistan.png";
 const PWD_REGEX = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%]).{8,24}$/; //validate pwd
 const EMAIL_REGEX =
   /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}(?:\.[a-zA-Z]{2,}){0,1}$/;
+const CONTACT_REGEX = /^[0-9]{11}$/;
+
 const Login = () => {
-  const HOSPITAL_LIST = [
-    "Hospital 1",
-    "Hospital 2",
-    "Hospital 3",
-    "Hospital 4",
+  const BLOOD_GROUP = [
+    "A-",
+    "A+",
+    "B-",
+    "B+",
+    "O-",
+    "O+",
+    "AB-",
+    "AB+",
+    "Not Sure",
   ];
   const CITY_LIST = ["City 1", "City 2", "City 3", "City 4"];
-  const { auth, persist, setPersist, setAuth } = useAuth();
   const navigate = useNavigate();
-  const location = useLocation();
-  const from = location.state?.from?.pathname;
 
-  const emailRef = useRef();
-  const passwordRef = useRef();
   const errRef = useRef();
 
+  //form data
   const [email, setEmail] = useState("");
+  const [firstname, setFirstname] = useState("");
+  const [lastname, setLastname] = useState("");
+  const [age, setAge] = useState("");
+  const [gender, setGender] = useState("");
   const [validEmail, setValidEmail] = useState(false);
-  const [emailFocus, setEmailFocus] = useState(false);
+  const [password, setPassword] = useState("");
+  const [validPassword, setValidPassword] = useState(false);
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [validCPassword, setValidCPassword] = useState(false);
+  const [cnicNumber, setCnicNumber] = useState("");
   const [contactNumber, setContactNumber] = useState("");
-  const [regNumber, setRegNumber] = useState("");
-  const [hospitals, setHospitals] = useState({});
-  const [cities, setCities] = useState({});
+  const [validContactNumber, setValidContactNumber] = useState(false);
+  const [eContactNumber, setEContactNumber] = useState("");
+  const [validEContactNumber, setValidEContactNumber] = useState(false);
+  const [DOB, setDOB] = useState("");
+  const [bloodGroup, setBloodGroup] = useState("");
+  const [agreeTerms, setAgreeTerms] = useState(false);
   const [address, setAddress] = useState({
     address: "",
     city: "",
-    postalCode: "",
   });
+
+  const [errMsg, setErrMsg] = useState("");
+  const [success, setSuccess] = useState(false);
 
   const handleAddressChange = (e) => {
     const { name, value } = e.target;
@@ -45,15 +61,9 @@ const Login = () => {
     }));
   };
 
-  const [password, setPassword] = useState("");
-  const [validPassword, setValidPassword] = useState(false);
-
-  const [errMsg, setErrMsg] = useState("");
-
-  //hooks
-  useEffect(() => {
-    emailRef.current.focus();
-  }, []);
+  const handleCheckboxChange = () => {
+    setAgreeTerms(!agreeTerms);
+  };
 
   useEffect(() => {
     //setValidUsername);
@@ -65,26 +75,57 @@ const Login = () => {
   }, [password]);
 
   useEffect(() => {
-    //user is adjusting so no error message
-    setErrMsg("");
-  }, [password, email]);
-  const togglePersist = () => {
-    setPersist((prev) => !prev);
-    console.log("toggle", persist);
-  };
+    setValidCPassword(password == confirmPassword);
+  }, [password, confirmPassword]);
 
   useEffect(() => {
-    localStorage.setItem("persist", persist);
-    console.log("changing persist::", persist);
-  }, [persist]);
+    setValidContactNumber(CONTACT_REGEX.test(contactNumber));
+  }, [contactNumber]);
+
+  useEffect(() => {
+    setValidEContactNumber(CONTACT_REGEX.test(eContactNumber));
+  }, [eContactNumber]);
+
+  useEffect(() => {
+    //user is adjusting so no error message
+    setErrMsg("");
+  }, [
+    email,
+    password,
+    confirmPassword,
+    address,
+    contactNumber,
+    age,
+    gender,
+    cnicNumber,
+    eContactNumber,
+    bloodGroup,
+    DOB,
+  ]);
 
   const handleRegisteration = async (event) => {
     //in case of invalid info
     event.preventDefault();
     try {
+      const roles = { User: 2001, Patient: 2002 };
+      const username = firstname + " " + lastname;
+
       const response = await axios.post(
-        "/auth/login",
-        JSON.stringify({ email, password }),
+        "/auth/register/patient",
+        JSON.stringify({
+          email,
+          username,
+          password,
+          address,
+          contactNumber,
+          age,
+          gender,
+          cnicNumber,
+          eContactNumber,
+          bloodGroup,
+          DOB,
+          roles,
+        }),
         {
           headers: {
             "Content-Type": "application/json",
@@ -93,246 +134,356 @@ const Login = () => {
         }
       );
       console.log(response.data);
-      console.log(JSON.stringify(response));
-      const cookies = response.headers["cookie"];
-      const accessToken = response?.data?.accessToken;
-      const roles = response?.data?.roles;
-      const username = response?.data.username;
-      setAuth({ username, email, password, roles, accessToken });
-      console.log(username);
-      setEmail("");
-      setPassword("");
-      if (roles.includes(5150)) {
-        navigate("/auth/admin", { replace: true });
-      } else if (roles.includes(2003)) {
-        navigate("/auth/doctor", { replace: true });
-      } else if (roles.includes(2002)) {
-        navigate("/auth/patient", { replace: true });
-      } else if (roles.includes(2004)) {
-        navigate("/auth/hospital", { replace: true });
-      } else {
-        navigate("/auth/user", { replace: true });
-      }
-      //clear Form.Control fields out of the registeration form.
+      //clear input fields out of the registeration form.
+      setSuccess(true);
     } catch (error) {
       if (!error?.response) {
-        setErrMsg("Server Error");
+        setErrMsg("No server response");
         console.log("error:", error);
       } else if (error.response?.status === 409) {
         setErrMsg("Email already exists");
-      } else if (error.response?.status === 401) {
-        setErrMsg("Email or password you provided is incorrect!");
       }
       errRef.current.focus();
     }
   };
+
   return (
     <>
-      <Container
-        fluid
-        className="auth-container d-flex justify-content-center align-items-center"
-      >
-        <Row className=" col-md-11 auth-row justify-content-center">
-          <Col className=" py-5 auth-col-left col-md-3 text-left">
-            <Row className="px-4 justify-content-center align-items-center">
-              <h1 className="">BAYMAX</h1>
-              <h3 className="py-4">Welcome To Our Platform</h3>
-              <h6>
-                {" "}
-                Baymax is a remote medical monitoring system offering a holistic
-                solution to the evolving needs of virtual healthcare. Begin your
-                journey with an end-to-end platform, integrated effortlessly
-                with the Baymax Kit.
-              </h6>
-            </Row>
-            <Row className="px-4 py-4">
-              <h6 className="underline">Don't have an account?</h6>
-              <Button
-                onClick={(e) => navigate("/register", { replace: false })}
-                className="mx-2 water-bg"
-              >
-                Log In
-              </Button>
-            </Row>
-          </Col>
-          <Col className="py-5 px-5 col-md-9">
-            <Row className="text-center">
-              <h1 className="water-color">Hospital Registeration</h1>
-            </Row>
-            <Form className="" onSubmit={handleRegisteration}>
-              <Row>
-                <Form.Group>
-                  <Form.Text
-                    ref={errRef}
-                    className={errMsg ? "errMsg" : "hide"}
-                    aria-live="assertive"
-                  >
-                    {errMsg}
-                  </Form.Text>
-                </Form.Group>
-                <Col className="col-md-6">
-                  <Form.Group>
-                    <Form.Label htmlFor="email" className="water-color">
-                      {" "}
-                      Email
-                    </Form.Label>
-
-                    <Form.Control
-                      type="email"
-                      id="email"
-                      ref={emailRef}
-                      autoComplete="off" //no suggestions
-                      onChange={(e) => setEmail(e.target.value)}
-                      value={email}
-                      required
-                      aria-invalid={validEmail ? "false" : "true"}
-                      aria-describedby="emailnote"
-                      onFocus={() => setEmailFocus(true)}
-                      onBlur={() => setEmailFocus(false)}
-                      placeholder="Email"
-                    />
-                    <Form.Text
-                      id="email"
-                      className={email && !validEmail ? "instructions" : "hide"}
-                    >
-                      Email not valid!
-                    </Form.Text>
-                  </Form.Group>
-                  <Form.Group>
-                    <Form.Label htmlFor="contactNumber" className="water-color">
-                      Contact Number
-                    </Form.Label>
-                    <div className="d-flex align-items-center">
-                      <Image
-                        src={flag}
-                        alt="Pakistan Flag"
-                        className="mr-2 "
-                        style={{ height: "35px", width: "auto" }}
-                      />{" "}
-                      +92
+      {success ? (
+        <Row className="text-center m-auto">
+          <h1 className="success-color">
+            Registeration Successfull!
+            <br /> You can now Log In!
+          </h1>
+        </Row>
+      ) : (
+        <>
+          <Row className="text-center">
+            <h1 className="water-color">Patient Registeration</h1>
+          </Row>
+          <Form className="" onSubmit={handleRegisteration}>
+            <Row>
+              <Form.Group>
+                <Form.Text
+                  ref={errRef}
+                  className={errMsg ? "errMsg" : "hide"}
+                  aria-live="assertive"
+                >
+                  {errMsg}
+                </Form.Text>
+              </Form.Group>
+              <Col className="col-md-6">
+                <Row>
+                  <Col className="col-md-6">
+                    <Form.Group controlId="firstName">
+                      <Form.Label className="water-color">
+                        First Name
+                      </Form.Label>
                       <Form.Control
-                        type="tel"
-                        id="contactNumber"
-                        onChange={(e) => setContactNumber(e.target.value)}
-                        value={contactNumber}
-                        placeholder="Contact Number"
                         required
-                      />
-                    </div>
-                  </Form.Group>
-
-                  <Form.Group>
-                    <Form.Label htmlFor="passowrd" className="water-color">
-                      Password
-                    </Form.Label>
-                    <Form.Control
-                      type="password"
-                      id="passowrd"
-                      ref={passwordRef}
-                      autoComplete="off" //no suggestions
-                      onChange={(e) => setPassword(e.target.value)}
-                      value={password}
-                      required
-                      placeholder="Password"
-                    />
-                  </Form.Group>
-                  <Form.Group>
-                    <Form.Label htmlFor="passowrd" className="water-color">
-                      Confirm Password
-                    </Form.Label>
-                    <Form.Control
-                      type="password"
-                      id="passowrd"
-                      ref={passwordRef}
-                      autoComplete="off" //no suggestions
-                      onChange={(e) => setPassword(e.target.value)}
-                      value={password}
-                      required
-                      placeholder="Confirm Password"
-                    />
-                  </Form.Group>
-                </Col>
-                <Col className="col-md-6">
-                  <Form.Group>
-                    <Form.Group controlId="address">
-                      <Form.Label className="water-color">Address</Form.Label>
-                      <Form.Control
                         type="text"
-                        placeholder="Enter Address"
-                        name="address"
-                        value={address.address}
-                        onChange={handleAddressChange}
+                        name="firstName"
+                        value={firstname}
+                        onChange={(e) => setFirstname(e.target.value)}
+                        placeholder="Enter first name"
                       />
                     </Form.Group>
-                    <Form.Label htmlFor="cities" className="water-color">
-                      City
-                    </Form.Label>
-                    <Form.Control
-                      as="select"
-                      id="cities"
-                      name="city"
-                      value={address.city}
-                      required
-                      onChange={handleAddressChange}
-                    >
-                      <option value="">Select an option</option>
-                      <option value="City 1">City 1</option>
-                      <option value="City 2">City 2</option>
-                      <option value="City 3">City 3</option>
-                      <option value="City 4">City 4</option>
-                    </Form.Control>
-                  </Form.Group>
-                  <Form.Group>
-                    <Form.Label htmlFor="hospitals" className="water-color">
-                      Hospital
-                    </Form.Label>
-                    <Form.Control
-                      as="select"
-                      id="hospitals"
-                      value={Object.keys(hospitals)[0] || ""}
-                      required
-                      onChange={(e) => {
-                        const selectedHospitalKey = e.target.value;
-                        setHospitals({
-                          [selectedHospitalKey]:
-                            HOSPITAL_LIST[selectedHospitalKey],
-                        });
-                      }}
-                    >
-                      <option value="">Select an option</option>
-                      <option value="Hospital 1">Hospital 1</option>
-                      <option value="Hospital 2">Hospital 2</option>
-                      <option value="Hospital 3">Hospital 3</option>
-                      <option value="Hospital 4">Hospital 4</option>
-                    </Form.Control>
-                  </Form.Group>
-                  <Form.Group controlId="RegNo">
-                    <Form.Label className="water-color">
-                      bloodGroup {"(PHC)"}
-                    </Form.Label>
-                    <Form.Control
-                      type="text"
-                      placeholder="Enter Registeration Number"
-                      name="regno"
-                      value={regNumber}
-                      onChange={(e) => setRegNumber(e.target.value)}
+                  </Col>
+                  <Col className="col-md-6">
+                    <Form.Group controlId="lastName">
+                      <Form.Label className="water-color">Last Name</Form.Label>
+                      <Form.Control
+                        required
+                        type="text"
+                        name="lastName"
+                        value={lastname}
+                        onChange={(e) => setLastname(e.target.value)}
+                        placeholder="Enter last name"
+                      />
+                    </Form.Group>
+                  </Col>
+                </Row>
+
+                <Row>
+                  <Col className="col-md-6">
+                    <Form.Group controlId="age">
+                      <Form.Label className="water-color">Age</Form.Label>
+                      <Form.Control
+                        required
+                        type="number"
+                        name="age"
+                        value={age}
+                        onChange={(e) => setAge(e.target.value)}
+                        placeholder="Enter age"
+                      />
+                    </Form.Group>
+                  </Col>
+                  <Col>
+                    <Form.Group controlId="gender">
+                      <Form.Label className="water-color">Gender</Form.Label>
+                      <Form.Control
+                        required
+                        as="select"
+                        name="gender"
+                        value={gender}
+                        onChange={(e) => setGender(e.target.value)}
+                      >
+                        <option value="">Select gender</option>
+                        <option value="male">Male</option>
+                        <option value="female">Female</option>
+                        <option value="other">Other</option>
+                      </Form.Control>
+                    </Form.Group>
+                  </Col>
+                </Row>
+                <Form.Group>
+                  <Form.Label htmlFor="DOB" className="water-color">
+                    Date Of Birth
+                  </Form.Label>
+
+                  <Form.Control
+                    type="date"
+                    id="dob"
+                    name="dateOfBirth"
+                    onChange={(e) => setDOB(e.target.value)}
+                    value={DOB}
+                    placeholder="Date Of Birth"
+                    required
+                  />
+                </Form.Group>
+                <Form.Group>
+                  <Form.Label htmlFor="email" className="water-color">
+                    {" "}
+                    Email
+                  </Form.Label>
+                  <Form.Control
+                    type="email"
+                    onChange={(e) => setEmail(e.target.value)}
+                    value={email}
+                    required
+                    placeholder="Enter Email"
+                  />
+                  <Form.Text
+                    className={email && !validEmail ? "instructions" : "hide"}
+                  >
+                    Email not valid!
+                  </Form.Text>
+                </Form.Group>
+
+                <Form.Group>
+                  <Form.Label htmlFor="passowrd" className="water-color">
+                    Password
+                  </Form.Label>
+                  <Form.Control
+                    type="password"
+                    id="passowrd"
+                    autoComplete="off" //no suggestions
+                    onChange={(e) => setPassword(e.target.value)}
+                    value={password}
+                    required
+                    placeholder="Password"
+                  />
+                  <Form.Text
+                    id="passowrd"
+                    className={
+                      password && !validPassword ? "instructions" : "hide"
+                    }
+                  >
+                    Must be 8 to 24 characters in length.Must have one
+                    uppercase, one lowercase letter, and one digit. Must have
+                    one special character (!, @, #, $, or %).!
+                  </Form.Text>
+                </Form.Group>
+                <Form.Group>
+                  <Form.Label htmlFor="cpassowrd" className="water-color">
+                    Confirm Password
+                  </Form.Label>
+                  <Form.Control
+                    type="password"
+                    id="cpassowrd"
+                    autoComplete="off" //no suggestions
+                    onChange={(e) => setConfirmPassword(e.target.value)}
+                    value={confirmPassword}
+                    required
+                    placeholder="Confirm Password"
+                  />
+                  <Form.Text
+                    id="passowrd"
+                    className={
+                      confirmPassword && !validCPassword
+                        ? "instructions"
+                        : "hide"
+                    }
+                  >
+                    Password doesn't match!
+                  </Form.Text>
+                </Form.Group>
+              </Col>
+              <Col className="col-md-6">
+                <Form.Group>
+                  <Form.Label htmlFor="contactNumber" className="water-color">
+                    Contact Number
+                  </Form.Label>
+                  <div className="d-flex align-items-center">
+                    <Image
+                      src={flag}
+                      alt="Pakistan Flag"
+                      className="mr-2 "
+                      style={{ height: "35px", width: "auto" }}
                     />
-                  </Form.Group>
-                </Col>
-              </Row>
-              <Row className="mx-5 px-5 py-3">
-                <Button
-                  type="submit"
-                  className="water-bg"
-                  disabled={!validPassword || !validEmail ? true : false}
-                >
-                  Register
-                </Button>
-              </Row>
-            </Form>
-          </Col>
-        </Row>
-      </Container>
+                    <Form.Control
+                      type="tel"
+                      id="contactNumber"
+                      onChange={(e) => setContactNumber(e.target.value)}
+                      value={contactNumber}
+                      placeholder="Contact Number"
+                      required
+                    />
+                  </div>
+                  <Form.Text
+                    id="contactNumber"
+                    className={
+                      contactNumber && !validContactNumber
+                        ? "instructions"
+                        : "hide"
+                    }
+                  >
+                    Number not valid!
+                  </Form.Text>
+                </Form.Group>
+                <Form.Group>
+                  <Form.Label htmlFor="eContactNumber" className="water-color">
+                    Emergency Contact Number
+                  </Form.Label>
+                  <div className="d-flex align-items-center">
+                    <Image
+                      src={flag}
+                      alt="Pakistan Flag"
+                      className="mr-2 "
+                      style={{ height: "35px", width: "auto" }}
+                    />
+                    <Form.Control
+                      type="tel"
+                      onChange={(e) => setEContactNumber(e.target.value)}
+                      value={eContactNumber}
+                      placeholder="Emergency Contact Number"
+                      required
+                    />
+                  </div>
+                  <Form.Text
+                    className={
+                      eContactNumber && !validEContactNumber
+                        ? "instructions"
+                        : "hide"
+                    }
+                  >
+                    Number not valid!
+                  </Form.Text>
+                </Form.Group>
+                <Form.Group controlId="address">
+                  <Form.Label className="water-color">Address</Form.Label>
+                  <Form.Control
+                    required
+                    type="text"
+                    placeholder="Enter Address"
+                    name="address"
+                    value={address.address}
+                    onChange={handleAddressChange}
+                  />
+                </Form.Group>
+                <Form.Group>
+                  <Form.Label htmlFor="cities" className="water-color">
+                    City
+                  </Form.Label>
+                  <Form.Control
+                    as="select"
+                    id="cities"
+                    name="city"
+                    value={address.city}
+                    required
+                    onChange={handleAddressChange}
+                  >
+                    <option value="">Select a city</option>
+                    {CITY_LIST.map((city) => (
+                      <option key={city} value={city}>
+                        {city}
+                      </option>
+                    ))}
+                  </Form.Control>
+                </Form.Group>
+                <Form.Group>
+                  <Form.Label htmlFor="bloodGroup" className="water-color">
+                    Blood Group
+                  </Form.Label>
+                  <Form.Control
+                    as="select"
+                    id="bloodGroup"
+                    value={Object.keys(bloodGroup)[0] || ""}
+                    required
+                    onChange={(e) => {
+                      const selectedBloodGroupKey = e.target.value;
+                      setBloodGroup(BLOOD_GROUP[selectedBloodGroupKey]);
+                    }}
+                  >
+                    <option value="">Select a blood group</option>
+                    {Object.keys(BLOOD_GROUP).map((bloodGroupKey) => (
+                      <option key={bloodGroupKey} value={bloodGroupKey}>
+                        {BLOOD_GROUP[bloodGroupKey]}
+                      </option>
+                    ))}
+                  </Form.Control>
+                </Form.Group>
+
+                <Form.Group controlId=" cnicNo">
+                  <Form.Label className="water-color">CNIC</Form.Label>
+                  <Form.Control
+                    required
+                    type="text"
+                    placeholder="Enter CNIC Number"
+                    name="cnicno"
+                    value={cnicNumber}
+                    onChange={(e) => setCnicNumber(e.target.value)}
+                  />
+                </Form.Group>
+              </Col>
+            </Row>
+            <Row className="mx-5 px-5 py-3">
+              <Form.Group controlId="termsCheckbox">
+                <Form.Check
+                  className="water-color py-2"
+                  required
+                  type="checkbox"
+                  label="I agree to the terms and conditions"
+                  checked={agreeTerms}
+                  onChange={(e) => setAgreeTerms(e.target.value)}
+                />
+              </Form.Group>
+              <Button
+                type="submit"
+                className="water-bg"
+                disabled={
+                  !validPassword ||
+                  !validEmail ||
+                  !validCPassword ||
+                  !address ||
+                  !validContactNumber ||
+                  !validEContactNumber ||
+                  !cnicNumber ||
+                  !bloodGroup ||
+                  !DOB ||
+                  !gender ||
+                  !age ||
+                  !agreeTerms
+                    ? true
+                    : false
+                }
+              >
+                Register
+              </Button>
+            </Row>
+          </Form>
+        </>
+      )}
     </>
   );
 };

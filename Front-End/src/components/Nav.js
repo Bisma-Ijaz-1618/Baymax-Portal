@@ -32,28 +32,35 @@ function Navigation_Bar() {
               navbarScroll
             >
               <Nav.Link href="/">Home</Nav.Link>
-              <NavDropdown title="Doctors" id="navbarScrollingDropdown">
-                <NavDropdown.Item href="#action3">Dashboard</NavDropdown.Item>
-                <NavDropdown.Item href="#action4">Apointments</NavDropdown.Item>
+              <NavDropdown title="Baymax Kit" id="navbarScrollingDropdown">
+                <NavDropdown.Item href="#action3">
+                  Kit Connection
+                </NavDropdown.Item>
+                <NavDropdown.Item href="#action4">Sensors</NavDropdown.Item>
+                <NavDropdown.Item href="#action4">About</NavDropdown.Item>
                 <NavDropdown.Divider />
-                <NavDropdown.Item href="#action5">Sales</NavDropdown.Item>
+                <NavDropdown.Item href="#action5">Buy</NavDropdown.Item>
               </NavDropdown>
-              <NavDropdown title="Admins" id="navbarScrollingDropdown">
+              {/* <NavDropdown title="Usage" id="navbarScrollingDropdown">
                 <NavDropdown.Item href="/auth/admin">
                   Dashboard
                 </NavDropdown.Item>
-                <NavDropdown.Item href="#action4">Settings</NavDropdown.Item>
+                <NavDropdown.Item href="#action4">
+                  Kit Connection
+                </NavDropdown.Item>
                 <NavDropdown.Divider />
-                <NavDropdown.Item href="#action5">Profile</NavDropdown.Item>
-              </NavDropdown>
-              <NavDropdown title="Patients" id="navbarScrollingDropdown">
+                <NavDropdown.Item href="#action5">
+                  Data acquisition
+                </NavDropdown.Item>
+              </NavDropdown> */}
+              {/* <NavDropdown title="Patients" id="navbarScrollingDropdown">
                 <NavDropdown.Item href="#action3">Dashbboard</NavDropdown.Item>
                 <NavDropdown.Item href="#action4">
                   Appointments
                 </NavDropdown.Item>
                 <NavDropdown.Divider />
                 <NavDropdown.Item href="#action5"></NavDropdown.Item>
-              </NavDropdown>
+              </NavDropdown> */}
               <Nav.Link href="#action2">About</Nav.Link>
               <Nav.Link href="#action2">Contact</Nav.Link>
               <Nav.Link href="#action2">Services</Nav.Link>
