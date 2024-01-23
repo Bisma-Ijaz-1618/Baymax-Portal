@@ -9,12 +9,12 @@ const ChatSchema = new Schema(
     },
     patientId: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "Patient", // Assuming there's a Patient model for the patientId reference
+      ref: "Patient",
       required: true,
     },
     doctorId: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "Doctor", // Assuming there's a Doctor model for the doctorId reference
+      ref: "Doctor",
       required: true,
     },
     messageList: {

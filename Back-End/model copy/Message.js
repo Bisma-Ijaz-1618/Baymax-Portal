@@ -17,7 +17,7 @@ const MessageSchema = new Schema(
     },
     senderId: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "User", // Assuming there's a User model for the senderId reference
+      ref: "User",
       required: true,
     },
   },

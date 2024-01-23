@@ -79,17 +79,17 @@ const PatientSchema = new Schema(
     },
     selectedDoctorList: {
       type: [mongoose.Schema.Types.ObjectId],
-      ref: "Doctor", // Assuming there's a Doctor model for the doctorId reference
+      ref: "Doctor",
       default: [],
     },
     selectedHospitalList: {
       type: [mongoose.Schema.Types.ObjectId],
-      ref: "Hospital", // Assuming there's a Hospital model for the hospitalId reference
+      ref: "Hospital",
       default: [],
     },
     recordList: {
       type: [mongoose.Schema.Types.ObjectId],
-      ref: "Record", // Assuming there's a Record model for the recordId reference
+      ref: "Record",
       default: [],
     },
   },

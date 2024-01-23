@@ -28,6 +28,7 @@ const AppointmentSchema = new Schema(
     details: {
       type: String,
     },
+    timeStamp: { type: [Date], required: true },
   },
   { timestamps: true }
 );
