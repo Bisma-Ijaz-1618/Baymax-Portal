@@ -794,3 +794,21 @@ background-color: white;
 
 .reg-type-container{
 border: 4px solid #003380;}
+
+.calendar-trashcan{
+    color: white;
+    margin: 0;
+}
+.calendar{
+  height: 800px;
+  width: 1000px;
+  margin: auto;
+  margin-top: 20px;
+}
+.calendar-button{
+  margin: 10px;
+  width: fit-content;
+}
+.rbc-toolbar-label{
+  font-size: larger !important;
+}

@@ -1,6 +1,22 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
+const EventSchema = new Schema({
+  start: {
+    type: Date,
+    required: true,
+  },
+  end: {
+    type: Date,
+    required: true,
+  },
+});
+const EduSchema = new Schema({
+  date: Date,
+  qualification: String,
+  institute: String,
+});
+
 const DoctorSchema = new Schema(
   {
     userId: {
@@ -102,13 +118,8 @@ const DoctorSchema = new Schema(
       ],
       default: "None",
     },
-    education: [
-      {
-        date: Date,
-        qualification: String,
-        institute: String,
-      },
-    ],
+    education: [EduSchema],
+    events: [EventSchema],
   },
   { timestamps: true }
 );
