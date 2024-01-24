@@ -39,6 +39,14 @@ const UserSchema = new Schema(
       Patient: Number,
       Hospital: Number,
     },
+    profileId: {
+      type: mongoose.Schema.Types.ObjectId,
+      refPath: "rolesRef",
+    },
+    rolesRef: {
+      type: String,
+      enum: ["Admin", "Doctor", "Patient", "Hospital"],
+    },
     refreshToken: [String],
   },
   { timestamps: true }

@@ -18,6 +18,7 @@ router.use("/Users", require("./api/users"));
 router.use("/Doctors", require("./api/doctor"));
 router.use("/Admins", require("./api/admin"));
 router.use("/Patients", require("./api/patient"));
+router.use("/Appointments", require("./api/appointment"));
 router.use("/follow", require("./api/users"));
 
 //exporting router

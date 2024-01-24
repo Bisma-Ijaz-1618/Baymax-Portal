@@ -6,6 +6,11 @@ const HospitalProfileSchema = new mongoose.Schema({
     required: true,
     ref: "User",
   },
+  isDeleted: {
+    type: Boolean,
+    default: null,
+    default: false,
+  },
   address: {
     address: {
       type: String,
@@ -20,20 +25,29 @@ const HospitalProfileSchema = new mongoose.Schema({
     type: Number,
     default: null,
   },
-  isDeleted: {
-    type: Boolean,
-    required: true,
-    default: false,
-  },
-  regNumber: {
-    type: Number,
-    required: true,
-    default: null,
-  },
   contactNumber: {
     type: Number,
     default: null,
   },
+  regNumber: {
+    type: Number,
+    default: null,
+    default: null,
+  },
+  doctorsList: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      default: null,
+      ref: "Doctor",
+    },
+  ],
+  patientList: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      default: null,
+      ref: "User",
+    },
+  ],
 });
 
 module.exports = mongoose.model("HospitalProfile", HospitalProfileSchema);

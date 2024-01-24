@@ -1,84 +1,100 @@
-const AppointmentProfile = require("../model/Appointment");
-const createNewAppointment = require("./authController").handleNewUser;
+const Appointment = require("../model/Appointment");
 
-const getAllAppointmentProfiles = async (req, res) => {
+// Controller for creating a new appointment
+const createAppointment = async (req, res) => {
   try {
-    const adminProfiles = await AppointmentProfile.find({
-      isDeleted: false,
-    }).populate("userId");
-    if (!adminProfiles) {
-      return res.status(204).json({ message: "No admin profiles found" });
-    }
-    return res.json(adminProfiles);
+    const newAppointment = await Appointment.create(req.body);
+    res.status(201).json(newAppointment);
   } catch (error) {
-    console.error("Error fetching admin profiles:", error);
-    return res.status(500).json({ error: "Failed to fetch admin profiles" });
+    res.status(500).json({ message: error.message });
   }
 };
 
-const createAppointmentProfile = async (req, res) => {
-  const userId = req.userId;
-
+// Controller for retrieving all appointments
+const getAllAppointments = async (req, res) => {
   try {
-    const newAppointmentProfile = new AppointmentProfile({
-      userId,
+    const appointments = await Appointment.find();
+    res.status(200).json(appointments);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
+// Controller for retrieving a single appointment by ID
+const getAppointmentById = async (req, res) => {
+  try {
+    const appointment = await Appointment.findById(req.params.id);
+    if (!appointment) {
+      return res.status(404).json({ message: "Appointment not found" });
+    }
+    res.status(200).json(appointment);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
+// Controller for updating an appointment by ID
+const updateAppointmentById = async (req, res) => {
+  try {
+    const updatedAppointment = await Appointment.findByIdAndUpdate(
+      req.params.id,
+      req.body,
+      { new: true }
+    );
+    if (!updatedAppointment) {
+      return res.status(404).json({ message: "Appointment not found" });
+    }
+    res.status(200).json(updatedAppointment);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
+// Controller for deleting an appointment by ID
+const deleteAppointmentById = async (req, res) => {
+  try {
+    const deletedAppointment = await Appointment.findByIdAndRemove(
+      req.params.id
+    );
+    if (!deletedAppointment) {
+      return res.status(404).json({ message: "Appointment not found" });
+    }
+    res.status(200).json({ message: "Appointment deleted successfully" });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
+// Controller for getting appointments by user ID
+const getAppointmentsByUserId = async (req, res) => {
+  try {
+    const appointments = await Appointment.find({
+      doctorId: req.params.userId,
     });
-
-    const savedAppointmentProfile = await newAppointmentProfile.save();
-    return res.status(200).json(savedAppointmentProfile);
+    res.status(200).json(appointments);
   } catch (error) {
-    console.error("Error creating admin profile:", error);
-    return res.status(500).json({ error: "Failed to create admin profile" });
+    res.status(500).json({ message: error.message });
   }
 };
 
-const updateAppointmentProfile = async (req, res) => {
-  const adminProfileId = req.params.id;
-  const updateData = req.body;
-
+// Controller for getting appointments by patient ID
+const getAppointmentsByPatientId = async (req, res) => {
   try {
-    const updatedAppointmentProfile =
-      await AppointmentProfile.findByIdAndUpdate(adminProfileId, updateData, {
-        new: true,
-      });
-
-    if (updatedAppointmentProfile) {
-      return res.status(200).json(updatedAppointmentProfile);
-    } else {
-      return res
-        .status(404)
-        .json({ message: `No admin profile matches ID ${adminProfileId}` });
-    }
+    const appointments = await Appointment.find({
+      patientId: req.params.patientId,
+    });
+    res.status(200).json(appointments);
   } catch (error) {
-    console.error("Error occurred while updating admin profile:", error);
-    return res.status(500).json({ message: "Internal server error" });
-  }
-};
-
-const deleteAppointmentProfile = async (req, res) => {
-  const adminProfileId = req.params.id;
-
-  try {
-    const deletedAppointmentProfile =
-      await AppointmentProfile.findByIdAndDelete(adminProfileId);
-
-    if (deletedAppointmentProfile) {
-      return res.status(200).json({ message: "Appointment profile deleted" });
-    } else {
-      return res
-        .status(404)
-        .json({ message: `No admin profile matches ID ${adminProfileId}` });
-    }
-  } catch (error) {
-    console.error("Error occurred while deleting admin profile:", error);
-    return res.status(500).json({ message: "Internal server error" });
+    res.status(500).json({ message: error.message });
   }
 };
 
 module.exports = {
-  getAllAppointmentProfiles,
-  createAppointmentProfile,
-  updateAppointmentProfile,
-  deleteAppointmentProfile,
-  createNewAppointment,
+  createAppointment,
+  getAllAppointments,
+  getAppointmentById,
+  updateAppointmentById,
+  deleteAppointmentById,
+  getAppointmentsByUserId,
+  getAppointmentsByPatientId,
 };

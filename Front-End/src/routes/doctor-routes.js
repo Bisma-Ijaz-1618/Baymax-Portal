@@ -7,6 +7,7 @@ import DataGrid from "../features/data/DataGrid";
 import NotFound from "../components/NotFound";
 import ViewPatients from "../features/doctor/PatientSettings/ViewPatientProfiles";
 import ViewDoctors from "../features/doctor/DoctorSettings/ViewDoctorProfiles";
+import ViewSchedule from "../features/doctor/ProfileSettings/Schedule";
 
 const DoctorRoutes = () => {
   return (
@@ -18,6 +19,7 @@ const DoctorRoutes = () => {
         </Route>
         <Route path="users" element={<UsersList />} />
         <Route path="viewAllPatients" element={<ViewPatients />} />
+        <Route path="viewSchedule" element={<ViewSchedule />} />
         <Route path="viewAllDoctors" element={<ViewDoctors />} />
         {/* <Route path="addDoctor" element={<AddUser userRole="Doctor" />} />
         <Route path="viewAllDoctors" element={<ViewDoctors />} />

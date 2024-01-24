@@ -50,7 +50,7 @@ function Example() {
               </span>
             </Link>
             <Link
-              to="table"
+              to="viewSchedule"
               className={
                 currentPath.includes("table") ? "active link-item" : "link-item"
               }

@@ -244,7 +244,7 @@ const Login = () => {
                   <Form.Control
                     type="date"
                     id="dob"
-                    name="dateOfBirth"
+                    name="DOB"
                     onChange={(e) => setDOB(e.target.value)}
                     value={DOB}
                     placeholder="Date Of Birth"

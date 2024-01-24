@@ -133,17 +133,21 @@ const handleNewUser = async (req, res) => {
       if ("Patient" in roles) {
         console.log("User has the Patient role");
         profile = await Patient.create({ userId: result._id });
+        result.profileId = profile._id;
       } else if ("Doctor" in roles) {
         console.log("User has doctor role");
         profile = await Doctor.create({ userId: result._id });
+        result.profileId = profile._id;
       } else if ("Admin" in roles) {
         console.log("User has Admin role");
         profile = await Admin.create({ userId: result._id });
+        result.profileId = profile._id;
       } else {
         console.log("User has no recognized role");
         // Handle the case where no recognized role is found
       }
-
+      //Update the user with the profile ID
+      await result.save();
       console.log("profile::", profile);
       return res.status(201).json({
         message: `New user ${username} created! You can now update the profile!`,
@@ -157,6 +161,7 @@ const handleNewUser = async (req, res) => {
     return res.status(500).json({ message: err.message });
   }
 };
+
 const handleNewHospital = async (req, res) => {
   const {
     email,
@@ -203,12 +208,13 @@ const handleNewHospital = async (req, res) => {
       let profile;
       profile = await Hospital.create({
         userId: result._id,
-        contactNumber: contactNumber,
-        address: address,
-        regNumber: regNumber,
         isDeleted: false,
+        address: address,
+        contactNumber: contactNumber,
+        regNumber: regNumber,
       });
-
+      result.profileId = profile._id;
+      await result.save();
       console.log("profile::", profile);
       return res.status(201).json({
         message: `New user ${username} created! You can now update the profile!`,
@@ -267,10 +273,10 @@ const handleNewPatient = async (req, res) => {
 
     const result = await User.create({
       username: username,
-      email: email,
       password: hashedPwd,
-      roles: roles,
+      email: email,
       isDeleted: false,
+      roles: roles,
       //default role and object id automatically given
     });
     console.log(result._id);
@@ -279,17 +285,18 @@ const handleNewPatient = async (req, res) => {
       let profile;
       profile = await Patient.create({
         userId: result._id,
-        contactNumber: contactNumber,
-        address: address,
         isDeleted: false,
+        address: address,
+        contactNumber: contactNumber,
         eContactNumber: eContactNumber,
+        age: age,
         cnicNumber: cnicNumber,
+        gender: gender,
         bloodGroup: bloodGroup,
         DOB: DOB,
-        age: age,
-        gender: gender,
       });
-
+      result.profileId = profile._id;
+      await result.save();
       console.log("profile::", profile);
       return res.status(201).json({
         message: `New user ${username} created! You can now update the profile!`,
@@ -315,9 +322,9 @@ const handleNewDoctor = async (req, res) => {
     gender,
     cnicNumber,
     contactNumber,
-    hospitalAffiliation,
-    graduationDate,
-    department,
+    // hospitalAffiliation,
+    DOB,
+    // department,
     yearsOfExperience,
   } = req.body;
   if (
@@ -329,9 +336,9 @@ const handleNewDoctor = async (req, res) => {
     !licenseNumber ||
     !address ||
     !cnicNumber ||
-    !hospitalAffiliation ||
-    !graduationDate ||
-    !department ||
+    // !hospitalAffiliation ||
+    !DOB ||
+    // !department ||
     !yearsOfExperience
   )
     return res
@@ -360,21 +367,22 @@ const handleNewDoctor = async (req, res) => {
     console.log(result);
     if (result) {
       let profile;
-      profile = await Patient.create({
+      profile = await Doctor.create({
         userId: result._id,
+        isDeleted: false,
         address: address,
+        contactNumber: contactNumber,
         licenseNumber: licenseNumber,
         age: age,
-        yearsOfExperience: yearsOfExperience,
-        gender: gender,
         cnicNumber: cnicNumber,
-        contactNumber: contactNumber,
-        hospitalAffiliation: hospitalAffiliation,
-        graduationDate: graduationDate,
-        department: department,
-        isDeleted: false,
+        gender: gender,
+        yearsOfExperience: yearsOfExperience,
+        DOB: DOB,
+        // hospitalAffiliation: hospitalAffiliation,
+        // department: department,
       });
-
+      result.profileId = profile._id;
+      await result.save();
       console.log("profile::", profile);
       return res.status(201).json({
         message: `New user ${username} created! You can now update the profile!`,

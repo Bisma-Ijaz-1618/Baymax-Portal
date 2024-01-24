@@ -44,7 +44,7 @@ const Login = () => {
   const [lastname, setLastname] = useState("");
   const [age, setAge] = useState("");
   const [gender, setGender] = useState("");
-  const [graduationDate, setGraduationDate] = useState("");
+  const [DOB, setDOB] = useState("");
   const [email, setEmail] = useState("");
   const [validEmail, setValidEmail] = useState(false);
   const [password, setPassword] = useState("");
@@ -56,7 +56,7 @@ const Login = () => {
   const [validLicenseNumber, setValidLicenseNumber] = useState(false);
   const [contactNumber, setContactNumber] = useState("");
   const [validContactNumber, setValidContactNumber] = useState(false);
-  const [hospitalAffiliation, setHospitalAffiliation] = useState("");
+  // const [hospitalAffiliation, setHospitalAffiliation] = useState("");
   const [department, setDepartment] = useState("");
   const [yearsOfExperience, setYearsOfExperience] = useState("");
   const [agreeTerms, setAgreeTerms] = useState(false);
@@ -114,8 +114,8 @@ const Login = () => {
     gender,
     cnicNumber,
     contactNumber,
-    hospitalAffiliation,
-    graduationDate,
+    //hospitalAffiliation,
+    DOB,
     department,
     yearsOfExperience,
   ]);
@@ -140,9 +140,9 @@ const Login = () => {
           gender,
           cnicNumber,
           contactNumber,
-          hospitalAffiliation,
-          graduationDate,
-          department,
+          //hospitalAffiliation,
+          DOB,
+          //department,
           yearsOfExperience,
         }),
         {
@@ -256,16 +256,16 @@ const Login = () => {
                   </Col>
                 </Row>
                 <Form.Group>
-                  <Form.Label htmlFor="graduationDate" className="water-color">
+                  <Form.Label htmlFor="DOB" className="water-color">
                     Date Of Birth
                   </Form.Label>
 
                   <Form.Control
                     type="date"
                     id="dob"
-                    name="dateOfBirth"
-                    onChange={(e) => setGraduationDate(e.target.value)}
-                    value={graduationDate}
+                    name="DOB"
+                    onChange={(e) => setDOB(e.target.value)}
+                    value={DOB}
                     placeholder="Date Of Birth"
                     required
                   />
@@ -400,7 +400,7 @@ const Login = () => {
                     ))}
                   </Form.Control>
                 </Form.Group>
-                <Row>
+                {/*<Row>
                   <Col className="col-md-6">
                     <Form.Group>
                       <Form.Label htmlFor="ha" className="water-color">
@@ -445,53 +445,45 @@ const Login = () => {
                       </Form.Control>
                     </Form.Group>
                   </Col>
-                </Row>
-                <Row>
-                  <Col className="col-md-6">
-                    <Form.Group>
-                      <Form.Label
-                        htmlFor="licenseNumber"
-                        className="water-color"
-                      >
-                        License Number
-                      </Form.Label>
+                </Row> */}
 
-                      <Form.Control
-                        type="tel"
-                        id="licenseNumber"
-                        onChange={(e) => setLicenseNumber(e.target.value)}
-                        value={licenseNumber}
-                        placeholder="License Number"
-                        required
-                      />
-                      <Form.Text
-                        id="licenseNumber"
-                        className={
-                          licenseNumber && !validLicenseNumber
-                            ? "instructions"
-                            : "hide"
-                        }
-                      >
-                        Number not valid!
-                      </Form.Text>
-                    </Form.Group>
-                  </Col>
-                  <Col className="col-md-6">
-                    <Form.Group controlId="yof">
-                      <Form.Label className="water-color">
-                        Years Of Experience
-                      </Form.Label>
-                      <Form.Control
-                        required
-                        type="number"
-                        name="yof"
-                        value={yearsOfExperience}
-                        onChange={(e) => setYearsOfExperience(e.target.value)}
-                        placeholder="Enter Experience in years"
-                      />
-                    </Form.Group>
-                  </Col>
-                </Row>
+                <Form.Group>
+                  <Form.Label htmlFor="licenseNumber" className="water-color">
+                    License Number
+                  </Form.Label>
+
+                  <Form.Control
+                    type="tel"
+                    id="licenseNumber"
+                    onChange={(e) => setLicenseNumber(e.target.value)}
+                    value={licenseNumber}
+                    placeholder="License Number"
+                    required
+                  />
+                  <Form.Text
+                    id="licenseNumber"
+                    className={
+                      licenseNumber && !validLicenseNumber
+                        ? "instructions"
+                        : "hide"
+                    }
+                  >
+                    Number not valid!
+                  </Form.Text>
+                </Form.Group>
+                <Form.Group controlId="yof">
+                  <Form.Label className="water-color">
+                    Years Of Experience
+                  </Form.Label>
+                  <Form.Control
+                    required
+                    type="number"
+                    name="yof"
+                    value={yearsOfExperience}
+                    onChange={(e) => setYearsOfExperience(e.target.value)}
+                    placeholder="Enter Experience in years"
+                  />
+                </Form.Group>
 
                 <Form.Group controlId=" cnicNo">
                   <Form.Label className="water-color">CNIC</Form.Label>
@@ -528,13 +520,13 @@ const Login = () => {
                   !validLicenseNumber ||
                   !validContactNumber ||
                   !cnicNumber ||
-                  !hospitalAffiliation ||
-                  !graduationDate ||
+                  //!hospitalAffiliation ||
+                  !DOB ||
                   !gender ||
                   !age ||
                   !agreeTerms ||
-                  !yearsOfExperience ||
-                  !department
+                  //!department||
+                  !yearsOfExperience
                     ? true
                     : false
                 }
