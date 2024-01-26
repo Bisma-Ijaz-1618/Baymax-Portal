@@ -2,7 +2,7 @@ import format from "date-fns/format";
 import getDay from "date-fns/getDay";
 import parse from "date-fns/parse";
 import startOfWeek from "date-fns/startOfWeek";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Calendar,
   dateFnsLocalizer,
@@ -15,64 +15,108 @@ import { Container, Tabs, Tab, Button, Row, Col } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrash } from "@fortawesome/free-solid-svg-icons";
 import moment from "moment";
+import useDoctorApi from "../../../api/doctor"; // Adjust the path accordingly
+import useAuth from "../../../hooks/useAuthHook";
+
 const locales = {
   "en-US": require("date-fns/locale/en-US"),
 };
 const localizer = momentLocalizer(moment);
 
-const events = [
-  {
-    title: "Big Meeting",
-    allDay: false,
-    start: moment("2024-01-24T10:00:00").toDate(),
-    end: moment("2024-01-24T11:00:00").toDate(),
-  },
-  {
-    title: "Vacation",
-    start: new Date(2021, 6, 7),
-    end: new Date(2021, 6, 10),
-  },
-  {
-    title: "Conference",
-    start: new Date(2021, 6, 20),
-    end: new Date(2021, 6, 23),
-  },
-];
-
 function App() {
+  const DoctorApi = useDoctorApi(); // Initialize the DoctorApi
+
+  const { auth } = useAuth();
   const [activeTab, setActiveTab] = useState("tab1");
   const [newEvent, setNewEvent] = useState({
     title: "Available",
     start: "",
     end: "",
   });
-  const [allEvents, setAllEvents] = useState(events);
+  const [allEvents, setAllEvents] = useState([]);
+  console.log();
 
   const handleTabSelect = (selectedTab) => {
     setActiveTab(selectedTab);
   };
+
+  useEffect(() => {
+    // Assuming you have access to the doctorId
+    const doctorId = localStorage.getItem("userId");
+    console.log("locale storage?", doctorId);
+    // Replace with the actual doctorId
+
+    // Use the Doctor API to get event data
+    DoctorApi.getEventList(doctorId)
+      .then((events) => {
+        console.log("in get event ", events);
+        events[0] != null
+          ? setAllEvents(
+              events.map((event) => ({
+                ...event,
+                title: "Available",
+                start: new Date(event.start),
+                end: new Date(event.end),
+              }))
+            )
+          : setAllEvents([]);
+      })
+      .catch((error) => {
+        console.error("Failed to fetch events:", error.message);
+      });
+  }, []);
+
   function handleAddEvent() {
+    // Assuming you have access to the doctorId and eventData
+    const userId = localStorage.getItem("userId");
+    const eventData = {
+      start: newEvent.start,
+      end: newEvent.end,
+    };
+
+    console.log("I AM IN HANDLE ADD EVENT", eventData, newEvent);
+    // Check for event clash
     for (let i = 0; i < allEvents.length; i++) {
+      console.log("LOOP", allEvents);
       const d1 = new Date(allEvents[i].start);
       const d2 = new Date(newEvent.start);
       const d3 = new Date(allEvents[i].end);
       const d4 = new Date(newEvent.end);
-      /*
-           console.log(d1 <= d2);
-           console.log(d2 <= d3);
-           console.log(d1 <= d4);
-           console.log(d4 <= d3);
-             */
       if ((d1 <= d2 && d2 <= d3) || (d1 <= d4 && d4 <= d3)) {
         alert("CLASH");
-        break;
+        return;
       }
     }
-    setAllEvents([...allEvents, newEvent]);
+
+    // Add event using the Axios function
+    console.log(eventData);
+    DoctorApi.addEvent(userId, eventData)
+      .then((addedEvent) => {
+        setAllEvents([
+          ...allEvents,
+          {
+            ...addedEvent,
+            title: "Available",
+            start: new Date(addedEvent.start),
+            end: new Date(addedEvent.end),
+          },
+        ]);
+      })
+      .catch((error) => {
+        console.error("Failed to add event:", error.message);
+      });
   }
-  function handleRemoveEvent(eventToRemove) {
-    const updatedEvents = allEvents.filter((event) => event !== eventToRemove);
-    setAllEvents(updatedEvents);
+  function handleRemoveEvent(event) {
+    const userId = localStorage.getItem("userId");
+    DoctorApi.deleteEvent(userId, event)
+      .then(() => {
+        // Filter out the deleted event from allEvents
+        const updatedEvents = allEvents.filter((e) => e !== event);
+        setAllEvents(updatedEvents);
+      })
+      .catch((error) => {
+        console.error("Failed to delete event:", error.message);
+      });
   }
   return (
     <Container className="">
@@ -131,32 +175,41 @@ function App() {
               <Container>
                 <h2>Available Slots</h2>
                 <Row>
-                  {allEvents.map((event, index) => (
-                    <Col className="px-3 py-1 col-md-6 calendar-list">
-                      <Row className=" px-3 py-1 water-bg white-color align-items-center">
-                        <Col className="col-md-10">
-                          <Row>{event.title}</Row>
-                          <Row>{format(event.start, "PP")} </Row>
-                          <Row className="">
-                            {format(event.start, "p")} to{" "}
-                            {format(event.end, "p")}
-                          </Row>
-                        </Col>
-                        <Col className="text-end col-md-2 ">
-                          <Button
-                            variant="link"
-                            className="calendar-trashcan"
-                            onClick={() => handleRemoveEvent(event)}
-                          >
-                            <FontAwesomeIcon
-                              icon={faTrash}
-                              className="white-color"
-                            />
-                          </Button>
-                        </Col>
-                      </Row>
-                    </Col>
-                  ))}
+                  {allEvents.length > 0 ? (
+                    allEvents.map(
+                      (event, index) => (
+                        console.log("Event ISSS", event),
+                        (
+                          <Col className="px-3 py-1 col-md-6 calendar-list">
+                            <Row className=" px-3 py-1 water-bg white-color align-items-center">
+                              <Col className="col-md-10">
+                                <Row>Available Slot</Row>
+                                <Row>{format(event.start, "PP")} </Row>
+                                <Row className="">
+                                  {format(event.start, "p")} to{" "}
+                                  {format(event.end, "p")}
+                                </Row>
+                              </Col>
+                              <Col className="text-end col-md-2 ">
+                                <Button
+                                  variant="link"
+                                  className="calendar-trashcan"
+                                  onClick={() => handleRemoveEvent(event)}
+                                >
+                                  <FontAwesomeIcon
+                                    icon={faTrash}
+                                    className="white-color"
+                                  />
+                                </Button>
+                              </Col>
+                            </Row>
+                          </Col>
+                        )
+                      )
+                    )
+                  ) : (
+                    <></>
+                  )}
                 </Row>
               </Container>
             </Tab>

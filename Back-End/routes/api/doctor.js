@@ -43,5 +43,11 @@ router
     DoctorController.getAllDoctorProfiles
   );
 
+router.route("/:userId/addEvent").post(DoctorController.addEvent);
+
+router.route("/:userId/getEventList").get(DoctorController.getEventList);
+
+router.route("/:userId/deleteEvent").patch(DoctorController.deleteEvent);
+
 //exporting router
 module.exports = router;

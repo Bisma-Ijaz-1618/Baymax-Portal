@@ -72,12 +72,9 @@ const Login = () => {
       const cookies = response.headers["cookie"];
       const accessToken = response?.data?.accessToken;
       const roles = response?.data?.roles;
-      const userId = response?.data.userId;
-      setAuth({ userId, email, password, roles, accessToken });
-      // Store data in LocalStorage
-      localStorage.setItem("userId", userId);
-
-      console.log("userId....LOGINNNNN", userId);
+      const username = response?.data.username;
+      setAuth({ username, email, password, roles, accessToken });
+      console.log(username);
       setEmail("");
       setPassword("");
       if (roles.includes(5150)) {

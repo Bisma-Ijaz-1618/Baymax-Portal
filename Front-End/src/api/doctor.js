@@ -49,6 +49,41 @@ const useDoctorApi = () => {
     }
   };
   // Similar update and delete methods here for doctors
+  const addEvent = async (userId, newEvent) => {
+    try {
+      console.log("add event doctorID", userId, newEvent);
+      const response = await axiosPrivate.post(`Doctors/${userId}/addEvent`, {
+        newEvent,
+      });
+      console.log("RESPONSE TO ADD EVENT ", response.data);
+      return response.data;
+    } catch (error) {
+      throw new Error("Failed to add event");
+    }
+  };
+
+  const getEventList = async (userId) => {
+    try {
+      console.log("get event doctorID", userId);
+      const response = await axiosPrivate.get(`Doctors/${userId}/getEventList`);
+      console.log("event list?", response.data.events);
+      return response.data.events;
+    } catch (error) {
+      throw new Error("Failed to get event list");
+    }
+  };
+
+  const deleteEvent = async (userId, event) => {
+    try {
+      const response = await axiosPrivate.patch(
+        `Doctors/${userId}/deleteEvent`,
+        { event }
+      );
+      return response.data;
+    } catch (error) {
+      throw new Error("Failed to delete event");
+    }
+  };
 
   return {
     getDoctors,
@@ -56,6 +91,9 @@ const useDoctorApi = () => {
     deleteDoctorProfile,
     updateDoctor,
     getDoctorProfile,
+    addEvent,
+    getEventList,
+    deleteEvent,
   };
 };
 

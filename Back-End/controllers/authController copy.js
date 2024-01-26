@@ -26,7 +26,6 @@ const handleLogin = async (req, res) => {
   if (match) {
     const roles = Object.values(foundUser.roles).filter(Boolean);
     const username = foundUser.username;
-    const userId = foundUser._id;
     //create jwts
     const accessToken = jwt.sign(
       //***use user id
@@ -71,7 +70,7 @@ const handleLogin = async (req, res) => {
       secure: true, // Set the "secure" attribute to true
       maxAge: 24 * 60 * 60 * 1000, // One day
     });
-    return res.json({ userId, roles, accessToken });
+    return res.json({ username, roles, accessToken });
   } else {
     return res.status(401).json({ message: "Password Incorrect" });
   }
@@ -456,7 +455,6 @@ const handleRefreshToken = async (req, res) => {
       //refresh token was still valid
       const roles = Object.values(foundUser.roles);
       const username = foundUser.username;
-      const userId = foundUser._id;
       const accessToken = jwt.sign(
         {
           UserInfo: {
@@ -492,7 +490,7 @@ const handleRefreshToken = async (req, res) => {
         secure: true, // Set the "secure" attribute to true
         maxAge: 24 * 60 * 60 * 1000, // One day
       });
-      return res.json({ userId, roles, accessToken });
+      return res.json({ username, roles, accessToken });
     }
   );
 };
