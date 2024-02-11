@@ -7,6 +7,8 @@ const verifyRoles = require("../../middleware/verifyRoles");
 const dataProcessor = require("../../middleware/dataProcessor");
 const User = require("../../model/User");
 
+router.use("/Appointment", require("./appointment"));
+
 router
   .route("/allPatients")
   .get(verifyRoles(ROLES_LIST.User), patientController.getAllPatientProfiles);

@@ -1,21 +1,18 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 const appointmentStatusEnum = [
-  "urgent",
-  "latest",
   "completed",
-  "pending",
-  "regular",
   "accepted",
   "requested",
+  "rejected",
 ];
 
 const AppointmentSchema = new Schema(
   {
-    billId: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "Invoice", // Assuming there's an Invoice model for the invoiceId reference
-    },
+    // billId: {
+    //   type: mongoose.Schema.Types.ObjectId,
+    //   ref: "Invoice", // Assuming there's an Invoice model for the invoiceId reference
+    // },
     doctorId: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "Doctor", // Assuming there's a Doctor model for the doctorId reference

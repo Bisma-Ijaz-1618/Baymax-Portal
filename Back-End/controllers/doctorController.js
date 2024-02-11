@@ -5,12 +5,43 @@ const getAllDoctorProfiles = async (req, res) => {
   try {
     const DoctorProfiles = await DoctorProfile.find({
       isDeleted: false,
-    }).populate("userId");
+    })
+      .populate({
+        path: "userId",
+        select: "username backgroundPicture profilePicture email _id ",
+      })
+      .select(
+        "_id userId address contactNumber age gender yearsOfExperience department events"
+      );
+
     if (!DoctorProfiles) {
       return res.status(204).json({ message: "No Doctor profiles found" });
     }
-    console.log("Doctor profiles::", DoctorProfiles);
     return res.json(DoctorProfiles);
+  } catch (error) {
+    console.error("Error fetching Doctor profiles:", error);
+    return res.status(500).json({ error: "Failed to fetch Doctor profiles" });
+  }
+};
+
+const getAllDoctorListWithSchedule = async (req, res) => {
+  try {
+    const doctorProfiles = await DoctorProfile.find({
+      isDeleted: false,
+    }).populate("userId"); // Populate only the 'name' field of the 'userId' reference
+
+    if (!doctorProfiles || doctorProfiles.length === 0) {
+      return res.status(204).json({ message: "No Doctor profiles found" });
+    }
+
+    const simplifiedDoctorProfiles = doctorProfiles.map((profile) => ({
+      profileId: profile._id,
+      userId: profile.userId,
+      username: profile.userId.username,
+    }));
+
+    console.log("Doctor profiles::", simplifiedDoctorProfiles);
+    return res.json(simplifiedDoctorProfiles);
   } catch (error) {
     console.error("Error fetching Doctor profiles:", error);
     return res.status(500).json({ error: "Failed to fetch Doctor profiles" });
@@ -78,7 +109,7 @@ const deleteDoctorProfile = async (req, res) => {
 };
 
 const addEvent = async (req, res) => {
-  const { userId } = req.params;
+  const userId = req.userId;
   const { newEvent } = req.body;
   console.log("add event doctorID", req.params, req.body);
 
@@ -103,8 +134,7 @@ const addEvent = async (req, res) => {
 
 // Get the event list for a doctor
 const getEventList = async (req, res) => {
-  const { userId } = req.params;
-  console.log("req.userid", req.userId);
+  const userId = req.userId;
 
   try {
     const doctor = await DoctorProfile.findOne({ userId });
@@ -123,7 +153,7 @@ const getEventList = async (req, res) => {
 
 // Delete an event from the list
 const deleteEvent = async (req, res) => {
-  const { userId } = req.params;
+  const userId = req.userId;
   const { event } = req.body;
   console.log("event", event);
   console.log("id", userId);
@@ -161,4 +191,5 @@ module.exports = {
   addEvent,
   getEventList,
   deleteEvent,
+  getAllDoctorListWithSchedule,
 };

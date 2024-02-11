@@ -62,10 +62,6 @@ function CustomTable({ headers, data }) {
     return items;
   };
 
-  const handleCheckboxChange = (index, isChecked) => {
-    // Handle checkbox state changes
-  };
-
   return data ? (
     <div>
       <Table striped bordered hover responsive>
@@ -83,14 +79,6 @@ function CustomTable({ headers, data }) {
             .slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage)
             .map((item, index) => (
               <tr key={index}>
-                <td>
-                  <Form.Check
-                    type="checkbox"
-                    onChange={(e) =>
-                      handleCheckboxChange(index, e.target.checked)
-                    }
-                  />
-                </td>
                 {headers.map((header, columnIndex) => (
                   <td key={columnIndex}>
                     {header === "username" ? (

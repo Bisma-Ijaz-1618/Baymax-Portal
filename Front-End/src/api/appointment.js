@@ -2,68 +2,75 @@ import useAxiosPrivate from "../hooks/useAxiosPrivate";
 
 const useAppointmentApi = () => {
   const axiosPrivate = useAxiosPrivate();
-
-  const getAppointments = async () => {
-    try {
-      const response = await axiosPrivate.get("/appointments/allAppointments");
-      return response.data;
-    } catch (error) {
-      throw new Error("Failed to fetch appointments");
+  const getPath = () => {
+    if (window.location.pathname.includes("patient")) {
+      return "Patients";
+    } else if (window.location.pathname.includes("doctor")) {
+      return "Doctors";
+    } else {
+      return "nouser";
     }
   };
 
-  const addAppointment = async (appointmentData) => {
+  const createAppointment = async (appointmentData) => {
+    console.log("in appointment api to create sending", appointmentData);
     try {
       const response = await axiosPrivate.post(
-        "/appointments/newAppointment",
+        "Patients/Appointment/new",
         appointmentData
       );
+      console.log("in appointment api response", response);
       return response.data;
     } catch (error) {
-      throw new Error("Failed to add appointment");
+      console.error("Error creating appointment:", error.message); // Log the error message
+      throw new Error("Failed to create appointment");
     }
   };
 
-  const updateAppointment = async (appointmentData) => {
+  const getAppointmentsByUserId = async () => {
     try {
-      const response = await axiosPrivate.patch(
-        `/appointments/updateAppointment/${appointmentData.id}`,
-        appointmentData
-      );
+      const response = await axiosPrivate.get("/Appointments/all");
       return response.data;
     } catch (error) {
-      throw new Error("Failed to update appointment");
+      throw new Error("Failed to get appointments");
     }
   };
 
-  const deleteAppointment = async ({ id }) => {
+  const getAllAppointments = async (userId) => {
     try {
-      const response = await axiosPrivate.delete(
-        `appointments/deleteAppointment/${id}`
-      );
+      const response = await axiosPrivate.get(`/Appointments/all/${userId}`);
+      return response.data;
+    } catch (error) {
+      throw new Error("Failed to get all appointments");
+    }
+  };
+
+  const getAppointmentsByStatus = async (status) => {
+    try {
+      const response = await axiosPrivate.get(`/Appointments/status/${status}`);
+      return response.data;
+    } catch (error) {
+      throw new Error("Failed to get appointments by status");
+    }
+  };
+
+  const deleteAppointment = async (appointmentId) => {
+    try {
+      const response = await axiosPrivate.delete("/Appointments/delete", {
+        data: { id: appointmentId },
+      });
       return response.data;
     } catch (error) {
       throw new Error("Failed to delete appointment");
     }
   };
 
-  const getAppointmentById = async ({ id }) => {
-    try {
-      const response = await axiosPrivate.get(`appointments/${id}`);
-      return response.data;
-    } catch (error) {
-      throw new Error("Failed to get appointment");
-    }
-  };
-
-  // Additional methods for getting appointments by user ID (doctor or patient) can be added here
-
   return {
-    getAppointments,
-    addAppointment,
-    updateAppointment,
+    createAppointment,
+    getAppointmentsByUserId,
+    getAllAppointments,
+    getAppointmentsByStatus,
     deleteAppointment,
-    getAppointmentById,
   };
 };
 

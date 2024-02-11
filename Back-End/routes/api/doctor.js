@@ -7,9 +7,20 @@ const verifyRoles = require("../../middleware/verifyRoles");
 const dataProcessor = require("../../middleware/dataProcessor");
 const User = require("../../model/User");
 
+router.use("/Calendar", require("./calendar"));
+router.use("/Appointment", require("./appointment"));
+
 router
   .route("/allDoctors")
   .get(verifyRoles(ROLES_LIST.User), DoctorController.getAllDoctorProfiles);
+
+router
+  .route("/doctor")
+  .get(
+    verifyRoles(ROLES_LIST.User),
+    DoctorController.getAllDoctorListWithSchedule
+  );
+
 router
   .route("/:id")
   .get(verifyRoles(ROLES_LIST.User), DoctorController.getDoctorProfile);
@@ -42,12 +53,6 @@ router
     verifyRoles(ROLES_LIST.Admin, ROLES_LIST.Doctor),
     DoctorController.getAllDoctorProfiles
   );
-
-router.route("/:userId/addEvent").post(DoctorController.addEvent);
-
-router.route("/:userId/getEventList").get(DoctorController.getEventList);
-
-router.route("/:userId/deleteEvent").patch(DoctorController.deleteEvent);
 
 //exporting router
 module.exports = router;

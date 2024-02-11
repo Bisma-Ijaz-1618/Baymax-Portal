@@ -1,100 +1,128 @@
 const Appointment = require("../model/Appointment");
-
-// Controller for creating a new appointment
+const Doctor = require("../model/Doctor");
+const mongoose = require("mongoose");
+// Create a new appointment
 const createAppointment = async (req, res) => {
+  const { doctorId, date, startTime, status } = req.body;
+  const patientId = req.userId;
+  console.log("req.body", req.body);
+
   try {
-    const newAppointment = await Appointment.create(req.body);
-    res.status(201).json(newAppointment);
+    // Check if appointment already exists with the same startTime and doctorId
+    const existingAppointment = await Appointment.findOne({
+      doctorId: doctorId,
+      startTime: new Date(date).setHours(startTime, 0, 0, 0),
+    });
+
+    if (existingAppointment) {
+      // Appointment already exists, send response
+      return res.status(409).json({ message: "Appointment already exists" });
+    }
+    console.log("IFFFFFFFFFFFFFFFF");
+    // Create new appointment
+    console.log("start time", startTime);
+    const endTime = startTime + 1;
+    const appointment = new Appointment({
+      doctorId: doctorId,
+      patientId: patientId,
+      startTime: new Date(date).setHours(startTime, 0, 0, 0),
+      endTime: new Date(date).setHours(endTime, 0, 0, 0),
+      status: status,
+    });
+    const newAppointment = await appointment.save();
+    console.log("obj created", newAppointment);
+
+    // Find the doctor
+    const doctor = await Doctor.findOne({ userId: doctorId });
+
+    // Filter out the conflicting event and split it into two parts
+    const updatedEvents = doctor.events.reduce((acc, event) => {
+      if (
+        event.start < newAppointment.endTime &&
+        event.end > newAppointment.startTime
+      ) {
+        if (event.start < newAppointment.startTime) {
+          acc.push({ start: event.start, end: newAppointment.startTime });
+        }
+        if (event.end > newAppointment.endTime) {
+          acc.push({ start: newAppointment.endTime, end: event.end });
+        }
+      } else {
+        acc.push(event);
+      }
+      return acc;
+    }, []);
+    console.log("updated events", updatedEvents);
+    // Update the doctor's events array
+    doctor.events = updatedEvents;
+
+    // Save the updated doctor
+    await doctor.save();
+
+    res.status(200).json({
+      message: "Appointment created successfully",
+      appointment: newAppointment,
+    });
+  } catch (error) {
+    res.status(400).json({ message: error.message });
+    console.log("error in create appointment", error);
+  }
+};
+
+//Get appointments by Id
+const getAppointmentsByUserId = async (req, res) => {
+  const { userId } = req.params;
+  try {
+    const appointments = await Appointment.find({
+      $or: [{ patientId: userId }, { doctorId: userId }],
+    });
+    res.status(200).json(appointments);
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
 };
-
-// Controller for retrieving all appointments
 const getAllAppointments = async (req, res) => {
+  const userId = req.userId;
   try {
-    const appointments = await Appointment.find();
+    const appointments = await Appointment.find({
+      $or: [{ patientId: userId }, { doctorId: userId }],
+    });
     res.status(200).json(appointments);
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
 };
 
-// Controller for retrieving a single appointment by ID
-const getAppointmentById = async (req, res) => {
+// Get appointments by status
+const getAppointmentsByStatus = async (req, res) => {
+  const { status } = req.params;
   try {
-    const appointment = await Appointment.findById(req.params.id);
+    const appointments = await Appointment.find({ status });
+    res.status(200).json(appointments);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
+// Delete an appointment by appointmentId
+const deleteAppointment = async (req, res) => {
+  const { appointmentId } = req.params;
+  try {
+    const appointment = await Appointment.findById(appointmentId);
     if (!appointment) {
       return res.status(404).json({ message: "Appointment not found" });
     }
-    res.status(200).json(appointment);
-  } catch (error) {
-    res.status(500).json({ message: error.message });
-  }
-};
-
-// Controller for updating an appointment by ID
-const updateAppointmentById = async (req, res) => {
-  try {
-    const updatedAppointment = await Appointment.findByIdAndUpdate(
-      req.params.id,
-      req.body,
-      { new: true }
-    );
-    if (!updatedAppointment) {
-      return res.status(404).json({ message: "Appointment not found" });
-    }
-    res.status(200).json(updatedAppointment);
-  } catch (error) {
-    res.status(500).json({ message: error.message });
-  }
-};
-
-// Controller for deleting an appointment by ID
-const deleteAppointmentById = async (req, res) => {
-  try {
-    const deletedAppointment = await Appointment.findByIdAndRemove(
-      req.params.id
-    );
-    if (!deletedAppointment) {
-      return res.status(404).json({ message: "Appointment not found" });
-    }
+    await appointment.remove();
     res.status(200).json({ message: "Appointment deleted successfully" });
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
 };
 
-// Controller for getting appointments by user ID
-const getAppointmentsByUserId = async (req, res) => {
-  try {
-    const appointments = await Appointment.find({
-      doctorId: req.params.userId,
-    });
-    res.status(200).json(appointments);
-  } catch (error) {
-    res.status(500).json({ message: error.message });
-  }
-};
-
-// Controller for getting appointments by patient ID
-const getAppointmentsByPatientId = async (req, res) => {
-  try {
-    const appointments = await Appointment.find({
-      patientId: req.params.patientId,
-    });
-    res.status(200).json(appointments);
-  } catch (error) {
-    res.status(500).json({ message: error.message });
-  }
-};
-
 module.exports = {
-  createAppointment,
-  getAllAppointments,
-  getAppointmentById,
-  updateAppointmentById,
-  deleteAppointmentById,
   getAppointmentsByUserId,
-  getAppointmentsByPatientId,
+  getAllAppointments,
+  getAppointmentsByStatus,
+  createAppointment,
+  deleteAppointment,
 };

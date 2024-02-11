@@ -6,52 +6,31 @@ const ROLES_LIST = require("../../config/roles_list");
 const verifyRoles = require("../../middleware/verifyRoles");
 
 router
-  .route("/allAppointments")
-  .get(verifyRoles(ROLES_LIST.User), AppointmentController.getAllAppointments);
+  .route("/new")
+  .post(verifyRoles(ROLES_LIST.User), AppointmentController.createAppointment);
 
 router
-  .route("/:id")
+  .route("/all")
   .get(
-    verifyRoles(ROLES_LIST.Doctor, ROLES_LIST.Patient),
-    AppointmentController.getAppointmentById
-  );
-
-router
-  .route("/newAppointment")
-  .post(
-    verifyRoles(ROLES_LIST.Admin, ROLES_LIST.Doctor),
-    AppointmentController.createAppointment
-  );
-
-router
-  .route("/updateAppointment/:id")
-  .patch(
-    verifyRoles(ROLES_LIST.Admin, ROLES_LIST.Doctor),
-    AppointmentController.updateAppointmentById
-  );
-
-router
-  .route("/deleteAppointment/:id")
-  .delete(
-    verifyRoles(ROLES_LIST.Admin),
-    AppointmentController.deleteAppointmentById
-  );
-
-router
-  .route("/getAppointmentsByUser/:userId")
-  .get(
-    verifyRoles(ROLES_LIST.Admin, ROLES_LIST.Doctor),
+    verifyRoles(ROLES_LIST.User),
     AppointmentController.getAppointmentsByUserId
   );
 
 router
-  .route("/getAppointmentsByPatient/:patientId")
+  .route("/all/:userId")
+  .get(verifyRoles(ROLES_LIST.User), AppointmentController.getAllAppointments);
+
+router
+  .route("/status/:status")
   .get(
-    verifyRoles(ROLES_LIST.Admin, ROLES_LIST.Doctor, ROLES_LIST.Patient),
-    AppointmentController.getAppointmentsByPatientId
+    verifyRoles(ROLES_LIST.User),
+    AppointmentController.getAppointmentsByStatus
+  );
+router
+  .route("/delete")
+  .delete(
+    verifyRoles(ROLES_LIST.User),
+    AppointmentController.deleteAppointment
   );
 
-// Additional routes can be added based on your requirements
-
-// Exporting router
 module.exports = router;

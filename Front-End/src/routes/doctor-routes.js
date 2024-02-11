@@ -7,7 +7,7 @@ import DataGrid from "../features/data/DataGrid";
 import NotFound from "../components/NotFound";
 import ViewPatients from "../features/doctor/PatientSettings/ViewPatientProfiles";
 import ViewDoctors from "../features/doctor/DoctorSettings/ViewDoctorProfiles";
-import ViewSchedule from "../features/doctor/ProfileSettings/Schedule";
+import ViewSchedule from "../features/doctor/ProfileSettings/Schedule/Schedule";
 
 const DoctorRoutes = () => {
   return (

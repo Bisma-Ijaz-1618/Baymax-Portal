@@ -51,13 +51,24 @@ const usePatientApi = () => {
       throw new Error("Failed to get patient");
     }
   };
-
+  const createAppointment = async (appointmentData) => {
+    try {
+      const response = await axiosPrivate.post(
+        "Patients/Appointment/new",
+        appointmentData
+      );
+      return response.data;
+    } catch (error) {
+      throw new Error("Failed to create appointment");
+    }
+  };
   return {
     getPatients,
     addPatient,
     updatePatient,
     deletePatientProfile,
     getPatientProfile,
+    createAppointment,
   };
 };
 

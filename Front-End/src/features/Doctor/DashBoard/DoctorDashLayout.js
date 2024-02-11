@@ -312,6 +312,7 @@ function Example() {
                   <Link to="/item1" className="link-item">
                     View All{" "}
                   </Link>
+
                   <Link to="/item1" className="link-item">
                     Urgent{" "}
                   </Link>

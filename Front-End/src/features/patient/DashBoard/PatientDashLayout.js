@@ -272,7 +272,10 @@ function Example() {
                   <Link to="/item1" className="link-item">
                     View All{" "}
                   </Link>
-                  <Link to="/item2" className="link-item">
+                  <Link to="./searchSlot" className="link-item">
+                    Search Free Slot{" "}
+                  </Link>
+                  <Link to="./bookAppointment" className="link-item">
                     Add Appointment{" "}
                   </Link>
                   <Link to="/item3" className="link-item">
