@@ -90,7 +90,7 @@ function Example() {
               </span>
             </Link>
             <Link
-              to="item1"
+              to="invoices"
               className={
                 currentPath.includes("item1") ? "active link-item" : "link-item"
               }
@@ -112,29 +112,29 @@ function Example() {
               >
                 <Accordion.Header className="transparent">
                   <Link>
-                    <h5 className="link-item">Baymax Kit Connetion</h5>
+                    <h5 className="link-item">Baymax Kit Connection</h5>
                   </Link>
                 </Accordion.Header>
                 <Accordion.Body className="transparent">
                   <Link
-                    to="viewAllPatients"
+                    to="sensors"
                     className={
-                      currentPath.includes("viewAllPatients")
+                      currentPath.includes("sensors")
                         ? "active link-item"
                         : "link-item"
                     }
                   >
-                    View All
+                    Connect Sensors
                   </Link>
                   <Link
-                    to="addPatient"
+                    to="recordHistory"
                     className={
-                      currentPath.includes("addPatient")
+                      currentPath.includes("recordHistory")
                         ? "active link-item"
                         : "link-item"
                     }
                   >
-                    Add Account
+                    Record History
                   </Link>
                   <Link
                     to="editPatientProfile"

@@ -9,6 +9,7 @@ router.get("^/$|index(.html)?", (req, res) => {
 });
 
 router.use("/upload", require("./api/fileUpload"));
+//router.use("/update/data", console.log("here"));
 
 router.use("/auth", require("./api/auth"));
 

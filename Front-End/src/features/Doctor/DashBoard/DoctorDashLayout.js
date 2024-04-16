@@ -35,7 +35,7 @@ function Example() {
               </span>
             </Link>
             <Link
-              to="datagrid"
+              to="dashboard"
               className={
                 currentPath.includes("datagrid")
                   ? "active link-item"
@@ -63,7 +63,7 @@ function Example() {
               </span>
             </Link>
             <Link
-              to="item1"
+              to="messages"
               className={
                 currentPath.includes("item1") ? "active link-item" : "link-item"
               }
@@ -76,7 +76,7 @@ function Example() {
               </span>
             </Link>
             <Link
-              to="item1"
+              to="invoices"
               className={
                 currentPath.includes("item1") ? "active link-item" : "link-item"
               }
@@ -89,7 +89,7 @@ function Example() {
               </span>
             </Link>
             <Link
-              to="item1"
+              to="reviews"
               className={
                 currentPath.includes("item1") ? "active link-item" : "link-item"
               }
@@ -190,9 +190,9 @@ function Example() {
                 </Accordion.Header>
                 <Accordion.Body className="transparent">
                   <Link
-                    to="viewAllDoctors"
+                    to="viewMyProfile"
                     className={
-                      currentPath.includes("viewAllDoctors")
+                      currentPath.includes("viewMyProfile")
                         ? "active link-item"
                         : "link-item"
                     }
@@ -251,53 +251,6 @@ function Example() {
                   </Link>
                 </Accordion.Body>
               </Accordion.Item>
-
-              <Accordion.Item
-                className="transparent"
-                alwaysOpen={true}
-                eventKey="2"
-              >
-                <Accordion.Header className="transparent">
-                  <Link>
-                    <h5 className="link-item">Appointments</h5>
-                  </Link>
-                </Accordion.Header>
-                <Accordion.Body className="transparent">
-                  <Link
-                    to="viewAllDoctors"
-                    className={
-                      currentPath.includes("viewAllDoctors")
-                        ? "active link-item"
-                        : "link-item"
-                    }
-                  >
-                    View All
-                  </Link>
-                  <Link
-                    to="addDoctor"
-                    className={
-                      currentPath.includes("addDoctor")
-                        ? "active link-item"
-                        : "link-item"
-                    }
-                  >
-                    Urgent
-                  </Link>
-                  <Link
-                    to="addDoctorProfile"
-                    className={
-                      currentPath.includes("addDoctorProfile")
-                        ? "active link-item"
-                        : "link-item"
-                    }
-                  >
-                    Regular
-                  </Link>
-                  <Link to="/item3" className="link-item">
-                    Reschedule{" "}
-                  </Link>
-                </Accordion.Body>
-              </Accordion.Item>
               <Accordion.Item
                 className="transparent"
                 alwaysOpen={true}
@@ -309,7 +262,7 @@ function Example() {
                   </Link>
                 </Accordion.Header>
                 <Accordion.Body className="transparent">
-                  <Link to="/item1" className="link-item">
+                  <Link to="./viewAllAppointments" className="link-item">
                     View All{" "}
                   </Link>
 

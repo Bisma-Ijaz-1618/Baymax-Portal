@@ -27,7 +27,12 @@ function UsersTable({ headers, data, userRole, deleteProfileFunction }) {
     setSelectedProfileData(null);
   };
 
-  const handleViewClick = (profileData, setSelectedProfileData) => {};
+  const handleViewClick = (profileData, setSelectedProfileData) => {
+    setSelectedProfileData(profileData);
+    const profileId = profileData._id;
+    navigate(`/auth/doctor/viewPatientProfile`);
+    setSelectedProfileData(null);
+  };
   const getRandomImage = () => {
     const images = [
       "https://randomuser.me/api/portraits/men/1.jpg",
@@ -107,13 +112,6 @@ function UsersTable({ headers, data, userRole, deleteProfileFunction }) {
                   </td>
                 ))}
                 <td style={{ textAlign: "center" }}>
-                  <Button
-                    onClick={() => handleEditClick(item)}
-                    variant="outline-primary"
-                    className="rounded-circle"
-                  >
-                    <FontAwesomeIcon icon={faEdit} />
-                  </Button>
                   <Button
                     onClick={() =>
                       handleViewClick(item, setSelectedProfileData)

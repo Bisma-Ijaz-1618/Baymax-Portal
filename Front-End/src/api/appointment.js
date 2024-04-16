@@ -27,7 +27,7 @@ const useAppointmentApi = () => {
     }
   };
 
-  const getAppointmentsByUserId = async () => {
+  const getAllAppointments = async () => {
     try {
       const response = await axiosPrivate.get("/Appointments/all");
       return response.data;
@@ -36,7 +36,7 @@ const useAppointmentApi = () => {
     }
   };
 
-  const getAllAppointments = async (userId) => {
+  const getAppointmentsByUserId = async (userId) => {
     try {
       const response = await axiosPrivate.get(`/Appointments/all/${userId}`);
       return response.data;

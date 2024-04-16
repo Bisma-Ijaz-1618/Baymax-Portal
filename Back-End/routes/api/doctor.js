@@ -1,18 +1,38 @@
 const express = require("express");
 const router = express.Router();
 const DoctorController = require("../../controllers/doctorController");
+const DoctorProfileController = require("../../controllers/doctorProfileController");
 
 const ROLES_LIST = require("../../config/roles_list");
 const verifyRoles = require("../../middleware/verifyRoles");
 const dataProcessor = require("../../middleware/dataProcessor");
 const User = require("../../model/User");
+const imageUploader = require("../../middleware/imageUploader");
 
 router.use("/Calendar", require("./calendar"));
-router.use("/Appointment", require("./appointment"));
+router.use("/Appointments", require("./appointment"));
 
 router
   .route("/allDoctors")
   .get(verifyRoles(ROLES_LIST.User), DoctorController.getAllDoctorProfiles);
+
+router
+  .route("/updateProfilePicture")
+  .post(
+    verifyRoles(ROLES_LIST.Doctor),
+    imageUploader,
+    DoctorProfileController.upadteProfilePicture
+  );
+router
+  .route("/getProfilePicture")
+  .get(
+    verifyRoles(ROLES_LIST.Doctor),
+    DoctorProfileController.getProfilePicture
+  );
+
+router
+  .route("/MyProfile")
+  .get(verifyRoles(ROLES_LIST.Doctor), DoctorProfileController.getMyProfile);
 
 router
   .route("/doctor")

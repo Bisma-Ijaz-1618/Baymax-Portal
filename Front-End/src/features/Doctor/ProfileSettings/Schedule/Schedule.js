@@ -1,13 +1,6 @@
 import format from "date-fns/format";
-import getDay from "date-fns/getDay";
-import parse from "date-fns/parse";
-import startOfWeek from "date-fns/startOfWeek";
 import React, { useState, useEffect } from "react";
-import {
-  Calendar,
-  dateFnsLocalizer,
-  momentLocalizer,
-} from "react-big-calendar";
+import { Calendar, momentLocalizer } from "react-big-calendar";
 import "react-big-calendar/lib/css/react-big-calendar.css";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
@@ -15,18 +8,15 @@ import { Container, Tabs, Tab, Button, Row, Col } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrash } from "@fortawesome/free-solid-svg-icons";
 import moment from "moment";
-import useDoctorApi from "../../../../api/doctor"; // Adjust the path accordingly
-import useAuth from "../../../../hooks/useAuthHook";
-
+import useDoctorAppointmentsApi from "../../../../api/doctorAppointments"; // Adjust the path accordingly
+import { useQuery } from "@tanstack/react-query";
 const locales = {
   "en-US": require("date-fns/locale/en-US"),
 };
 const localizer = momentLocalizer(moment);
 
 function App() {
-  const DoctorApi = useDoctorApi(); // Initialize the DoctorApi
-
-  const { auth } = useAuth();
+  const DoctorAppointmentsApi = useDoctorAppointmentsApi();
   const [activeTab, setActiveTab] = useState("tab1");
   const [newEvent, setNewEvent] = useState({
     title: "Available",
@@ -39,9 +29,9 @@ function App() {
   const handleTabSelect = (selectedTab) => {
     setActiveTab(selectedTab);
   };
-
+  //get event
   useEffect(() => {
-    DoctorApi.getEventList()
+    DoctorAppointmentsApi.getEventList()
       .then((events) => {
         console.log("in get event ", events);
         events[0] != null
@@ -67,7 +57,6 @@ function App() {
       end: newEvent.end,
     };
 
-    console.log("I AM IN HANDLE ADD EVENT", eventData, newEvent);
     // Check for event clash
     for (let i = 0; i < allEvents.length; i++) {
       console.log("LOOP", allEvents);
@@ -83,7 +72,7 @@ function App() {
 
     // Add event using the Axios function
     console.log(eventData);
-    DoctorApi.addEvent(eventData)
+    DoctorAppointmentsApi.addEvent(eventData)
       .then((addedEvent) => {
         setAllEvents([
           ...allEvents,
@@ -100,7 +89,7 @@ function App() {
       });
   }
   function handleRemoveEvent(event) {
-    DoctorApi.deleteEvent(event)
+    DoctorAppointmentsApi.deleteEvent(event)
       .then(() => {
         // Filter out the deleted event from allEvents
         const updatedEvents = allEvents.filter((e) => e !== event);
@@ -110,10 +99,14 @@ function App() {
         console.error("Failed to delete event:", error.message);
       });
   }
+  const allAppointmentList = DoctorAppointmentsApi.allDoctorAppointmentsQuery
+    .isFetching
+    ? []
+    : DoctorAppointmentsApi.allDoctorAppointmentsQuery.data;
+
   return (
     <Container className="">
       <h1>Schedule</h1>
-
       <Row>
         <Col>
           <Tabs

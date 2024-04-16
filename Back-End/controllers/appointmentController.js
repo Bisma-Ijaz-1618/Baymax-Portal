@@ -18,7 +18,6 @@ const createAppointment = async (req, res) => {
       // Appointment already exists, send response
       return res.status(409).json({ message: "Appointment already exists" });
     }
-    console.log("IFFFFFFFFFFFFFFFF");
     // Create new appointment
     console.log("start time", startTime);
     const endTime = startTime + 1;
@@ -59,7 +58,7 @@ const createAppointment = async (req, res) => {
     // Save the updated doctor
     await doctor.save();
 
-    res.status(200).json({
+    return res.status(200).json({
       message: "Appointment created successfully",
       appointment: newAppointment,
     });
@@ -81,14 +80,20 @@ const getAppointmentsByUserId = async (req, res) => {
     res.status(500).json({ message: error.message });
   }
 };
-const getAllAppointments = async (req, res) => {
+const getAllAppointmentsDoctor = async (req, res) => {
   const userId = req.userId;
   try {
-    const appointments = await Appointment.find({
-      $or: [{ patientId: userId }, { doctorId: userId }],
-    });
-    res.status(200).json(appointments);
+    const appointments = await Appointment.find({ doctorId: userId })
+      .populate({
+        path: "doctorId patientId",
+        select: "username _id profileId", // Select the fields from the referenced documents
+      })
+      .select("status startTime endTime _id doctorId patientId");
+
+    console.log("sending these appointments", appointments);
+    return res.status(200).json(appointments);
   } catch (error) {
+    console.log("errrrrrrrrrrr", error);
     res.status(500).json({ message: error.message });
   }
 };
@@ -121,7 +126,7 @@ const deleteAppointment = async (req, res) => {
 
 module.exports = {
   getAppointmentsByUserId,
-  getAllAppointments,
+  getAllAppointmentsDoctor,
   getAppointmentsByStatus,
   createAppointment,
   deleteAppointment,

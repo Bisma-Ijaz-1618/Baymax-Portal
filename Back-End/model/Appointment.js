@@ -15,12 +15,12 @@ const AppointmentSchema = new Schema(
     // },
     doctorId: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "Doctor", // Assuming there's a Doctor model for the doctorId reference
+      ref: "User", // Assuming there's a Doctor model for the doctorId reference
       default: null,
     },
     patientId: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "Patient", // Assuming there's a Patient model for the patientId reference
+      ref: "User", // Assuming there's a Patient model for the patientId reference
       default: null,
     },
     status: {

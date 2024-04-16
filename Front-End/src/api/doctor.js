@@ -1,6 +1,35 @@
 import useAxiosPrivate from "../hooks/useAxiosPrivate";
-
+import { useQuery, QueryClient } from "@tanstack/react-query";
 const useDoctorApi = () => {
+  const queryClient = new QueryClient();
+  const allDoctorAppointmentsQuery = useQuery({
+    queryFn: () => axiosPrivate.get("Doctors/Appointments/all"),
+    onSuccess: (data) => {
+      console.log("here is the data", data);
+    },
+  });
+  const Query = useQuery({
+    queryFn: () => axiosPrivate.get("Doctors/Appointments/all"),
+    onSuccess: (data) => {
+      console.log("here is the data", data);
+    },
+  });
+  const getAllAppointments = async () => {
+    try {
+      const response = await axiosPrivate.get("/Appointments/all");
+      return response.data;
+    } catch (error) {
+      throw new Error("Failed to get appointments");
+    }
+  };
+  const getAppointmentsByUserId = async (userId) => {
+    try {
+      const response = await axiosPrivate.get(`/Appointments/all/${userId}`);
+      return response.data;
+    } catch (error) {
+      throw new Error("Failed to get all appointments");
+    }
+  };
   const axiosPrivate = useAxiosPrivate();
   const getDoctorListWithSchedule = async () => {
     try {
@@ -108,6 +137,7 @@ const useDoctorApi = () => {
     getEventList,
     deleteEvent,
     getDoctorListWithSchedule,
+    allDoctorAppointmentsQuery,
   };
 };
 

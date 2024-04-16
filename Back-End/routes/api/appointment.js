@@ -10,15 +10,18 @@ router
   .post(verifyRoles(ROLES_LIST.User), AppointmentController.createAppointment);
 
 router
-  .route("/all")
+  .route("/allDoctor")
   .get(
     verifyRoles(ROLES_LIST.User),
-    AppointmentController.getAppointmentsByUserId
+    AppointmentController.getAllAppointmentsDoctor
   );
 
 router
   .route("/all/:userId")
-  .get(verifyRoles(ROLES_LIST.User), AppointmentController.getAllAppointments);
+  .get(
+    verifyRoles(ROLES_LIST.User),
+    AppointmentController.getAppointmentsByUserId
+  );
 
 router
   .route("/status/:status")
