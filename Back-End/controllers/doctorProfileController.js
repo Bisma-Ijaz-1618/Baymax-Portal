@@ -1,10 +1,26 @@
 const User = require("../model/User");
+const Doctor = require("../model/Doctor");
 const fs = require("fs").promises;
 const path = require("path");
 
 const getProfilePicture = async (req, res) => {
   try {
     const imageName = req.userId;
+    const imagePath = path.join("uploads", imageName);
+    console.log("image path is", imagePath);
+    const image = await fs.readFile(imagePath);
+
+    res.writeHead(200, { "Content-Type": "image/jpeg" });
+    res.end(image, "binary");
+  } catch (error) {
+    console.error("Error retrieving image:", error);
+    res.status(500).send("Internal server error");
+  }
+};
+const getProfilePictureById = async (req, res) => {
+  const { id } = req.params();
+  try {
+    const imageName = id;
     const imagePath = path.join("uploads", imageName);
     console.log("image path is", imagePath);
     const image = await fs.readFile(imagePath);
@@ -35,10 +51,13 @@ const upadteProfilePicture = async (req, res) => {
 const getMyProfile = async (req, res) => {
   try {
     const userId = req.userId;
-    const foundDoctor = await User.findById(userId).populate("profileId");
+    const x = await User.findById(userId);
+    const profileId = x.profileId;
+    const foundDoctor = await Doctor.findById(profileId).populate("userId");
     if (!foundDoctor) {
       return res.status(404).json({ message: "Could not fetch profile" });
     }
+    console.log(foundDoctor);
     return res.status(200).json(foundDoctor);
   } catch (err) {
     console.error("Error occurred while fetching Doctor data:", err);

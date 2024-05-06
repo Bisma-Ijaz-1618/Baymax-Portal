@@ -1,16 +1,26 @@
 import useAxiosPrivate from "../hooks/useAxiosPrivate";
-
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 const useUserApi = () => {
-  const axiosPrivate = useAxiosPrivate();
-
   const getAllUsers = async () => {
     try {
-      const response = await axiosPrivate.get("/Users");
+      console.log("in all users");
+      const response = await axiosPrivate.get("/getActiveUsers");
       return response.data;
     } catch (error) {
       throw new Error("Failed to fetch Users");
     }
   };
+  const axiosPrivate = useAxiosPrivate();
+  const AllUsersQuery = useQuery({
+    queryFn: getAllUsers(),
+    queryKey: ["AllUsers"],
+    onSuccess: () => {
+      console.log("All users fetched");
+    },
+    onError: (err) => {
+      console.log("feetch user Error", err);
+    },
+  });
   const getUser = async ({ id }) => {
     try {
       console.log("id for get single user", id);
@@ -53,7 +63,14 @@ const useUserApi = () => {
 
   // Similar update and delete methods here for Users
 
-  return { getUser, getAllUsers, addUser, updateUser, deleteUser };
+  return {
+    AllUsersQuery,
+    getUser,
+    getAllUsers,
+    addUser,
+    updateUser,
+    deleteUser,
+  };
 };
 
 export default useUserApi;

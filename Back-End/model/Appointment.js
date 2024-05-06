@@ -9,10 +9,11 @@ const appointmentStatusEnum = [
 
 const AppointmentSchema = new Schema(
   {
-    // billId: {
-    //   type: mongoose.Schema.Types.ObjectId,
-    //   ref: "Invoice", // Assuming there's an Invoice model for the invoiceId reference
-    // },
+    Invoice: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Invoice", // Assuming there's an Invoice model for the invoiceId reference
+      default: null,
+    },
     doctorId: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "User", // Assuming there's a Doctor model for the doctorId reference

@@ -1,24 +1,25 @@
-import React, { useState } from "react";
-import { Container, Row, Col, Form, Table } from "react-bootstrap";
-import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import React, { useEffect, useState } from "react";
 import useDoctorApi from "../../../../api/doctor"; // Adjust the path accordingly
-import { Button } from "react-bootstrap";
-import { useEffect } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import AppointmentModal from "./AppointmentModal";
-const PatientPage = () => {
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import AppoitnmentModalBook from "./AppoitnmentModalBook";
+import {
+  Button,
+  Card,
+  Container,
+  Row,
+  Col,
+  Form,
+  Table,
+  Stack,
+} from "react-bootstrap";
+import BookAppointment from "./BookAppointment";
+
+const DoctorComponent = () => {
   const [selectedDoctor, setSelectedDoctor] = useState("");
   const [selectedDate, setSelectedDate] = useState("");
 
-  const queryClient = useQueryClient();
-  const { getDoctors } = useDoctorApi();
-  const navigate = useNavigate();
+  const { allDoctorsQuery } = useDoctorApi();
 
-  const allDoctorsQuery = useQuery({
-    queryKey: ["doctors"],
-    queryFn: () => getDoctors(),
-    onSuccess: () => slotsGivenDateOrAndDoctorQuery.refetch(),
-  });
   const slotsGivenDateOrAndDoctorQuery = useQuery({
     queryKey: ["slots", selectedDate, selectedDoctor],
     enabled: allDoctorsQuery.isSuccess,
@@ -80,9 +81,19 @@ const PatientPage = () => {
         console.log("error", error);
       }
     },
+    onSuccess: (data) => {
+      console.log("QUERY DATA", data);
+    },
+    onError: (err) => {
+      console.log("QUERY Error", err);
+    },
   });
 
-  // Function to handle filter change
+  useEffect(() => {
+    if (allDoctorsQuery.isSuccess) {
+      console.log("Doctors data:", allDoctorsQuery.data);
+    }
+  }, [allDoctorsQuery.isSuccess]);
   const handleFilterChange = (e) => {
     const { name, value } = e.target;
     if (name === "doctor") {
@@ -99,127 +110,143 @@ const PatientPage = () => {
     console.log("in reset");
   };
 
-  const displayEvent = (event, index, Id) => {
-    if (event) {
-      const startDate = new Date(event.start);
-      const endDate = new Date(event.end);
-      const startHour = startDate.getHours();
-      const endHour = endDate.getHours();
-      const hours = [];
+  if (allDoctorsQuery.isLoading) {
+    return <div>Loading...</div>;
+  }
 
-      // Add each hour between the start and end times to the hours array
-      for (let hour = startHour; hour <= endHour; hour++) {
-        hours.push(hour);
-      }
+  if (allDoctorsQuery.isError) {
+    return <div>Error: {allDoctorsQuery.error.message}</div>;
+  }
 
-      return (
-        <>
-          <React.Fragment key={index}>
-            <div>Date: {startDate.toLocaleDateString()}</div>
-            {hours.map((hour, hourIndex) => (
-              <li key={`${index}-${hourIndex}`}>
-                Time Slot: {hour}:00 - {hour + 1}:00
-                <AppointmentModal
-                  appointmentDetails={{
-                    date: startDate.toISOString(),
-                    startTime: hour,
-                    status: "accepted",
-                    doctorId: Id,
-                  }}
-                />
-              </li>
-            ))}
-          </React.Fragment>
-        </>
-      );
-    }
-  };
+  const fillTable = () => {
+    return (
+      <Table className="p-0 m-0" bordered hover>
+        <thead>
+          <tr>
+            <th>Doctor</th>
+            <th>Department</th>
+            <th>Date</th>
+            <th>Time Slot</th>
+            <th>Book Right Now</th>
+          </tr>
+        </thead>
+        <tbody>
+          {slotsGivenDateOrAndDoctorQuery.data &&
+            slotsGivenDateOrAndDoctorQuery.data.map(
+              (doctor) =>
+                doctor &&
+                doctor.events &&
+                doctor.events.map((event, index) => {
+                  // Check if the event and its start property are not null or undefined
+                  if (event && event.start && event.end) {
+                    const startDate = new Date(event.start);
+                    const endDate = new Date(event.end);
+                    const month = startDate.toLocaleString("default", {
+                      month: "short",
+                    });
+                    const day = startDate.getDate();
+                    const formattedDate = `${month}, ${day}`;
+                    const startTime = startDate.getHours();
+                    const endTime = endDate.getHours();
 
-  if (allDoctorsQuery.isLoading) return <div>Loading...</div>;
-  if (allDoctorsQuery.isError) return <div>Error fetching data</div>;
-
-  return (
-    <Container>
-      <Row>
-        <Col>
-          <h2>Find Available Slots</h2>
-          <Form>
-            <Form.Group controlId="doctorFilter">
-              <Form.Label>Select Doctor:</Form.Label>
-              <Form.Control
-                as="select"
-                name="doctor"
-                onChange={handleFilterChange}
-                value={selectedDoctor}
-              >
-                <option value="">-- Select Doctor --</option>
-                {allDoctorsQuery.data.map((doctor) => (
-                  <option key={doctor.userId._id} value={doctor.userId._id}>
-                    {doctor.userId.username}
-                  </option>
-                ))}
-              </Form.Control>
-            </Form.Group>
-            <Form.Group controlId="dateFilter">
-              <Form.Label>Select Date:</Form.Label>
-              <Form.Control
-                type="date"
-                name="date"
-                onChange={handleFilterChange}
-                value={selectedDate}
-              />
-            </Form.Group>
-            <Button type="submit" onClick={handleReset}>
-              Reset
-            </Button>
-          </Form>
-        </Col>
-      </Row>
-      <Row>
-        <Col>
-          <h2>Appointments</h2>
-          <Table striped bordered hover>
-            <thead>
-              <tr>
-                <th>Doctor</th>
-                <th>Department</th>
-                <th>Date</th>
-              </tr>
-            </thead>
-            <tbody>
-              {slotsGivenDateOrAndDoctorQuery.data &&
-                slotsGivenDateOrAndDoctorQuery.data.map(
-                  (doctor) =>
-                    doctor &&
-                    doctor.events && (
-                      <tr key={doctor.userId._id}>
+                    return (
+                      <tr key={index}>
                         <td>{doctor.userId.username}</td>
                         <td>{doctor.department}</td>
+                        {/* Render your event data inside <td> elements */}
+                        <td>{formattedDate}</td>
                         <td>
-                          <ul>
-                            {doctor.events.map(
-                              (event, index) =>
-                                event && (
-                                  <div>
-                                    {displayEvent(
-                                      event,
-                                      index,
-                                      doctor.userId._id
-                                    )}
-                                  </div>
-                                )
-                            )}
-                          </ul>
+                          {startTime} :00 - {endTime} : 00
                         </td>
+                        <td>
+                          <AppoitnmentModalBook
+                            appointmentDetails={{
+                              date: startDate.toISOString(),
+                              startTime: startTime,
+                              status: "accepted",
+                              doctorId: doctor.userId._id,
+                            }}
+                          />
+                        </td>{" "}
                       </tr>
-                    )
-                )}
-            </tbody>
-          </Table>
+                    );
+                  } else {
+                    return <></>; // Return null if event or start property is null or undefined
+                  }
+                })
+            )}
+          <tr>
+            <td colSpan={5} align="center">
+              {"<< "}No More Items To Show{" >>"}
+            </td>
+          </tr>
+        </tbody>
+      </Table>
+    );
+  };
+  // Render your UI with the fetched data
+  return (
+    <Container>
+      <Row className="my-3 d-flex flex-row justify content-stretch">
+        <Col md={8}>
+          <Card className=" h-100 white-bg m-0 p-0">
+            <Card.Header className="white-bg px-0 d-flex justify-content-between align-items-center ">
+              <Row className="w-100 p-0 m-0">
+                <Stack direction="horizontal" gap={3}>
+                  <div className="p-0 m-0">
+                    <h2 className="m-0 p-0">Available Slots</h2>
+                  </div>
+                  <div className="p-0 m-0 ms-auto">
+                    <Form.Group controlId="doctorFilter" className="m-0">
+                      <Form.Control
+                        as="select"
+                        name="doctor"
+                        onChange={handleFilterChange}
+                        value={selectedDoctor}
+                      >
+                        <option value="">Select Doctor</option>
+                        {allDoctorsQuery.data.map((doctor) => (
+                          <option
+                            key={doctor.userId._id}
+                            value={doctor.userId._id}
+                          >
+                            {doctor.userId.username}
+                          </option>
+                        ))}
+                      </Form.Control>
+                    </Form.Group>
+                  </div>
+                  <div className="p-0 m-0">
+                    <Form.Group controlId="dateFilter" className="m-0">
+                      <Form.Control
+                        type="date"
+                        name="date"
+                        onChange={handleFilterChange}
+                        value={selectedDate}
+                      />
+                    </Form.Group>
+                  </div>
+                  <div className="p-0 m-0">
+                    <Button
+                      className="water-bg py-1 px-2 my-0"
+                      type="submit"
+                      onClick={handleReset}
+                    >
+                      Reset
+                    </Button>
+                  </div>
+                </Stack>
+              </Row>
+            </Card.Header>
+            <Card.Body className="p-0 m-0">{fillTable()}</Card.Body>
+          </Card>
+        </Col>
+        <Col md={4}>
+          <BookAppointment />
         </Col>
       </Row>
     </Container>
   );
 };
 
-export default PatientPage;
+export default DoctorComponent;

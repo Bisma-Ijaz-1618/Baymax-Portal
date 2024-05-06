@@ -14,7 +14,9 @@ import Invoices from "../features/patient/ProfileSettings/Invoices/Invoices";
 import Sensors from "../features/patient/ProfileSettings/BaymaxKit/Sensors";
 import RecordHistory from "../features/patient/ProfileSettings/BaymaxKit/RecordHistory";
 import Record from "../features/patient/ProfileSettings/BaymaxKit/Record";
-
+import DashBoard from "../features/patient/DoctorSettings/Dashboard";
+import VideoConferencePatient from "./../components/VideoConference/VideoConferencePatient";
+import Messages from "../components/Messages/IndexPatient";
 const PatientRoutes = () => {
   return (
     <Routes>
@@ -24,6 +26,7 @@ const PatientRoutes = () => {
           <Route path="users" element={<UsersList />} />
         </Route>
         <Route path="users" element={<UsersList />} />
+        <Route path="dashboard" element={<DashBoard />} />
         <Route path="viewAllPatients" element={<ViewPatients />} />
         <Route path="viewAllDoctors" element={<ViewDoctors />} />
         <Route path="searchSlot" element={<SearchSlot />} />
@@ -34,6 +37,8 @@ const PatientRoutes = () => {
         <Route path="sensors" element={<Sensors />} />
         <Route path="recordHistory" element={<RecordHistory />} />
         <Route path="record" element={<Record />} />
+        <Route path="messages" element={<Messages />} />
+        <Route path="chatRoom" element={<VideoConferencePatient />} />
         {/* <Route path="addPatient" element={<AddUser userRole="Patient" />} />
         <Route path="viewAllPatients" element={<ViewPatients />} />
         <Route path="addPatientProfile" element={<AddPatientProfile />} /> */}

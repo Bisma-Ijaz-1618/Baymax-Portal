@@ -8,22 +8,16 @@ const User = require("../../model/User");
 
 router
   .route("/allUsers")
-  .get(
-    verifyRoles(ROLES_LIST.User),
-    dataProcessor.paginate(User),
-    UserController.getAllUsers
-  );
+  .get(verifyRoles(ROLES_LIST.User), UserController.getAllUsers);
 
 router
   .route("/newUser")
   .post(verifyRoles(ROLES_LIST.Admin), UserController.createNewUser);
 
-router
-  .route("/updateUser/:id")
-  .patch(
-    verifyRoles(ROLES_LIST.User, ROLES_LIST.Admin),
-    UserController.updateUser
-  );
+router.patch(
+  verifyRoles(ROLES_LIST.User, ROLES_LIST.Admin),
+  UserController.updateUser
+);
 
 router
   .route("/:id")

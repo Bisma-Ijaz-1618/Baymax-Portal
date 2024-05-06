@@ -64,6 +64,30 @@ const useAppointmentApi = () => {
       throw new Error("Failed to delete appointment");
     }
   };
+  const changeStatusToAccepted = async (appointmentId) => {
+    console.log("inchangestatus");
+    try {
+      const response = await axiosPrivate.put(
+        `/Appointments/update/${appointmentId}`,
+        { status: "accepted" }
+      );
+      return response.data;
+    } catch (error) {
+      throw new Error("Failed to accept appointment");
+    }
+  };
+  const changeStatusToRejected = async (appointmentId) => {
+    console.log("inchangestatus");
+    try {
+      const response = await axiosPrivate.put(
+        `/Appointments/update/${appointmentId}`,
+        { status: "rejected" }
+      );
+      return response.data;
+    } catch (error) {
+      throw new Error("Failed to reject appointment");
+    }
+  };
 
   return {
     createAppointment,
@@ -71,6 +95,8 @@ const useAppointmentApi = () => {
     getAllAppointments,
     getAppointmentsByStatus,
     deleteAppointment,
+    changeStatusToAccepted,
+    changeStatusToRejected,
   };
 };
 

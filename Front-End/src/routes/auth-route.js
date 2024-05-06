@@ -13,6 +13,7 @@ import AdminRoutes from "./admin-routes";
 import HospitalRoutes from "./hospital-routes";
 import DoctorRoutes from "./doctor-routes";
 import PatientRoutes from "./patient-routes";
+
 const rolesData = {
   Admin: 5150,
   Doctor: 2003,

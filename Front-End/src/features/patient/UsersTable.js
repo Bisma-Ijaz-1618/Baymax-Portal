@@ -79,14 +79,6 @@ function UsersTable({ headers, data, userRole, deleteProfileFunction }) {
             .slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage)
             .map((item, index) => (
               <tr key={index}>
-                <td>
-                  <Form.Check
-                    type="checkbox"
-                    onChange={(e) =>
-                      handleCheckboxChange(index, e.target.checked)
-                    }
-                  />
-                </td>
                 {headers.map((header, columnIndex) => (
                   <td key={columnIndex}>
                     {header === "username" ? (

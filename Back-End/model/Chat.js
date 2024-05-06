@@ -3,22 +3,23 @@ const Schema = mongoose.Schema;
 
 const ChatSchema = new Schema(
   {
-    chatId: {
-      type: String,
+    myId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
       required: true,
     },
-    patientId: {
+    peerId: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "Patient",
-      required: true,
-    },
-    doctorId: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "Doctor",
+      ref: "User",
       required: true,
     },
     messageList: {
-      type: [String],
+      type: [
+        {
+          name: String,
+          message: String,
+        },
+      ],
       default: [],
     },
   },

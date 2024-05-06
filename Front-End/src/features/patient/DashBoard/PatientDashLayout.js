@@ -12,7 +12,7 @@ function Example() {
   return (
     <Container fluid className="dash-nav-container">
       <Row>
-        <Col className="dash-nav" lg={3}>
+        <Col className="dash-nav" lg={2}>
           <Row>
             <Col lg={"auto"}>
               <Image className="dash-img" fluid src={logo} />
@@ -35,9 +35,9 @@ function Example() {
               </span>
             </Link>
             <Link
-              to="datagrid"
+              to="dashboard"
               className={
-                currentPath.includes("datagrid")
+                currentPath.includes("dashboard")
                   ? "active link-item"
                   : "link-item"
               }
@@ -46,47 +46,83 @@ function Example() {
                 <FontAwesomeIcon icon={faEdit} />
               </span>
               <span className="link-item-text">
-                <h5>Account Summary</h5>
+                <h5>Dashboard</h5>
               </span>
             </Link>
             <Link
-              to="table"
+              to="chatRoom"
               className={
-                currentPath.includes("table") ? "active link-item" : "link-item"
+                currentPath.includes("chaRoom")
+                  ? "active link-item"
+                  : "link-item"
               }
             >
               <span className="link-item-icon">
                 <FontAwesomeIcon icon={faEdit} />
               </span>
               <span className="link-item-text">
-                <h5>Patient Summary</h5>
+                <h5>Chat Room</h5>
+              </span>
+            </Link>
+            <Link
+              to="messages"
+              className={
+                currentPath.includes("messages")
+                  ? "active link-item"
+                  : "link-item"
+              }
+            >
+              <span className="link-item-icon">
+                <FontAwesomeIcon icon={faEdit} />
+              </span>
+              <span className="link-item-text">
+                <h5>Messages</h5>
+              </span>
+            </Link>
+            <Link
+              to="viewAllDoctors"
+              className={
+                currentPath.includes("viewAllDoctors")
+                  ? "active link-item"
+                  : "link-item"
+              }
+            >
+              <span className="link-item-icon">
+                <FontAwesomeIcon icon={faEdit} />
+              </span>
+              <span className="link-item-text">
+                <h5>Doctors</h5>
               </span>
             </Link>
 
             <Link
-              to="item1"
+              to="searchSlot"
               className={
-                currentPath.includes("item1") ? "active link-item" : "link-item"
+                currentPath.includes("searchSlot")
+                  ? "active link-item"
+                  : "link-item"
               }
             >
               <span className="link-item-icon">
                 <FontAwesomeIcon icon={faEdit} />
               </span>
               <span className="link-item-text">
-                <h5>Medical Summary</h5>
+                <h5>Book Appointment</h5>
               </span>
             </Link>
             <Link
-              to="item1"
+              to="viewAppointments"
               className={
-                currentPath.includes("item1") ? "active link-item" : "link-item"
+                currentPath.includes("viewAppointments")
+                  ? "active link-item"
+                  : "link-item"
               }
             >
               <span className="link-item-icon">
                 <FontAwesomeIcon icon={faEdit} />
               </span>
               <span className="link-item-text">
-                <h5>Profile</h5>
+                <h5>Appointments</h5>
               </span>
             </Link>
             <Link
@@ -289,17 +325,16 @@ function Example() {
             </Accordion>
           </Container>
         </Col>
-        <Col className="dash-content" lg={9}>
-          <Row>
+        <Col className="dash-content water-color" lg={10}>
+          <>
+            <PatientDashHeader />
+          </>
+
+          <Row className="white-bg">
             <Col>
               <Container>
-                <PatientDashHeader />
+                <Outlet />
               </Container>
-            </Col>
-          </Row>
-          <Row>
-            <Col>
-              <Outlet />
             </Col>
           </Row>
         </Col>

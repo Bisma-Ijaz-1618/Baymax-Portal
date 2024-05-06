@@ -8,7 +8,13 @@ const extractDetails = (foundUser) => {
     foundUser._doc;
   return otherdetails;
 };
+const getData = (req, res) => {
+  console.log("dataRecieved", req.body);
 
+  if (req.body) {
+    return res.sendStatus(200);
+  } else return res.sendStatus(400);
+};
 const getAllUsers = async (req, res) => {
   console.log(req);
   console.log("response being sent", res.paginatedResults);
@@ -209,4 +215,5 @@ module.exports = {
   followAUser,
   removeAFollower,
   getAllActiveUsers,
+  getData,
 };

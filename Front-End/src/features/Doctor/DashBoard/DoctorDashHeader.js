@@ -1,77 +1,96 @@
-import React from "react";
-import { Dropdown } from "react-bootstrap";
+import React, { useState, useEffect } from "react";
+import { Row, Col, Offcanvas } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faBell,
-  faUser,
-  faEdit,
-  faCog,
-  faSignOutAlt,
+  faSearch,
+  faSign,
+  faSignOut,
 } from "@fortawesome/free-solid-svg-icons";
-
+import Signout from "../../auth/Logout";
 function AdminDashHeader() {
-  return (
-    <header className="dash-header">
-      <div className="dash-header__container">
-        <h3>Doctor DASH BOARD HEADER</h3>
-        <div className="icons-container">
-          <Dropdown align="end">
-            <Dropdown.Toggle
-              variant="link"
-              id="bell-dropdown"
-              as={CustomDropdownToggle}
-            >
-              <FontAwesomeIcon icon={faBell} size="lg" />
-            </Dropdown.Toggle>
-            <Dropdown.Menu>
-              <Dropdown.Item>Action 1</Dropdown.Item>
-              <Dropdown.Item>Action 2</Dropdown.Item>
-              <Dropdown.Item>Action 3</Dropdown.Item>
-            </Dropdown.Menu>
-          </Dropdown>
-          <Dropdown align="end">
-            <Dropdown.Toggle
-              variant="link"
-              id="user-dropdown"
-              as={CustomDropdownToggle}
-            >
-              <FontAwesomeIcon icon={faUser} size="lg" />
-            </Dropdown.Toggle>
-            <Dropdown.Menu>
-              <Dropdown.Item>
-                <FontAwesomeIcon icon={faEdit} className="icon-circle" />
-                Edit Account
-              </Dropdown.Item>
-              <Dropdown.Item>
-                <FontAwesomeIcon icon={faUser} className="icon-circle" />
-                Profile
-              </Dropdown.Item>
-              <Dropdown.Item>
-                <FontAwesomeIcon icon={faCog} className="icon-circle" />
-                Settings
-              </Dropdown.Item>
-              <Dropdown.Item>
-                <FontAwesomeIcon icon={faSignOutAlt} className="icon-circle" />
-                Logout
-              </Dropdown.Item>
-            </Dropdown.Menu>
-          </Dropdown>
-        </div>
-      </div>
-    </header>
-  );
-}
+  const date = new Date();
+  const today = new Intl.DateTimeFormat("en-US", {
+    dateStyle: "full",
+    timeStyle: "long",
+  }).format(date);
+  const notifications = [
+    "You have 4 notifications",
+    "You have 3 Messages",
+    "You have 1 Appointments Scheduled",
+    "Update Your Profile",
+  ];
+  const [currentNotification, setCurrentNotification] = useState("");
+  const [showNotificationPane, setShowNotificationPane] = useState(false);
 
-function CustomDropdownToggle({ children, onClick }) {
+  useEffect(() => {
+    const selectRandomNotification = () => {
+      const randomIndex = Math.floor(Math.random() * notifications.length);
+      return notifications[randomIndex];
+    };
+
+    setCurrentNotification(selectRandomNotification());
+
+    const interval = setInterval(() => {
+      setCurrentNotification(selectRandomNotification());
+    }, 5000);
+
+    return () => clearInterval(interval);
+  }, []);
+
+  const handleClose = () => setShowNotificationPane(false);
+  const handleShow = () => setShowNotificationPane(true);
+
   return (
-    <div
-      className="dropdown-toggle"
-      onClick={(e) => {
-        e.preventDefault();
-        onClick(e);
-      }}
-    >
-      {children}
+    <div>
+      <Row className="live-header">
+        <Col className="my-2">
+          <h1>Dashboard</h1>
+          <p className="header-animated-text">{currentNotification}</p>
+        </Col>
+        <Col className="my-2 d-flex flex-column justify-content-center align-items-end">
+          <Row className="my-auto mx-2">
+            <h5>{today}</h5>
+          </Row>
+          <div className="mx-1 d-flex flex-row justify-content-end align-items-end">
+            <div className="search-container">
+              <input
+                type="text"
+                className="search-bar"
+                placeholder="Search..."
+              />
+            </div>
+            <FontAwesomeIcon
+              icon={faSearch}
+              className="my-2 mx-2 search-icon"
+            />
+            <div className="notification-container">
+              <div className="notification-token">{notifications.length}</div>
+            </div>
+            <FontAwesomeIcon
+              icon={faBell}
+              className="my-2 mx-2 notification-icon"
+              onClick={handleShow}
+            />
+            <Signout />
+          </div>
+        </Col>
+      </Row>
+      <Offcanvas
+        placement="end"
+        name="end"
+        show={showNotificationPane}
+        onHide={handleClose}
+      >
+        <Offcanvas.Header closeButton>
+          <Offcanvas.Title>Notifications</Offcanvas.Title>
+        </Offcanvas.Header>
+        <Offcanvas.Body>
+          {notifications.map((notification, index) => (
+            <p key={index}>{notification}</p>
+          ))}
+        </Offcanvas.Body>
+      </Offcanvas>
     </div>
   );
 }

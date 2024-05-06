@@ -1,8 +1,11 @@
 const Appointment = require("../model/Appointment");
 const Doctor = require("../model/Doctor");
+const User = require("../model/Doctor");
+const Patient = require("../model/Patient");
 const mongoose = require("mongoose");
 // Create a new appointment
 const createAppointment = async (req, res) => {
+  //takes doctors userID
   const { doctorId, date, startTime, status } = req.body;
   const patientId = req.userId;
   console.log("req.body", req.body);
@@ -20,6 +23,7 @@ const createAppointment = async (req, res) => {
     }
     // Create new appointment
     console.log("start time", startTime);
+    console.log("created with", doctorId, patientId);
     const endTime = startTime + 1;
     const appointment = new Appointment({
       doctorId: doctorId,
@@ -31,32 +35,26 @@ const createAppointment = async (req, res) => {
     const newAppointment = await appointment.save();
     console.log("obj created", newAppointment);
 
-    // Find the doctor
-    const doctor = await Doctor.findOne({ userId: doctorId });
-
-    // Filter out the conflicting event and split it into two parts
-    const updatedEvents = doctor.events.reduce((acc, event) => {
-      if (
-        event.start < newAppointment.endTime &&
-        event.end > newAppointment.startTime
-      ) {
-        if (event.start < newAppointment.startTime) {
-          acc.push({ start: event.start, end: newAppointment.startTime });
-        }
-        if (event.end > newAppointment.endTime) {
-          acc.push({ start: newAppointment.endTime, end: event.end });
-        }
-      } else {
-        acc.push(event);
-      }
-      return acc;
-    }, []);
+    const docProfile = await Doctor.findOne({ userId: doctorId });
+    console.log("found doctor", docProfile);
+    console.log("docevents", docProfile.events);
+    const updatedEvents = docProfile?.events?.filter((event) => {
+      // Check if the condition is true for the event
+      console.log("event.start", event.start);
+      console.log(
+        "new Date(date).setHours(startTime);",
+        new Date(date).setHours(startTime)
+      );
+      // Convert event.start to a timestamp for comparison
+      const eventTimestamp = new Date(event.start).getTime();
+      console.log("eventTimestamp", eventTimestamp);
+      // Compare timestamps instead of date strings
+      return eventTimestamp !== new Date(date).setHours(startTime);
+    });
     console.log("updated events", updatedEvents);
     // Update the doctor's events array
-    doctor.events = updatedEvents;
-
-    // Save the updated doctor
-    await doctor.save();
+    docProfile.events = updatedEvents;
+    await docProfile.save();
 
     return res.status(200).json({
       message: "Appointment created successfully",
@@ -70,11 +68,16 @@ const createAppointment = async (req, res) => {
 
 //Get appointments by Id
 const getAppointmentsByUserId = async (req, res) => {
-  const { userId } = req.params;
+  const userId = req.userId;
+  console.log(userId);
   try {
     const appointments = await Appointment.find({
-      $or: [{ patientId: userId }, { doctorId: userId }],
-    });
+      $or: [{ doctorId: userId }, { patientId: userId }],
+    })
+      .populate("doctorId", "username") // Populate doctorId with username
+      .populate("patientId", "username") // Populate patientId with username
+      .exec();
+    console.log("thse were found", appointments);
     res.status(200).json(appointments);
   } catch (error) {
     res.status(500).json({ message: error.message });
@@ -82,11 +85,12 @@ const getAppointmentsByUserId = async (req, res) => {
 };
 const getAllAppointmentsDoctor = async (req, res) => {
   const userId = req.userId;
+
   try {
     const appointments = await Appointment.find({ doctorId: userId })
       .populate({
         path: "doctorId patientId",
-        select: "username _id profileId", // Select the fields from the referenced documents
+        select: "username _id profileId profilePicture", // Select the fields from the referenced documents
       })
       .select("status startTime endTime _id doctorId patientId");
 
@@ -123,6 +127,24 @@ const deleteAppointment = async (req, res) => {
     res.status(500).json({ message: error.message });
   }
 };
+const updateAppointment = async (req, res) => {
+  const { id } = req.params;
+  const updatedFields = req.body;
+
+  try {
+    const appointment = await Appointment.findByIdAndUpdate(id, updatedFields, {
+      new: true,
+    });
+    console.log("IN UPDATE APP", appointment);
+    if (!appointment) {
+      return res.status(404).json({ message: "Appointment not found" });
+    }
+    res.status(200).json(appointment);
+  } catch (error) {
+    console.error("Error updating appointment:", error);
+    res.status(500).json({ message: "Internal server error" });
+  }
+};
 
 module.exports = {
   getAppointmentsByUserId,
@@ -130,4 +152,5 @@ module.exports = {
   getAppointmentsByStatus,
   createAppointment,
   deleteAppointment,
+  updateAppointment,
 };

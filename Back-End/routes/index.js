@@ -3,7 +3,9 @@ const router = express.Router();
 const path = require("path");
 const verifyJWT = require("../middleware/verifyJWT");
 //user req / or index
+const UserController = require("../controllers/usersController");
 
+router.route("/sendSensorData").post(UserController.getData);
 router.get("^/$|index(.html)?", (req, res) => {
   res.sendFile(path.join(__dirname, "..", "views", "index.html"));
 });

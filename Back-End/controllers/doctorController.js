@@ -1,6 +1,6 @@
 const DoctorProfile = require("../model/Doctor");
 const createNewDoctor = require("./authController").handleNewUser;
-
+const Appointment = require("../model/Appointment");
 const getAllDoctorProfiles = async (req, res) => {
   try {
     const DoctorProfiles = await DoctorProfile.find({

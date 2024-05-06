@@ -9,12 +9,15 @@ import ViewPatients from "../features/doctor/PatientSettings/ViewPatientProfiles
 import ViewDoctors from "../features/doctor/DoctorSettings/ViewDoctorProfiles";
 import ViewSchedule from "../features/doctor/ProfileSettings/Schedule/Schedule";
 import ViewAppointments from "../features/doctor/ProfileSettings/Appointments/ViewAllAppointments";
-import Messages from "../features/doctor/ProfileSettings/Messages/Messages";
+import Messages from "../components/Messages/IndexDoctor";
 import DashBaord from "../features/doctor/DoctorSettings/Dashboard";
 import Invoices from "../features/doctor/ProfileSettings/Invoices/Invoices";
 import PateintProfile from "../features/doctor/viewPatientProfile";
 import Reviews from "../features/doctor/ProfileSettings/Reviews/Reviews";
 import ViewMyProfile from "../features/doctor/ProfileSettings/Profile/ViewMyProfile";
+import VideoConferenceDoctor from "./../components/VideoConference/VideoConferenceDoctor";
+import AppointmentCall from "./../components/VideoConference/AppointmentCall";
+import GraphContainer from "./../components/VideoConference/GraphContainer";
 
 const DoctorRoutes = () => {
   return (
@@ -31,6 +34,7 @@ const DoctorRoutes = () => {
         <Route path="viewAllDoctors" element={<ViewDoctors />} />
         <Route path="viewAllAppointments" element={<ViewAppointments />} />
         <Route path="messages" element={<Messages />} />
+        <Route path="chatRoom" element={<VideoConferenceDoctor />} />
         <Route path="invoices" element={<Invoices />} />
         <Route path="reviews" element={<Reviews />} />
         <Route path="viewPatientProfile" element={<PateintProfile />} />
@@ -39,6 +43,8 @@ const DoctorRoutes = () => {
         <Route path="viewAllDoctors" element={<ViewDoctors />} />
         <Route path="addDoctorProfile" element={<AddDoctorProfile />} /> */}
         <Route path="dashboard" element={<DashBaord />} />
+        <Route path="records" element={<GraphContainer />} />
+        <Route path="call/:id" element={<AppointmentCall />} />
       </Route>
       <Route path="*" element={<NotFound />} />
     </Routes>

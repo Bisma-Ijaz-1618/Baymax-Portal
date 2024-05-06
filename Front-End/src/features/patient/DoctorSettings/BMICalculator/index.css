@@ -1,0 +1,35 @@
+
+.bmi-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100vh;
+}
+
+.input-bmi {
+  width: 100%;
+  margin: 8px 0;
+  border-radius: 8px;
+}
+
+.btn-bmi {
+  display: block;
+  width: 100%;
+  margin: 8px 0;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+
+.center {
+  text-align: center;
+}
+
+
+
+.img-container-bmi img {
+  height: 200px;
+}
+

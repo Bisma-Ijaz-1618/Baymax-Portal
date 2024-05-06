@@ -466,7 +466,7 @@ const handleRefreshToken = async (req, res) => {
           },
         },
         process.env.ACCESS_TOKEN_SECRET,
-        { expiresIn: "30s" }
+        { expiresIn: "3h" }
       );
 
       //set new rftoken
@@ -479,7 +479,7 @@ const handleRefreshToken = async (req, res) => {
           },
         },
         process.env.REFRESH_TOKEN_SECRET,
-        { expiresIn: "1d" }
+        { expiresIn: "5d" }
       );
       //save refresh token in db to invalidate refresh token when user logs out
       foundUser.refreshToken = [...newRefreshTokenArray, newRefreshToken];

@@ -12,7 +12,7 @@ function Example() {
   return (
     <Container fluid className="dash-nav-container">
       <Row>
-        <Col className="dash-nav" lg={3}>
+        <Col className="dash-nav" lg={2}>
           <Row>
             <Col lg={"auto"}>
               <Image className="dash-img" fluid src={logo} />
@@ -76,6 +76,34 @@ function Example() {
               </span>
             </Link>
             <Link
+              to="chatRoom"
+              className={
+                currentPath.includes("item1") ? "active link-item" : "link-item"
+              }
+            >
+              <span className="link-item-icon">
+                <FontAwesomeIcon icon={faEdit} />
+              </span>
+              <span className="link-item-text">
+                <h5>Chat Room</h5>
+              </span>
+            </Link>
+            <Link
+              to="viewAllPatients"
+              className={
+                currentPath.includes("viewAllPatients")
+                  ? "active link-item"
+                  : "link-item"
+              }
+            >
+              <span className="link-item-icon">
+                <FontAwesomeIcon icon={faEdit} />
+              </span>
+              <span className="link-item-text">
+                <h5>Patients</h5>
+              </span>
+            </Link>
+            <Link
               to="invoices"
               className={
                 currentPath.includes("item1") ? "active link-item" : "link-item"
@@ -99,6 +127,21 @@ function Example() {
               </span>
               <span className="link-item-text">
                 <h5>Reviews</h5>
+              </span>
+            </Link>
+            <Link
+              to="records"
+              className={
+                currentPath.includes("records")
+                  ? "active link-item"
+                  : "link-item"
+              }
+            >
+              <span className="link-item-icon">
+                <FontAwesomeIcon icon={faEdit} />
+              </span>
+              <span className="link-item-text">
+                <h5>Records</h5>
               </span>
             </Link>
             <Link
@@ -286,17 +329,15 @@ function Example() {
             </Accordion>
           </Container>
         </Col>
-        <Col className="dash-content" lg={9}>
-          <Row>
+        <Col className="white-bg mx-0 dash-content" lg={10}>
+          <>
+            <DoctorDashHeader />
+          </>
+          <Row className="white-bg">
             <Col>
               <Container>
-                <DoctorDashHeader />
+                <Outlet />
               </Container>
-            </Col>
-          </Row>
-          <Row>
-            <Col>
-              <Outlet />
             </Col>
           </Row>
         </Col>

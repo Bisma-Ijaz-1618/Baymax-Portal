@@ -12,7 +12,9 @@ import RegPatient from "../features/auth/RegPatient";
 import DataList from "../features/data/DataGrid";
 import NotFound from "../components/NotFound";
 import Login from "../features/auth/Login";
-
+import ViewDoctorProfile from "../components/Profiles/Doctor/ViewDoctorProfile";
+import ViewPatientProfile from "../features/patient/DoctorSettings/Dashboard";
+import chatRoom from "../components/VideoConference/AppointmentCall";
 const NonAuthRoute = () => {
   return (
     <Routes>
@@ -27,6 +29,9 @@ const NonAuthRoute = () => {
       <Route path="/regtype" element={<RegType />} />
       <Route path="/" element={<Layout />}>
         <Route path="data" element={<DataList />} />
+        <Route path="viewPatientProfile" element={<ViewPatientProfile />} />
+        <Route path="viewDoctorProfile" element={<ViewDoctorProfile />} />
+
         <Route index element={<Public />} />
       </Route>
       <Route path="*" element={<NotFound />} />

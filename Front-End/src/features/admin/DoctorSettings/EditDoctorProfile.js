@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Tabs, Tab, Container, Row, Col, Card } from "react-bootstrap";
 import { useLocation, useNavigate } from "react-router-dom";
-import AppointmentList from "../../../components/AppointmentList";
+import AppointmentList from "../../doctor/DoctorSettings/AppointmentListDoctor";
 import BasicUserSettings from "../../../components/BasicUserSettings";
 import AccountCard from "../../../components/AccountCards/DoctorAccountCard";
 import AddDoctorProfile from "./AddDoctorProfile";
@@ -10,8 +10,10 @@ import useDoctorApi from "../../../api/doctor";
 import { useQuery } from "@tanstack/react-query";
 import { useEffect } from "react";
 function DoctorProfile() {
+  return <></>;
   // let pfId = "";
   const navigate = useNavigate();
+
   const { updateUser } = useUserApi();
   const { getDoctorProfile, updateDoctor } = useDoctorApi();
   const [profileId, setProfileId] = useState(null);

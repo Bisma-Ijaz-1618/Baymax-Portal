@@ -8,12 +8,21 @@ const verifyRoles = require("../../middleware/verifyRoles");
 router
   .route("/new")
   .post(verifyRoles(ROLES_LIST.User), AppointmentController.createAppointment);
+router
+  .route("/update/:id")
+  .put(verifyRoles(ROLES_LIST.User), AppointmentController.updateAppointment);
 
 router
   .route("/allDoctor")
   .get(
     verifyRoles(ROLES_LIST.User),
-    AppointmentController.getAllAppointmentsDoctor
+    AppointmentController.getAppointmentsByUserId
+  );
+router
+  .route("/allPatient")
+  .get(
+    verifyRoles(ROLES_LIST.User),
+    AppointmentController.getAppointmentsByUserId
   );
 
 router
