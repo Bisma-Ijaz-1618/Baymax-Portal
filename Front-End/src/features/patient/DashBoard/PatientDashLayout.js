@@ -138,6 +138,36 @@ function Example() {
                 <h5>Invoices</h5>
               </span>
             </Link>
+            <Link
+              to="kitConnection"
+              className={
+                currentPath.includes("kitConnection")
+                  ? "active link-item"
+                  : "link-item"
+              }
+            >
+              <span className="link-item-icon">
+                <FontAwesomeIcon icon={faEdit} />
+              </span>
+              <span className="link-item-text">
+                <h5>Kit Connection</h5>
+              </span>
+            </Link>
+            <Link
+              to="recordList"
+              className={
+                currentPath.includes("recordList")
+                  ? "active link-item"
+                  : "link-item"
+              }
+            >
+              <span className="link-item-icon">
+                <FontAwesomeIcon icon={faEdit} />
+              </span>
+              <span className="link-item-text">
+                <h5>All Records</h5>
+              </span>
+            </Link>
           </Container>
           <Container>
             <Accordion flush className="">
@@ -148,7 +178,7 @@ function Example() {
               >
                 <Accordion.Header className="transparent">
                   <Link>
-                    <h5 className="link-item">Baymax Kit Connection</h5>
+                    <h5 className="link-item">Kit Connection</h5>
                   </Link>
                 </Accordion.Header>
                 <Accordion.Body className="transparent">

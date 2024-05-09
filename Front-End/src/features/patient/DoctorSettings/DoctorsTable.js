@@ -13,7 +13,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEdit, faEye, faTrash } from "@fortawesome/free-solid-svg-icons";
 import { Link, useNavigate } from "react-router-dom";
 import findValue from "../../../utils/findKeyOfObj";
-import usePatientControllerApi from "../../../api/Doctor/patientController";
+import useDoctorControllerApi from "../../../api/Patient/doctorController";
 import ErrorComponent from "../../../components/General/Error";
 import LoadingComponent from "../../../components/General/Loading";
 
@@ -22,9 +22,12 @@ function capitalizeFirstLetter(string) {
 }
 function UsersTable({ headers, noOfItems }) {
   const [patientData, setPatientData] = useState(null);
-  const { getMyPatients } = usePatientControllerApi();
-  useEffect(async () => {
-    await getMyPatients.refetch();
+  const { getMyDoctors } = useDoctorControllerApi();
+  useEffect(() => {
+    const func = async () => {
+      await getMyDoctors.refetch();
+    };
+    func();
     return () => {};
   }, []);
   const itemsPerPage = noOfItems;
@@ -34,14 +37,14 @@ function UsersTable({ headers, noOfItems }) {
   const totalPages = patientData
     ? Math.ceil(patientData.length / itemsPerPage)
     : 0;
-  if (getMyPatients.isError) {
+  if (getMyDoctors.isError) {
     return <ErrorComponent message={""} />;
   }
 
   const handleViewClick = (profileData, setSelectedProfileData) => {
     setSelectedProfileData(profileData);
     const profileId = profileData._id;
-    navigate(`/auth/doctor/viewPatientProfile`);
+    navigate(`/auth/patient/viewDoctorProfile/${profileId}`);
     setSelectedProfileData(null);
   };
   const getRandomImage = () => {
@@ -92,10 +95,10 @@ function UsersTable({ headers, noOfItems }) {
             </tr>
           </thead>
           <tbody>
-            {getMyPatients.isLoading ? (
+            {getMyDoctors.isLoading ? (
               <LoadingComponent />
             ) : (
-              getMyPatients.data
+              getMyDoctors.data
                 ?.slice(
                   (currentPage - 1) * itemsPerPage,
                   currentPage * itemsPerPage

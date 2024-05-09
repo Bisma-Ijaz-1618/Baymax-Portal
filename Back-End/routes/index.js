@@ -10,12 +10,13 @@ router.get("^/$|index(.html)?", (req, res) => {
   res.sendFile(path.join(__dirname, "..", "views", "index.html"));
 });
 
-router.use("/upload", require("./api/fileUpload"));
+router.use("/uploadMedilcalFile", require("./api/fileUpload"));
 //router.use("/update/data", console.log("here"));
 
 router.use("/auth", require("./api/auth"));
 
 router.use(verifyJWT);
+router.use("/Kit", require("./api/kit"));
 
 router.use("/Users", require("./api/users"));
 router.use("/Doctors", require("./api/doctor"));

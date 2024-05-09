@@ -1,21 +1,34 @@
 const express = require("express");
 const router = express.Router();
 const patientController = require("../../controllers/patientController");
+const kitController = require("../../controllers/kitController");
 
 const ROLES_LIST = require("../../config/roles_list");
 const verifyRoles = require("../../middleware/verifyRoles");
 const dataProcessor = require("../../middleware/dataProcessor");
 const User = require("../../model/User");
 
-router.use("/Appointment", require("./appointment"));
+router
+  .route("/:id")
+  .get(verifyRoles(ROLES_LIST.User), kitController.getKitTemp);
+
+router
+  .route("/MyRecords/All")
+  .get(verifyRoles(ROLES_LIST.User), kitController.getMyRecords);
+router
+  .route("/MyRecords/View/:recordId")
+  .get(verifyRoles(ROLES_LIST.User), kitController.getMyRecordById);
+
+router
+  .route("/UserRecords/All")
+  .get(verifyRoles(ROLES_LIST.User), kitController.getAllUserRecords);
+router
+  .route("/UserRecords/View/:userId/:recordId")
+  .get(verifyRoles(ROLES_LIST.User), kitController.getAllUserRecords);
 
 router
   .route("/allPatients")
   .get(verifyRoles(ROLES_LIST.User), patientController.getAllPatientProfiles);
-router
-  .route("/:id")
-  .get(verifyRoles(ROLES_LIST.User), patientController.getPatientProfile);
-
 router
   .route("/newPatient")
   .post(verifyRoles(ROLES_LIST.Admin), patientController.createNewPatient);

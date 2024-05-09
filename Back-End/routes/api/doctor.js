@@ -24,6 +24,9 @@ router
     DoctorProfileController.upadteProfilePicture
   );
 router
+  .route("/getProfilePicture/:id")
+  .get(DoctorProfileController.getProfilePictureById);
+router
   .route("/getProfilePicture")
   .get(
     verifyRoles(ROLES_LIST.Doctor),

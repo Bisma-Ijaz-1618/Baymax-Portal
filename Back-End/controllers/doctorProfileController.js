@@ -17,8 +17,9 @@ const getProfilePicture = async (req, res) => {
     res.status(500).send("Internal server error");
   }
 };
+
 const getProfilePictureById = async (req, res) => {
-  const { id } = req.params();
+  const { id } = req.params;
   try {
     const imageName = id;
     const imagePath = path.join("uploads", imageName);
@@ -69,4 +70,5 @@ module.exports = {
   getMyProfile,
   upadteProfilePicture,
   getProfilePicture,
+  getProfilePictureById,
 };

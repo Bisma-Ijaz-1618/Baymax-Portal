@@ -5,14 +5,10 @@ const getAllDoctorProfiles = async (req, res) => {
   try {
     const DoctorProfiles = await DoctorProfile.find({
       isDeleted: false,
-    })
-      .populate({
-        path: "userId",
-        select: "username backgroundPicture profilePicture email _id ",
-      })
-      .select(
-        "_id userId address contactNumber age gender yearsOfExperience department events"
-      );
+    }).populate({
+      path: "userId",
+    });
+    console.log("doctor profiles::", DoctorProfile);
 
     if (!DoctorProfiles) {
       return res.status(204).json({ message: "No Doctor profiles found" });

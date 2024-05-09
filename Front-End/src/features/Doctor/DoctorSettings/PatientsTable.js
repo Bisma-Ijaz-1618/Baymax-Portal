@@ -23,8 +23,11 @@ function capitalizeFirstLetter(string) {
 function UsersTable({ headers, noOfItems }) {
   const [patientData, setPatientData] = useState(null);
   const { getMyPatients } = usePatientControllerApi();
-  useEffect(async () => {
-    await getMyPatients.refetch();
+  useEffect(() => {
+    const func = async () => {
+      await getMyPatients.refetch();
+    };
+    func();
     return () => {};
   }, []);
   const itemsPerPage = noOfItems;
@@ -43,7 +46,7 @@ function UsersTable({ headers, noOfItems }) {
   const handleViewClick = (profileData, setSelectedProfileData) => {
     setSelectedProfileData(profileData);
     const profileId = profileData._id;
-    navigate(`/auth/doctor/viewPatientProfile`);
+    navigate(`/auth/doctor/viewPatientProfile/${profileId}`);
     setSelectedProfileData(null);
   };
   const getRandomImage = () => {

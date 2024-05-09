@@ -1,6 +1,7 @@
 const PatientProfile = require("../model/Patient");
 const createNewPatient = require("./authController").handleNewUser;
-
+const fs = require("fs").promises;
+const path = require("path");
 const getAllPatientProfiles = async (req, res) => {
   try {
     const patientProfiles = await PatientProfile.find({
@@ -95,6 +96,37 @@ const createPatientProfile = async (req, res) => {
   //   return res.status(500).json({ error: "Failed to create patient profile" });
   // }
 };
+
+const getProfilePicture = async (req, res) => {
+  try {
+    const imageName = req.userId;
+    const imagePath = path.join("uploads", imageName);
+    console.log("image path is", imagePath);
+    const image = await fs.readFile(imagePath);
+
+    res.writeHead(200, { "Content-Type": "image/jpeg" });
+    res.end(image, "binary");
+  } catch (error) {
+    console.error("Error retrieving image:", error);
+    res.status(500).send("Internal server error");
+  }
+};
+
+const getProfilePictureById = async (req, res) => {
+  const { id } = req.params;
+  try {
+    const imageName = id;
+    const imagePath = path.join("uploads", imageName);
+    console.log("image path is", imagePath);
+    const image = await fs.readFile(imagePath);
+
+    res.writeHead(200, { "Content-Type": "image/jpeg" });
+    res.end(image, "binary");
+  } catch (error) {
+    console.error("Error retrieving image:", error);
+    res.status(500).send("Internal server error");
+  }
+};
 module.exports = {
   getAllPatientProfiles,
   createPatientProfile,
@@ -102,4 +134,6 @@ module.exports = {
   deletePatientProfile,
   createNewPatient,
   getPatientProfile,
+  getProfilePicture,
+  getProfilePictureById,
 };

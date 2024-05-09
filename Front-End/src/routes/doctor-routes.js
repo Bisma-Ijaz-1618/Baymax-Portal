@@ -12,7 +12,9 @@ import ViewAppointments from "../features/doctor/ProfileSettings/Appointments/Vi
 import Messages from "../components/Messages/IndexDoctor";
 import DashBaord from "../features/doctor/DoctorSettings/Dashboard";
 import Invoices from "../features/doctor/ProfileSettings/Invoices/Invoices";
-import PateintProfile from "../features/doctor/viewPatientProfile";
+// import PateintProfile from "../features/doctor/viewPatientProfile";
+import PatientProfile from "../components/Profiles/Patient/View/ViewPatientProfile";
+
 import Reviews from "../features/doctor/ProfileSettings/Reviews/Reviews";
 import ViewMyProfile from "../features/doctor/ProfileSettings/Profile/ViewMyProfile";
 import VideoConferenceDoctor from "./../components/VideoConference/VideoConferenceDoctor";
@@ -37,7 +39,7 @@ const DoctorRoutes = () => {
         <Route path="chatRoom" element={<VideoConferenceDoctor />} />
         <Route path="invoices" element={<Invoices />} />
         <Route path="reviews" element={<Reviews />} />
-        <Route path="viewPatientProfile" element={<PateintProfile />} />
+        <Route path="viewPatientProfile/:id" element={<PatientProfile />} />
         <Route path="viewMyProfile" element={<ViewMyProfile />} />
         {/* <Route path="addDoctor" element={<AddUser userRole="Doctor" />} />
         <Route path="viewAllDoctors" element={<ViewDoctors />} />
