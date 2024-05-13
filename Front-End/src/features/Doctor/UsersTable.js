@@ -10,8 +10,8 @@ import {
   Card,
 } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faEdit, faEye, faTrash } from "@fortawesome/free-solid-svg-icons";
-import { Link, useNavigate } from "react-router-dom";
+import { faEye, faTrash } from "@fortawesome/free-solid-svg-icons";
+import { useNavigate } from "react-router-dom";
 import DeleteAccount from "../admin/DeleteAccount";
 import findValue from "../../utils/findKeyOfObj";
 function capitalizeFirstLetter(string) {
@@ -30,18 +30,8 @@ function UsersTable({ headers, data, userRole, deleteProfileFunction }) {
     setCallDelete(true);
   };
 
-  const handleEditClick = (profileData) => {
-    setSelectedProfileData(profileData);
-    const profileId = profileData._id;
-    navigate(`/auth/admin/edit${userRole}Profile`, {
-      state: { profileId },
-    });
-    setSelectedProfileData(null);
-  };
-
   const handleViewClick = (profileData, setSelectedProfileData) => {
     setSelectedProfileData(profileData);
-    const profileId = profileData._id;
     navigate(`/auth/doctor/viewPatientProfile`);
     setSelectedProfileData(null);
   };

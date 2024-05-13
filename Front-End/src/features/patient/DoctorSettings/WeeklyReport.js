@@ -1,13 +1,7 @@
 import React from "react";
-import { Row, Col } from "react-bootstrap";
-import {
-  FaHeartbeat,
-  AiOutlineFile,
-  FaFileMedical,
-  FaMoneyBill,
-  FaUser,
-} from "react-icons/fa";
-import { BsCalendar, BsChatDots } from "react-icons/bs";
+import { Row } from "react-bootstrap";
+import { FaFileMedical, FaUser } from "react-icons/fa";
+import { BsChatDots } from "react-icons/bs";
 import IconStatsCard from "../../../components/DashBoardComponents/IconStatsCard";
 export default function WeeklyReport() {
   return (

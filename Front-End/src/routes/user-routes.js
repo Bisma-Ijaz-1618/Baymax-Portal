@@ -2,7 +2,6 @@ import React from "react";
 import { Routes, Route } from "react-router-dom";
 import DashLayout from "../components/UserDashLayout";
 import Welcome from "../features/auth/Welcome";
-import UsersList from "../features/users/UsersList";
 
 const UserRoutes = () => {
   return (

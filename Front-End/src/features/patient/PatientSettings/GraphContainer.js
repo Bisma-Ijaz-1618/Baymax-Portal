@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Button, Container, Row, Col, Card, Stack } from "react-bootstrap";
 import LineGraph from "./LineGraph";
 import CombinedGraph from "./CombinedGraph";
-import { useParams, useSearchParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import useAxiosPrivate from "../../../hooks/useAxiosPrivate";
 import ErrorComponent from "../../../components/General/Error";

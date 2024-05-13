@@ -1,8 +1,6 @@
 import React from "react";
 import { Container, Card, ProgressBar, Row, Col, Form } from "react-bootstrap";
 
-const getRandomValue = () => Math.floor(Math.random() * 100);
-
 const generateRecords = () => {
   const numRecords = Math.floor(Math.random() * 6) + 1; // Randomize number of records (1 to 6)
   const records = [];

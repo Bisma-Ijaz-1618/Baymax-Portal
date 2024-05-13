@@ -1,12 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Row, Col, Offcanvas } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faBell,
-  faSearch,
-  faSign,
-  faSignOut,
-} from "@fortawesome/free-solid-svg-icons";
+import { faBell, faSearch } from "@fortawesome/free-solid-svg-icons";
 import Signout from "../../auth/Logout";
 function AdminDashHeader() {
   const date = new Date();

@@ -1,16 +1,5 @@
 import { useState } from "react";
-import {
-  Toast,
-  ToastContainer,
-  Accordion,
-  Button,
-  Card,
-  Col,
-  Form,
-  Container,
-  Row,
-  Modal,
-} from "react-bootstrap";
+import { Button, Col, Form, Container, Row, Modal } from "react-bootstrap";
 import { FaGraduationCap, FaPlusCircle, FaSave } from "react-icons/fa";
 
 function DoctorEducationAccordion() {

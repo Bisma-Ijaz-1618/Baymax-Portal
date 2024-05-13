@@ -1,10 +1,8 @@
-import React, { useState, useEffect } from "react";
-import { Container, Row, Col, Card, Badge } from "react-bootstrap";
+import React from "react";
+import { Container, Row, Col } from "react-bootstrap";
 import WeeklyReport from "./WeeklyReport";
-import SmallDashCalendar from "./SmallDashCalendar";
 import AppointmentList from "./AppointmentListPatient";
 import UsersTable from "./DoctorsTable";
-import AllSensors from "./AllSensors";
 import BMIComponent from "./BMICalculator/Index";
 import RecordBars from "./RecordBars";
 const DoctorDashboard = () => {

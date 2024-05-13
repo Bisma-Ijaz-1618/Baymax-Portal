@@ -3,7 +3,7 @@ import { Link, Outlet } from "react-router-dom"; // Import Link from React Route
 import HospitalDashHeader from "./HospitalDashHeader";
 import HospitalDashFooter from "./HospitalDashFooter";
 import "bootstrap/dist/css/bootstrap.min.css";
-import { faEdit, faInbox, fadel } from "@fortawesome/free-solid-svg-icons";
+import { faEdit } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import logo from "../../../img/LogoHorizontal.jpeg";
 import { useLocation } from "react-router-dom";

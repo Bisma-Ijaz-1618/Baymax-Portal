@@ -31,21 +31,6 @@ function App() {
     }
   };
 
-  //  show image based on bmi calculation
-  let imgSrc;
-
-  if (bmi < 1) {
-    imgSrc = require("./assets/default.jpg");
-  } else {
-    if (bmi < 25) {
-      imgSrc = require("./assets/underweight.png");
-    } else if (bmi >= 25 && bmi < 30) {
-      imgSrc = require("./assets/healthy.png");
-    } else {
-      imgSrc = require("./assets/overweight.png");
-    }
-  }
-
   let reload = () => {
     window.location.reload();
   };

@@ -6,12 +6,11 @@ import {
   Image,
   Pagination,
   Button,
-  Form,
   Card,
 } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEdit, faEye, faTrash } from "@fortawesome/free-solid-svg-icons";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import findValue from "../../../utils/findKeyOfObj";
 import useDoctorControllerApi from "../../../api/Patient/doctorController";
 import ErrorComponent from "../../../components/General/Error";

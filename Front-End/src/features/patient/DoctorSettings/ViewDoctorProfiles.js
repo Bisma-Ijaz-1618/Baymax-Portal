@@ -1,7 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import useAxiosPrivate from "../../../hooks/useAxiosPrivate";
-import { useNavigate, useLocation } from "react-router-dom";
-import { useState, useEffect } from "react";
+
 import UsersTable from "../UsersTable";
 import useDoctorApi from "../../../api/doctor";
 const Doctors = () => {

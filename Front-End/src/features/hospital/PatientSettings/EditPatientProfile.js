@@ -1,5 +1,5 @@
 import React from "react";
-import { Tabs, Tab, Container, Row, Col, Card } from "react-bootstrap";
+import { Tabs, Tab, Container, Row, Col } from "react-bootstrap";
 import { useLocation, useNavigate } from "react-router-dom";
 import AppointmentList from "../../doctor/DoctorSettings/AppointmentListDoctor";
 import PaymentList from "../../../components/PaymentList";

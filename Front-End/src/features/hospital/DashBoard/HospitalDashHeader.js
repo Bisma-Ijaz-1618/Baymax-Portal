@@ -1,5 +1,5 @@
 import React from "react";
-import { Dropdown, Button } from "react-bootstrap";
+import { Dropdown } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faBell,
@@ -52,20 +52,6 @@ function HospitalDashHeader() {
         </div>
       </div>
     </header>
-  );
-}
-
-function CustomDropdownToggle({ children, onClick }) {
-  return (
-    <div
-      className="dropdown-toggle"
-      onClick={(e) => {
-        e.preventDefault();
-        onClick(e);
-      }}
-    >
-      {children}
-    </div>
   );
 }
 

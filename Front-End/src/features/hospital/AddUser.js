@@ -1,15 +1,12 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
 import { Form, Button, Container } from "react-bootstrap";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import useAxiosPrivate from "../../hooks/useAxiosPrivate";
-import useAuth from "../../hooks/useAuthHook";
 import ROLES_LIST from "../../Config/userRoles";
 import { useNavigate } from "react-router-dom";
 const AddUser = ({ userRole }) => {
   console.log("role passed?", userRole);
   const queryClient = useQueryClient();
-  const { auth } = useAuth();
   const navigate = useNavigate();
   const [errMsg, setErrMsg] = useState("");
   const [success, setSuccess] = useState(false);
