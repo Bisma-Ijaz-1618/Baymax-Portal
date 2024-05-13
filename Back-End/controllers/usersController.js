@@ -24,7 +24,6 @@ const getAllUsers = async (req, res) => {
 const getAllActiveUsers = async (req, res) => {
   try {
     const activeUsers = await User.find({ isDeleted: false }).exec();
-    console.log(activeUsers);
     return res.status(200).json(activeUsers);
   } catch (err) {
     console.error("Error occurred while fetching active users:", err);

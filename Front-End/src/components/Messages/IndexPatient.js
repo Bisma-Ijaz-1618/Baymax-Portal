@@ -33,7 +33,6 @@ const MessagingPage = () => {
                   <Button
                     className="white-bg lightblue-color lightblue-border w-100  d-flex text-left"
                     onClick={() => {
-                      setShow(false);
                       setShow(true);
                     }}
                   >

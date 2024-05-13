@@ -5,11 +5,11 @@ const verifyRoles = require("../../middleware/verifyRoles");
 const chatController = require("../../controllers/chatController");
 
 router
-  .route("/:receiverId")
+  .route("/get/:receiverId")
   .get(verifyRoles(ROLES_LIST.User), chatController.getChat);
 
 router
-  .route("/:receiverId")
+  .route("/send/:receiverId")
   .put(verifyRoles(ROLES_LIST.User), chatController.saveChat);
 
 module.exports = router;

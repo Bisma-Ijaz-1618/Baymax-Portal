@@ -46,7 +46,7 @@ const PatientRoutes = () => {
         <Route path="record" element={<Record />} />
         <Route path="recordList" element={<RecordList />} />
         <Route path="messages" element={<Messages />}>
-          <Route path=":PeerId/:username" element={<ChatBox />} />
+          <Route path=":peerId/:username" element={<ChatBox />} />
         </Route>
         <Route path="chatRoom" element={<VideoConferencePatient />} />
         <Route path="kitConnection" element={<KitConnection />} />
