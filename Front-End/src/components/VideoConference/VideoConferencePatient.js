@@ -5,21 +5,21 @@ import AgoraRTC from "agora-rtc-sdk-ng";
 import { useState } from "react";
 import Call from "./Call";
 import ChatBox from "./ChatBox1";
+import { Patient123 } from "../../Config/Agora";
+
 function VideoConference() {
   return (
     <Container
       fluid
       className=" border rounded my-5 main-h-100 grey-bg d-flex flex-row align-items-stretch justify-content-center"
     >
-      <Col className=" d-flex flex-row align-items-stretch justify-content-center">
+      <Col className="col-md-8 d-flex flex-row align-items-stretch justify-content-center">
         <Call />
       </Col>
-      <Col className="lightblue-bg m-2 border rounded d-flex align-items-start justify-content-center">
+      <Col className="lightblue-bg ms-2 my-3 border rounded d-flex align-items-center justify-content-center">
         <ChatBox
           userId={"Patient123"}
-          token={
-            "007eJxTYEhMfFbL3XbR2eDx2/K/j5LtKqYvsxVjWhx3T7Nf+75S71UFhjRDE0NzA3ODpBTLZBMTY0OLJIMkC0NjIxPjJANjcwvzSi2jtIZARob2ue0MjAysQMzIAOKrMCQZp1mkmZkb6KalpZrrGhqmpuomWaSZ65oaJlkmGZoZGANNAQA8SCYj"
-          }
+          token={Patient123}
           peerId={"Doctor123"}
         />
       </Col>

@@ -12,7 +12,6 @@ import RegPatient from "../features/auth/RegPatient";
 import DataList from "../features/data/DataGrid";
 import NotFound from "../components/NotFound";
 import Login from "../features/auth/Login";
-import chatRoom from "../components/VideoConference/AppointmentCall";
 const NonAuthRoute = () => {
   return (
     <Routes>

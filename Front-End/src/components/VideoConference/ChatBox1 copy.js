@@ -1,15 +1,32 @@
 import React, { useState, useEffect } from "react";
 import AC, { AgoraChat } from "agora-chat"; // Assuming AC is imported correctly
-
-const AgoraChatComponent = () => {
+import { Container, Row, Col, Card, Button } from "react-bootstrap";
+const AgoraChatComponent = ({ userId, token, peerId, username }) => {
+const AgoraChatComponent = ({ userId, token, peerId, username }) => {
   const appKey = "611137238#1322245";
-  const [userId, setUserId] = useState("");
-  const [token, setToken] = useState("");
-  const [peerId, setPeerId] = useState("");
   const [peerMessage, setPeerMessage] = useState("");
-  const [log, setLog] = useState([]);
+  const [show, setShow] = useState(false);
+  const [messages, setMessages] = useState([{ name: "", Message: "" }]);
   const [conn, setConn] = useState(null);
-
+  const handleLogin = () => {
+    console.log("in handle login");
+    if (conn) {
+      console.log("logging in");
+      conn.open({
+        user: userId,
+        agoraToken: token,
+      });
+    }
+    console.log("opened?");
+  };
+  useEffect(() => {
+    console.log("in load");
+    handleLogin();
+    return () => {
+      console.log("wassup");
+      handleLogout();
+    };
+  }, []);
   useEffect(() => {
     if (appKey && !conn) {
       const connection = new AC.connection({
@@ -18,23 +35,25 @@ const AgoraChatComponent = () => {
 
       connection.addEventHandler("connection&message", {
         onConnected: () => {
-          setLog((log) => [...log, "Connect success !"]);
+          setShow(true);
+          console.log("connected");
         },
         onDisconnected: () => {
-          setLog((log) => [...log, "Logout success !"]);
+          console.log("disconnected");
         },
         onTextMessage: (message) => {
           console.log(message);
-          setLog((log) => [
-            ...log,
-            `Message from: ${message.from} Message: ${message.msg}`,
+
+          setMessages((messages) => [
+            ...messages,
+            { name: "Recieved", Message: message.msg },
           ]);
         },
         onTokenWillExpire: (params) => {
-          setLog((log) => [...log, "Token is about to expire"]);
+          console.log("token expiry nearing");
         },
         onTokenExpired: (params) => {
-          setLog((log) => [...log, "The token has expired"]);
+          console.log("token expired");
         },
         onError: (error) => {
           console.log("on error", error);
@@ -45,20 +64,10 @@ const AgoraChatComponent = () => {
     }
   }, [appKey, conn]);
 
-  const handleLogin = () => {
-    if (conn) {
-      setLog((log) => [...log, "Logging in..."]);
-      conn.open({
-        user: userId,
-        agoraToken: token,
-      });
-    }
-  };
-
   const handleLogout = () => {
     if (conn) {
       conn.close();
-      setLog((log) => [...log, "Logout"]);
+      console.log("disconnected");
     }
   };
 
@@ -75,74 +84,93 @@ const AgoraChatComponent = () => {
         .send(msg)
         .then(() => {
           console.log("send private text success");
-          setLog((log) => [
-            ...log,
-            `Message send to: ${peerId} Message: ${peerMessage}`,
+
+          setMessages((messages) => [
+            ...messages,
+            { name: "Sent", Message: peerMessage },
           ]);
         })
-        .catch(() => {
-          console.log("send private text fail");
+        .catch((err) => {
+          console.log("send private text fail", err);
         });
     }
   };
 
   return (
-    <div>
-      <h2>Agora Chat Examples</h2>
+    <Container style={{ height: "80%" }} fluid className="m-3">
+      <h3>{username}</h3>
+
       <div>
-        <label>User ID</label>
-        <input
-          type="text"
-          placeholder="User ID"
-          value={userId}
-          onChange={(e) => setUserId(e.target.value)}
-        />
+        {!show && (
+          <Button
+            type="button"
+            className="w-100 white-bg green-color green-border m-auto blue-bg white-color py-1 px-2 m-0"
+            onClick={handleLogin}
+          >
+            Chat
+          </Button>
+        )}
       </div>
-      <div>
-        <label>Token</label>
-        <input
-          type="text"
-          placeholder="Token"
-          value={token}
-          onChange={(e) => setToken(e.target.value)}
-        />
-      </div>
-      <div>
-        <button type="button" onClick={handleLogin}>
-          Login
-        </button>
-        <button type="button" onClick={handleLogout}>
-          Logout
-        </button>
-      </div>
-      <div>
-        <label>Peer user ID</label>
-        <input
-          type="text"
-          placeholder="Peer user ID"
-          value={peerId}
-          onChange={(e) => setPeerId(e.target.value)}
-        />
-      </div>
-      <div>
-        <label>Peer Message</label>
-        <input
-          type="text"
-          placeholder="Peer message"
-          value={peerMessage}
-          onChange={(e) => setPeerMessage(e.target.value)}
-        />
-        <button type="button" onClick={handleSendPeerMessage}>
-          send
-        </button>
-      </div>
-      <hr />
-      <div id="log">
-        {log.map((item, index) => (
-          <div key={index}>{item}</div>
-        ))}
-      </div>
-    </div>
+      {show && (
+        <Container
+          fluid
+          style={{ height: "100%" }}
+          className="lightblue-bg border rounded"
+        >
+          <Row
+            className="d-flex flex-column justify-content-end"
+            style={{ height: "100%" }}
+          >
+            {messages.map((item, index) => (
+              <>
+                <div key={index} className="px-5">
+                  {item.name === "" ? (
+                    <div key={index} className="px-5">
+                      <div className=" white-bg message-container-agora my-2 text-center white-bg black-color">
+                        {item.Message}
+                      </div>
+                    </div>
+                  ) : item.name === "Sent" ? (
+                    <div key={index} className="pe-5">
+                      <div className="white-bg p-1 me-5  my-2 border rounded d-flex flex-column justify-content-center align-items-start">
+                        <div className="text-muted">{item.name + " "} </div>
+                        <div>{" " + item.Message}</div>
+                      </div>
+                    </div>
+                  ) : (
+                    <div key={index} className="ps-5">
+                      <div className="white-bg p-1 ms-5 my-2 border rounded d-flex flex-column justify-content-center align-items-end">
+                        <div className="text-muted">{item.name + " "} </div>
+                        <div>{" " + item.Message}</div>
+                      </div>
+                    </div>
+                  )}
+                </div>
+                <div className="col-md-4"></div>
+              </>
+            ))}
+            <div>
+              <div className="my-2 d-flex flex-row jutify-content-around">
+                <input
+                  type="text"
+                  placeholder="Peer message"
+                  value={peerMessage}
+                  className="flex-fill border rounded"
+                  onChange={(e) => setPeerMessage(e.target.value)}
+                />
+                <Button
+                  type="button"
+                  className="green-bg ms-4"
+                  onClick={handleSendPeerMessage}
+                >
+                  send
+                </Button>
+              </div>
+            </div>
+          </Row>
+        </Container>
+      )}
+    </Container>
   );
 };
 

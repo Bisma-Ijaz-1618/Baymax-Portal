@@ -41,15 +41,22 @@ export const parseFormattedStartTime = (formattedDate, formattedTime) => {
 export const isStartTimeGreaterThanCurrentTime = (startTime) => {
   const currentTime = new Date();
   //start time comes after cuurent time
-  return startTime > currentTime;
+  return new Date(startTime) > currentTime;
 };
 
-export const isStartTimeEqualToCurrentTime = (startTime) => {
-  // Check if startTime is a Date object
+export const isCurrentTimeInRange = (sTime) => {
+  const startTime = new Date(sTime);
+
+  console.log("we got this start time", startTime);
   if (startTime instanceof Date) {
-    // If it is a Date object, compare its time with the current time
+    console.log("start time is an instance");
+    // Get the current time
     const currentTime = new Date();
-    return startTime.getTime() === currentTime.getTime();
+    // Calculate the end time as startTime + 1 hour
+    const endTime = new Date(startTime);
+    endTime.setHours(endTime.getHours() + 1);
+    // Check if the current time falls within the range of startTime to endTime
+    return currentTime >= startTime && currentTime < endTime;
   } else {
     // If startTime is not a Date object, return false or handle the case accordingly
     return false;

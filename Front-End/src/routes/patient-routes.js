@@ -21,7 +21,9 @@ import VideoConferencePatient from "./../components/VideoConference/VideoConfere
 import Messages from "../components/Messages/IndexPatient";
 import DoctorProfile from "../components/Profiles/Doctor/View/ViewDoctorProfile";
 import GraphContainer from "../features/patient/PatientSettings/GraphContainer";
-
+import AppointmentCall from "../components/VideoConference/AppointmentCallPatient";
+import ChatBox from "../components/Messages/ChatBox1";
+import { Patient123 } from "../Config/Agora";
 const PatientRoutes = () => {
   return (
     <Routes>
@@ -43,7 +45,9 @@ const PatientRoutes = () => {
         <Route path="recordHistory" element={<RecordHistory />} />
         <Route path="record" element={<Record />} />
         <Route path="recordList" element={<RecordList />} />
-        <Route path="messages" element={<Messages />} />
+        <Route path="messages" element={<Messages />}>
+          <Route path=":PeerId/:username" element={<ChatBox />} />
+        </Route>
         <Route path="chatRoom" element={<VideoConferencePatient />} />
         <Route path="kitConnection" element={<KitConnection />} />
         {/* <Route path="addPatient" element={<AddUser userRole="Patient" />} />
@@ -52,6 +56,7 @@ const PatientRoutes = () => {
         <Route path="datagrid" element={<DataGrid />} />
         <Route path="viewRecord/:recordId" element={<GraphContainer />} />
         <Route path="viewDoctorProfile/:id" element={<DoctorProfile />} />
+        <Route path="call/:id" element={<AppointmentCall />} />
       </Route>
       <Route path="*" element={<NotFound />} />
     </Routes>

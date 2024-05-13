@@ -265,14 +265,66 @@ const getMyRecords = async (req, res) => {
       res.status(500).json({ error: "Internal server error here1" });
     });
 };
+const saveSensorData = async (req, res) => {
+  try {
+    const userId = req.body.userID;
+    const hrValues = req.body?.bpm || [];
+    const spo2Values = req.body?.spo2 || [];
+    const temperatureValues = req.body?.temperature || [];
+    const brValues = req.body?.brm || [];
+    console.log("data Received", req.body);
+
+    console.log("HR id", hrValues);
+    console.log("getting records with id", userId, hrValues);
+    const newRecord = new KitRecord({
+      userId,
+      startTime: new Date(),
+      Temperature: { values: temperatureValues },
+      HR: { values: hrValues },
+      SPO2: { values: spo2Values },
+      BR: { values: brValues },
+    });
+    record = await newRecord.save();
+    console.log("New record created:", record);
+    // let record = await KitRecord.findOne({ userId });
+
+    // if (record) {
+    //   console.log("Record found:", record);
+    //   // Update the existing record
+    //   record.HR.values = hrValues;
+    //   record.SPO2.values = spo2Values;
+    //   record.Temperature.values = temperatureValues;
+    //   record.BR.values = brValues;
+    //   await record.save();
+    // } else {
+    //   // Create a new record
+    //   const newRecord = new KitRecord({
+    //     userId,
+    //     startTime: new Date(),
+    //     Temperature: { values: temperatureValues },
+    //     HR: { values: hrValues },
+    //     SPO2: { values: spo2Values },
+    //     BR: { values: brValues },
+    //   });
+    //   record = await newRecord.save();
+    //   console.log("New record created:", record);
+    // }
+
+    return res.status(200);
+  } catch (error) {
+    console.error("Error saving sensor data:", error);
+    return res.status(500).json({ error: "Internal Server Error" });
+  }
+};
+
 const getMyRecordById = async (req, res) => {
   const userId = req.userId;
   const recordId = req.params.recordId;
-  console.log("ingetmyrecords with id", userId);
+  console.log("ingetmyrecords with id", userId, recordId);
   // Find records for the given userId and with startTime within the specified date range
   KitRecord.find({
     userId: userId,
-    recordId: recordId,
+    _id: recordId,
   })
     .then((records) => {
       console.log("foundrecords", records);
@@ -381,4 +433,5 @@ module.exports = {
   getMyRecordsByDate,
   getAllUserRecords,
   getMyRecordById,
+  saveSensorData,
 };

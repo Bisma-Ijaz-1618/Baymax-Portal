@@ -1317,8 +1317,9 @@ border: 2px solid rgb(102, 138, 150);
   height: 400px;
 }
 .video-holder{
-  width: fit-content;
-  height:fit-content;
+  width:350px;
+  height:260px;
+  background-color: #000;
 }
 .box {
   

@@ -96,17 +96,17 @@ const AgoraChatComponent = ({ userId, token, peerId, username }) => {
   };
 
   return (
-    <Container style={{ height: "80%" }} fluid className="m-3">
+    <>
       <h3>{username}</h3>
 
-      <div>
+      <div className="d-flex align-items-center justify-content-center">
         {!show && (
           <Button
             type="button"
-            className="w-100 white-bg green-color green-border m-auto blue-bg white-color py-1 px-2 m-0"
+            className="w-100 white-bg water-color m-auto py-1 px-2 m-0"
             onClick={handleLogin}
           >
-            Chat
+            Start Messaging
           </Button>
         )}
       </div>
@@ -122,7 +122,7 @@ const AgoraChatComponent = ({ userId, token, peerId, username }) => {
           >
             {messages.map((item, index) => (
               <>
-                <div key={index} className="px-5">
+                <div key={index} className="">
                   {item.name === "" ? (
                     <div key={index} className="px-5">
                       <div className=" white-bg message-container-agora my-2 text-center white-bg black-color">
@@ -154,12 +154,12 @@ const AgoraChatComponent = ({ userId, token, peerId, username }) => {
                   type="text"
                   placeholder="Peer message"
                   value={peerMessage}
-                  className="flex-fill border rounded"
+                  className="px-2 flex-fill border rounded"
                   onChange={(e) => setPeerMessage(e.target.value)}
                 />
                 <Button
                   type="button"
-                  className="green-bg ms-4"
+                  className="white-bg water-color ms-4"
                   onClick={handleSendPeerMessage}
                 >
                   send
@@ -169,7 +169,7 @@ const AgoraChatComponent = ({ userId, token, peerId, username }) => {
           </Row>
         </Container>
       )}
-    </Container>
+    </>
   );
 };
 

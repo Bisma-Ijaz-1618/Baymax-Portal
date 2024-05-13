@@ -16,12 +16,12 @@ const mongoose = require("mongoose");
 const connectDB = require("./config/dbConn");
 const credentials = require("./middleware/credentials");
 const multer = require("multer");
-
 const storage = multer.memoryStorage();
 const upload = multer({ storage: storage });
 //setting a port
 const PORT = process.env.PORT || 3000;
 
+const bodyParser = require("body-parser");
 //connect to Mongodb
 connectDB();
 
@@ -35,6 +35,8 @@ app.use(cors(corsOptions));
 
 //processing json to recieve and parse json data make it available as req.body within the corresponding route handler
 app.use(express.json());
+app.use(bodyParser.text());
+app.use(express.urlencoded({ extended: true }));
 
 //middleware for cookies
 app.use(cookieParser());

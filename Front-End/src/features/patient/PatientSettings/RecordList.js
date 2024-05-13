@@ -15,9 +15,11 @@ import RecordBars from "./RecordBars";
 import useAxiosPrivate from "../../../hooks/useAxiosPrivate";
 import { formatStartTime } from "../../../utils/dateUtil";
 import { FaEye } from "react-icons/fa";
+import { useNavigate } from "react-router-dom";
 const RecordList = () => {
   const [selectedDate, setSelectedDate] = useState("");
   const axiosPrivate = useAxiosPrivate();
+  const navigate = useNavigate();
   const myRecordList = useQuery({
     queryKey: ["MyRecords"],
     queryFn: async () => {
@@ -95,7 +97,6 @@ const RecordList = () => {
   };
   const handleViewClick = (recordId) => {
     navigate(`/auth/patient/viewRecord/${recordId}`);
-    setSelectedProfileData(null);
   };
   const fillTable = () => {
     return (
@@ -190,7 +191,12 @@ const RecordList = () => {
                     </div>
                   </td>
                   <td classNmae="text-center">
-                    <Button onClick={} className="water-color profile-section-btn">
+                    <Button
+                      onClick={() => {
+                        handleViewClick(record._id);
+                      }}
+                      className="water-color profile-section-btn"
+                    >
                       <FaEye />
                     </Button>
                   </td>

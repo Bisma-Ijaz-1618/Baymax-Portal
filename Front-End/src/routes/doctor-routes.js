@@ -14,11 +14,12 @@ import DashBaord from "../features/doctor/DoctorSettings/Dashboard";
 import Invoices from "../features/doctor/ProfileSettings/Invoices/Invoices";
 // import PateintProfile from "../features/doctor/viewPatientProfile";
 import PatientProfile from "../components/Profiles/Patient/View/ViewPatientProfile";
-
+import ChatBox from "../components/Messages/ChatBox1";
+import { Doctor123 } from "../Config/Agora";
 import Reviews from "../features/doctor/ProfileSettings/Reviews/Reviews";
 import ViewMyProfile from "../features/doctor/ProfileSettings/Profile/ViewMyProfile";
 import VideoConferenceDoctor from "./../components/VideoConference/VideoConferenceDoctor";
-import AppointmentCall from "./../components/VideoConference/AppointmentCall";
+import AppointmentCall from "../components/VideoConference/AppointmentCallDoctor";
 import GraphContainer from "./../components/VideoConference/GraphContainer";
 
 const DoctorRoutes = () => {
@@ -35,7 +36,9 @@ const DoctorRoutes = () => {
         <Route path="viewSchedule" element={<ViewSchedule />} />
         <Route path="viewAllDoctors" element={<ViewDoctors />} />
         <Route path="viewAllAppointments" element={<ViewAppointments />} />
-        <Route path="messages" element={<Messages />} />
+        <Route path="messages" element={<Messages />}>
+          <Route path=":peerId/:username" element={<ChatBox />} />{" "}
+        </Route>
         <Route path="chatRoom" element={<VideoConferenceDoctor />} />
         <Route path="invoices" element={<Invoices />} />
         <Route path="reviews" element={<Reviews />} />

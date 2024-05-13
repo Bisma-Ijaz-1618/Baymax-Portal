@@ -24,7 +24,7 @@ const Participant = ({ user }) => {
   return (
     <div
       ref={ref}
-      className="video-holder align-items-center justify-content-center m-2"
+      className="col-md-6 video-holder align-items-center justify-content-center m-2"
       xs={12}
       md={6}
       lg={3}

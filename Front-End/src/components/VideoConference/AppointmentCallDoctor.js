@@ -18,7 +18,7 @@ import useAxiosPrivate from "../../hooks/useAxiosPrivate";
 import {
   parseFormattedStartTime,
   formatStartTime,
-  isStartTimeEqualToCurrentTime,
+  isCurrentTimeInRange,
   isStartTimeGreaterThanCurrentTime,
 } from "../../utils/dateUtil";
 import { FaPhone } from "react-icons/fa";
@@ -26,7 +26,7 @@ const AttendCallScreen = ({ id }) => {
   const [arrowIndex, setArrowIndex] = useState(0); // Define arrowIndex state
   const navigate = useNavigate();
   const handleAttend = () => {
-    navigate("/auth/doctor/chatRoom");
+    navigate(`/auth/doctor/chatRoom`);
   };
   useEffect(() => {
     const interval = setInterval(() => {
@@ -105,7 +105,6 @@ const AttendCallScreen = ({ id }) => {
                                 {selectedAppointment?.patientId?.username ||
                                   "Bisma Ijaz"}
                               </strong>
-                              <p> Already in the meeting</p>
                             </Col>
                           </Row>
                         </ListGroup.Item>
@@ -151,15 +150,15 @@ const AttendCallScreen = ({ id }) => {
                             {isStartTimeGreaterThanCurrentTime(
                               selectedAppointment.startTime
                             ) ? (
-                              <h5>
+                              <h5 className="water-color">
                                 {" "}
-                                Link for Appointment will be available at{" "}
+                                Link for your appointment will be available at{" "}
                                 {
                                   formatStartTime(selectedAppointment.startTime)
                                     .time
                                 }
                               </h5>
-                            ) : isStartTimeEqualToCurrentTime(
+                            ) : isCurrentTimeInRange(
                                 selectedAppointment.startTime
                               ) ? (
                               <Container className=" w-100 justify-content-center align-items-ceter">
@@ -174,7 +173,10 @@ const AttendCallScreen = ({ id }) => {
                                     ></Col>
                                   ))}
                                   <Col>
-                                    <Button className="m-0 p-1 green-bg white-color call-button">
+                                    <Button
+                                      onClick={handleAttend}
+                                      className="m-0 p-1 green-bg white-color call-button"
+                                    >
                                       <FaPhone />
                                     </Button>
                                   </Col>
@@ -190,36 +192,9 @@ const AttendCallScreen = ({ id }) => {
                               </Container>
                             ) : (
                               <>
-                                <Container className=" w-100 justify-content-center align-items-ceter">
-                                  <Row className="mx-auto arrows d-flex flex-row m-2 align-items-center justify-content-between">
-                                    {/* Render arrows based on the current arrow index */}
-                                    {Array.from({ length: 3 }, (_, i) => (
-                                      <Col
-                                        key={i}
-                                        className={`green-color arrow left ${
-                                          i === arrowIndex ? "active" : ""
-                                        }`}
-                                      ></Col>
-                                    ))}
-                                    <Col>
-                                      <Button
-                                        onClick={handleAttend}
-                                        className="m-0 p-1 green-bg white-color call-button"
-                                      >
-                                        <FaPhone />
-                                      </Button>
-                                    </Col>
-                                    {Array.from({ length: 3 }, (_, i) => (
-                                      <Col
-                                        key={i}
-                                        className={`green-color arrow ${
-                                          i === arrowIndex ? "active" : ""
-                                        }`}
-                                      ></Col>
-                                    )).reverse()}
-                                  </Row>
+                                <Container className=" fire-color w-100 justify-content-center align-items-ceter">
+                                  <h5> You missed your appointment! </h5>
                                 </Container>
-                                <h5>You have your appointment!</h5>
                               </>
                             )}
                           </Card.Text>
