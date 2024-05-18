@@ -17,8 +17,8 @@ router.use("/uploadMedilcalFile", require("./api/fileUpload"));
 router.use("/auth", require("./api/auth"));
 
 router.use(verifyJWT);
-
 router.use("/Kit", require("./api/kit"));
+
 router.use("/Chat", require("./api/chat"));
 
 router.use("/Users", require("./api/users"));

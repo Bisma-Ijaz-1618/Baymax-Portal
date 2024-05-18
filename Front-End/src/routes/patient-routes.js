@@ -5,12 +5,11 @@ import Welcome from "../features/auth/Welcome";
 import UsersList from "../features/users/UsersList";
 import DataGrid from "../features/data/DataGrid";
 import NotFound from "../components/NotFound";
-import ViewPatients from "../features/patient/PatientSettings/ViewPatientProfiles";
+import ViewPatients from "../features/doctor/PatientSettings/ViewPatientProfiles";
 import KitConnection from "../features/patient/PatientSettings/kitConnection";
 import ViewDoctors from "../features/patient/DoctorSettings/ViewDoctorProfiles";
 import SearchSlot from "../features/patient/ProfileSettings/Appointments/SearchSlot";
 import BookAppointment from "../features/patient/ProfileSettings/Appointments/BookAppointment";
-import ViewAppointments from "../features/patient/ProfileSettings/Appointments/ViewAppointments";
 import Invoices from "../features/patient/ProfileSettings/Invoices/Invoices";
 import Sensors from "../features/patient/ProfileSettings/BaymaxKit/Sensors";
 import RecordHistory from "../features/patient/ProfileSettings/BaymaxKit/RecordHistory";
@@ -23,7 +22,11 @@ import DoctorProfile from "../components/Profiles/Doctor/View/ViewDoctorProfile"
 import GraphContainer from "../features/patient/PatientSettings/GraphContainer";
 import AppointmentCall from "../components/VideoConference/AppointmentCallPatient";
 import ChatBox from "../components/Messages/ChatBox1";
-import { Patient123 } from "../Config/Agora";
+import Profile from "../components/Profiles/Patient/ViewPatientProfile";
+import ViewAppointments from "../features/doctor/ProfileSettings/Appointments/ViewAllAppointmentsPatient";
+import PatientProfile from "../components/Profiles/Patient/View/ViewPatientProfile";
+import MyProfile from "../components/Profiles/Patient/Edit/ViewPatientProfile";
+
 const PatientRoutes = () => {
   return (
     <Routes>
@@ -33,6 +36,7 @@ const PatientRoutes = () => {
           <Route path="users" element={<UsersList />} />
         </Route>
         <Route path="users" element={<UsersList />} />
+        <Route path="myProfile" element={<MyProfile />} />
         <Route path="dashboard" element={<DashBoard />} />
         <Route path="viewAllPatients" element={<ViewPatients />} />
         <Route path="viewAllDoctors" element={<ViewDoctors />} />
@@ -44,17 +48,19 @@ const PatientRoutes = () => {
         <Route path="sensors" element={<Sensors />} />
         <Route path="recordHistory" element={<RecordHistory />} />
         <Route path="record" element={<Record />} />
-        <Route path="recordList" element={<RecordList />} />
         <Route path="messages" element={<Messages />}>
           <Route path=":peerId/:username" element={<ChatBox />} />
         </Route>
         <Route path="chatRoom" element={<VideoConferencePatient />} />
         <Route path="kitConnection" element={<KitConnection />} />
+        <Route path="viewAllPatients" element={<ViewPatients />} />
+
         {/* <Route path="addPatient" element={<AddUser userRole="Patient" />} />
         <Route path="viewAllPatients" element={<ViewPatients />} />
-        <Route path="addPatientProfile" element={<AddPatientProfile />} /> */}
+      <Route path="addPatientProfile" element={<AddPatientProfile />} /> */}
         <Route path="datagrid" element={<DataGrid />} />
         <Route path="viewRecord/:recordId" element={<GraphContainer />} />
+        <Route path="recordList" element={<RecordList />} />
         <Route path="viewDoctorProfile/:id" element={<DoctorProfile />} />
         <Route path="call/:id" element={<AppointmentCall />} />
       </Route>

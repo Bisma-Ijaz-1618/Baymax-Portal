@@ -15,12 +15,12 @@ import Invoices from "../features/doctor/ProfileSettings/Invoices/Invoices";
 // import PateintProfile from "../features/doctor/viewPatientProfile";
 import PatientProfile from "../components/Profiles/Patient/View/ViewPatientProfile";
 import ChatBox from "../components/Messages/ChatBox1";
-import { Doctor123 } from "../Config/Agora";
 import Reviews from "../features/doctor/ProfileSettings/Reviews/Reviews";
 import ViewMyProfile from "../features/doctor/ProfileSettings/Profile/ViewMyProfile";
 import VideoConferenceDoctor from "./../components/VideoConference/VideoConferenceDoctor";
 import AppointmentCall from "../components/VideoConference/AppointmentCallDoctor";
-import GraphContainer from "./../components/VideoConference/GraphContainer";
+import RecordListPatient from "../components/Profiles/Patient/View/RecordListByPatientId";
+import GraphContainer from "../components/Profiles/Patient/View/GraphContainer";
 
 const DoctorRoutes = () => {
   return (
@@ -50,6 +50,8 @@ const DoctorRoutes = () => {
         <Route path="dashboard" element={<DashBaord />} />
         <Route path="records" element={<GraphContainer />} />
         <Route path="call/:id" element={<AppointmentCall />} />
+        <Route path="AllRecords/:id" element={<RecordListPatient />} />
+        <Route path="viewRecord/:recordId" element={<GraphContainer />} />
       </Route>
       <Route path="*" element={<NotFound />} />
     </Routes>

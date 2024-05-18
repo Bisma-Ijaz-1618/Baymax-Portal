@@ -63,11 +63,54 @@ function Example() {
               </span>
             </Link>
             <Link
+              to="viewAllAppointments"
+              className={
+                currentPath.includes("viewAllAppointments")
+                  ? "active link-item"
+                  : "link-item"
+              }
+            >
+              <span className="link-item-icon">
+                <FontAwesomeIcon icon={faEdit} />
+              </span>
+              <span className="link-item-text">
+                <h5>Appointments</h5>
+              </span>
+            </Link>
+            <Link
+              to="invoices"
+              className={
+                currentPath.includes("item1") ? "active link-item" : "link-item"
+              }
+            >
+              <span className="link-item-icon">
+                <FontAwesomeIcon icon={faEdit} />
+              </span>
+              <span className="link-item-text">
+                <h5>Invoices</h5>
+              </span>
+            </Link>
+            <Link
               to="messages"
               className={
                 currentPath.includes("item1") ? "active link-item" : "link-item"
               }
             >
+              <Link
+                to="viewAllPatients"
+                className={
+                  currentPath.includes("viewAllPatients")
+                    ? "active link-item"
+                    : "link-item"
+                }
+              >
+                <span className="link-item-icon">
+                  <FontAwesomeIcon icon={faEdit} />
+                </span>
+                <span className="link-item-text">
+                  <h5>Patients</h5>
+                </span>
+              </Link>
               <span className="link-item-icon">
                 <FontAwesomeIcon icon={faEdit} />
               </span>
@@ -89,47 +132,6 @@ function Example() {
               </span>
             </Link>
             <Link
-              to="viewAllPatients"
-              className={
-                currentPath.includes("viewAllPatients")
-                  ? "active link-item"
-                  : "link-item"
-              }
-            >
-              <span className="link-item-icon">
-                <FontAwesomeIcon icon={faEdit} />
-              </span>
-              <span className="link-item-text">
-                <h5>Patients</h5>
-              </span>
-            </Link>
-            <Link
-              to="invoices"
-              className={
-                currentPath.includes("item1") ? "active link-item" : "link-item"
-              }
-            >
-              <span className="link-item-icon">
-                <FontAwesomeIcon icon={faEdit} />
-              </span>
-              <span className="link-item-text">
-                <h5>Invoices</h5>
-              </span>
-            </Link>
-            <Link
-              to="reviews"
-              className={
-                currentPath.includes("item1") ? "active link-item" : "link-item"
-              }
-            >
-              <span className="link-item-icon">
-                <FontAwesomeIcon icon={faEdit} />
-              </span>
-              <span className="link-item-text">
-                <h5>Reviews</h5>
-              </span>
-            </Link>
-            <Link
               to="records"
               className={
                 currentPath.includes("records")
@@ -145,7 +147,22 @@ function Example() {
               </span>
             </Link>
             <Link
-              to="item1"
+              to="viewMyProfile"
+              className={
+                currentPath.includes("viewMyProfile")
+                  ? "active link-item"
+                  : "link-item"
+              }
+            >
+              <span className="link-item-icon">
+                <FontAwesomeIcon icon={faEdit} />
+              </span>
+              <span className="link-item-text">
+                <h5>Profile</h5>
+              </span>
+            </Link>
+            <Link
+              to="reviews"
               className={
                 currentPath.includes("item1") ? "active link-item" : "link-item"
               }
@@ -154,7 +171,7 @@ function Example() {
                 <FontAwesomeIcon icon={faEdit} />
               </span>
               <span className="link-item-text">
-                <h5>Invoices</h5>
+                <h5>Reviews</h5>
               </span>
             </Link>
           </Container>

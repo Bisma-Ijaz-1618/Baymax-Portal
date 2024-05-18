@@ -5,7 +5,7 @@ import SmallDashCalendar from "./SmallDashCalendar";
 import AppointmentList from "./AppointmentListDoctor";
 import usePatientControllerApi from "../../../api/Doctor/patientController";
 import UsersTable from "./PatientsTable";
-import useDoctorAppointmentsApi from "../../../api/Doctor/doctorAppointments";
+import useDoctorAppointmentsApi from "../../../api/Doctor/patientAppointments";
 import ErrorComponent from "../../../components/General/Error";
 import LoadingComponent from "../../../components/General/Loading";
 
@@ -33,7 +33,7 @@ const DoctorDashboard = () => {
           <div className="h-100 border rounded white-bg">
             <UsersTable
               headers={["username", "email", "bloodGroup"]}
-              noOfItems={3}
+              noOfItems={10}
             />
           </div>
         </Col>

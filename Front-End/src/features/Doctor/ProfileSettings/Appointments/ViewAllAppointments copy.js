@@ -1,7 +1,7 @@
 import React from "react";
 import { Container, Row, Col } from "react-bootstrap";
 import AppointmentList from "./AppointmentList"; // Importing AppointmentList
-import useDoctorAppointmentsApi from "../../../../api/Doctor/doctorAppointments";
+import useDoctorAppointmentsApi from "../../../../api/Doctor/patientAppointments";
 import ErrorComponent from "../../../../components/General/Error";
 import LoadingComponent from "../../../../components/General/Loading";
 

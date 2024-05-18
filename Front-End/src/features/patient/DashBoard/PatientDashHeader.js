@@ -40,7 +40,7 @@ function AdminDashHeader() {
     <div>
       <Row className="live-header">
         <Col className="my-2">
-          <h1>Dashboard</h1>
+          <h1>Patient Dashboard</h1>
           <p className="header-animated-text">{currentNotification}</p>
         </Col>
         <Col className="my-2 d-flex flex-column justify-content-center align-items-end">

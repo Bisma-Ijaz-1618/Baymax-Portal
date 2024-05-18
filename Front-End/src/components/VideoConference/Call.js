@@ -136,7 +136,7 @@ function VideoConference() {
         className="d-flex flex-row justify-content-center fire-color align-items-center text-center"
         align="middle"
       >
-        <h3>You Left the Meeting</h3>
+        <h3>Join the Meeting</h3>
         <Button
           className="mx-2 py-1 px-3 white-bg water-color"
           onClick={() => setJoinCall(true)}

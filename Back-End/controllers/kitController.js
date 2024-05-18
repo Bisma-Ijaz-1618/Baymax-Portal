@@ -1,5 +1,7 @@
 const Kit = require("../model/Kit");
 const KitRecord = require("../model/Record");
+const PatientProfile = require("../model/Patient");
+const Patient = require("../model/Patient");
 const createNewAdmin = require("./authController").handleNewUser;
 
 const generateRandomReadings = (count, min, max, decimalPlaces = 1) => {
@@ -28,7 +30,7 @@ const getRandomTimeInLastMonth = () => {
   return randomTime;
 };
 const createRandomRecordsForPastMonth = async (userId) => {
-  const numberOfDays = 30;
+  const numberOfDays = 9;
   const minRecordsPerDay = 1;
   const maxRecordsPerDay = 5;
 
@@ -131,127 +133,38 @@ const createRandomRecords = async (userId) => {
     console.error("Error creating KitRecord:", error);
   }
 };
-const getUserRecordsByDate = (req, res) => {
-  const userId = req.params.id;
-  const date = new Date(req.params.date); // Convert date string to Date object
-  const startOfDay = new Date(
-    date.getFullYear(),
-    date.getMonth(),
-    date.getDate()
-  ); // Start of the specified date
-  const endOfDay = new Date(
-    date.getFullYear(),
-    date.getMonth(),
-    date.getDate() + 1
-  ); // End of the specified date
-
-  // Find records for the given userId and with startTime within the specified date range
-  KitRecord.find({
-    userId,
-    startTime: { $gte: startOfDay, $lt: endOfDay }, // Filter records within the specified date range
-  })
-    .then((records) => {
-      if (!records || records.length === 0) {
-        const valuesCount = Math.floor(Math.random() * 10) + 1; // Generate between 1 and 10 values
-        const values = [];
-        for (let i = 0; i < valuesCount; i++) {
-          const recordCreated = createRandomRecords(userId);
-          console.log("record created", valuesCount, recordCreated);
-          values.push(recordCreated);
-        }
-        return res.status(200).json(values);
-      } else {
-        res.status(200).json(records);
-      }
-    })
-    .catch((err) => {
-      console.error("Error retrieving records:", err);
-      res.status(500).json({ error: "Internal server error2" });
-    });
-};
-const getAllUserRecords = (req, res) => {
-  const userId = req.params.id;
-  const date = new Date(req.params.date); // Convert date string to Date object
-  const startOfDay = new Date(
-    date.getFullYear(),
-    date.getMonth(),
-    date.getDate()
-  ); // Start of the specified date
-  const endOfDay = new Date(
-    date.getFullYear(),
-    date.getMonth(),
-    date.getDate() + 1
-  ); // End of the specified date
-
-  // Find records for the given userId and with startTime within the specified date range
-  KitRecord.find({
-    userId,
-    startTime: { $gte: startOfDay, $lt: endOfDay }, // Filter records within the specified date range
-  })
-    .then((records) => {
-      if (!records || records.length === 0) {
-        const valuesCount = Math.floor(Math.random() * 10) + 1; // Generate between 1 and 10 values
-        const values = [];
-        for (let i = 0; i < valuesCount; i++) {
-          const recordCreated = createRandomRecords(userId);
-          console.log("record created", valuesCount, recordCreated);
-          values.push(recordCreated);
-        }
-        return res.status(200).json(values);
-      } else {
-        res.status(200).json(records);
-      }
-    })
-    .catch((err) => {
-      console.error("Error retrieving records:", err);
-      res.status(500).json({ error: "Internal server error3" });
-    });
-};
-const getMyRecordsByDate = (req, res) => {
-  const userId = req.userId;
-  const date = new Date(req.params.date); // Convert date string to Date object
-  const startOfDay = new Date(
-    date.getFullYear(),
-    date.getMonth(),
-    date.getDate()
-  ); // Start of the specified date
-  const endOfDay = new Date(
-    date.getFullYear(),
-    date.getMonth(),
-    date.getDate() + 1
-  ); // End of the specified date
-
-  // Find records for the given userId and with startTime within the specified date range
-  KitRecord.find({
-    userId,
-    startTime: { $gte: startOfDay, $lt: endOfDay }, // Filter records within the specified date range
-  })
-    .then((records) => {
-      if (!records || records.length === 0) {
-        const valuesCount = Math.floor(Math.random() * 10) + 1; // Generate between 1 and 10 values
-        const values = [];
-        for (let i = 0; i < valuesCount; i++) {
-          values.push(createRandomRecords(userId));
-        }
-        return res.status(200).json(values);
-      } else {
-        res.status(200).json(records);
-      }
-    })
-    .catch((err) => {
-      console.error("Error retrieving records:", err);
-      res.status(500).json({ error: "Internal server error4" });
-    });
-};
 
 const getMyRecords = async (req, res) => {
   const userId = req.userId;
   // await KitRecord.deleteMany({
   //   userId: userId,
   // });
-  // await createRandomRecordsForPastMonth(userId);
+  //await createRandomRecordsForPastMonth(userId);
 
   console.log("ingetmyrecords with id", userId);
+  // Find records for the given userId and with startTime within the specified date range
+  KitRecord.find({
+    userId: userId,
+  })
+    .then((records) => {
+      console.log("foundrecords", records);
+      return res.status(200).json(records);
+    })
+    .catch((err) => {
+      console.error("Error retrieving records:", err);
+      res.status(500).json({ error: "Internal server error here1" });
+    });
+};
+const getPatientRecords = async (req, res) => {
+  const profileId = req.params.patientId;
+
+  //await createRandomRecordsForPastMonth(userId);
+
+  console.log("ingetpatientrecords with profile", profileId);
+  const profile = await PatientProfile.findOne({ _id: profileId });
+  const userId = profile.userId;
+  console.log("ingetpatientrecords with id", userId);
+
   // Find records for the given userId and with startTime within the specified date range
   KitRecord.find({
     userId: userId,
@@ -324,6 +237,22 @@ const getMyRecordById = async (req, res) => {
   // Find records for the given userId and with startTime within the specified date range
   KitRecord.find({
     userId: userId,
+    _id: recordId,
+  })
+    .then((records) => {
+      console.log("foundrecords", records);
+      return res.status(200).json(records);
+    })
+    .catch((err) => {
+      console.error("Error retrieving records:", err);
+      res.status(500).json({ error: "Internal server error here1" });
+    });
+};
+const getPatientRecordById = async (req, res) => {
+  const recordId = req.params.recordId;
+  console.log("ingetmyrecords with id", recordId);
+  // Find records for the given userId and with startTime within the specified date range
+  KitRecord.find({
     _id: recordId,
   })
     .then((records) => {
@@ -428,10 +357,9 @@ module.exports = {
   updateAdminProfile,
   deleteAdminProfile,
   createNewAdmin,
-  getUserRecordsByDate,
   getMyRecords,
-  getMyRecordsByDate,
-  getAllUserRecords,
   getMyRecordById,
   saveSensorData,
+  getPatientRecordById,
+  getPatientRecords,
 };

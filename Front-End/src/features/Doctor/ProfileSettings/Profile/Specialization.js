@@ -5,15 +5,15 @@ import { FaGraduationCap, FaPlusCircle, FaSave } from "react-icons/fa";
 function DoctorEducationAccordion() {
   const [educations, setEducations] = useState([
     {
-      degree: "Bachelor of Medicine",
-      school: "Medical University",
+      degree: "Surgical Oncology",
+      school: "Surgical University",
       fieldOfStudy: "Medicine",
       startDate: "2012-09-01",
       endDate: "2018-06-30",
       grade: "Distinction",
     },
     {
-      degree: "Master of Surgery",
+      degree: "Oncology",
       school: "Surgical College",
       fieldOfStudy: "Surgery",
       startDate: "2018-09-01",

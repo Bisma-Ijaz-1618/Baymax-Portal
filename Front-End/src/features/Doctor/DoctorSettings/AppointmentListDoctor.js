@@ -5,7 +5,7 @@ import { BsCalendar, BsClockFill } from "react-icons/bs";
 import { useState } from "react";
 import ErrorComponent from "../../../components/General/Error";
 import LoadingComponent from "../../../components/General/Loading";
-import useDoctorAppointmentsApi from "../../../api/Doctor/doctorAppointments";
+import useDoctorAppointmentsApi from "../../../api/Doctor/patientAppointments";
 import { formatStartTime } from "../../../utils/dateUtil";
 import { useNavigate } from "react-router-dom";
 import AppointmentModalAccept from "../../../components/Appointments/AppointmentModalAccept";

@@ -209,14 +209,6 @@ const Login = () => {
                 </Button>
               </Row>
             </Form>
-            <Row className=" py-2 justify-content-center align-items-center">
-              <hr className="my-2 mx-2 text-dark w-25" />
-              Sign In with your Google acocunt
-              <hr className="my-2 mx-2 text-dark w-25" />
-            </Row>
-            <Row className="mx-5 px-5 py-2">
-              <Button className="white-bg water-color">Google</Button>
-            </Row>
           </Col>
         </Row>
       </Container>

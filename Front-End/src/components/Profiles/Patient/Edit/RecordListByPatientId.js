@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from "react";
-import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import React, { useState } from "react";
+import { useQuery } from "@tanstack/react-query";
 import {
   Button,
   Card,
@@ -11,20 +11,20 @@ import {
   Stack,
   ProgressBar,
 } from "react-bootstrap";
-import RecordBars from "./RecordBars";
-import useAxiosPrivate from "../../../hooks/useAxiosPrivate";
-import { formatStartTime } from "../../../utils/dateUtil";
+import useAxiosPrivate from "../../../../hooks/useAxiosPrivate";
+import { formatStartTime } from "../../../../utils/dateUtil";
 import { FaEye } from "react-icons/fa";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 const RecordList = () => {
+  const { id } = useParams();
   const [selectedDate, setSelectedDate] = useState("");
   const axiosPrivate = useAxiosPrivate();
   const navigate = useNavigate();
   const myRecordList = useQuery({
-    queryKey: ["MyRecords"],
+    queryKey: ["PatientRecords", id],
     queryFn: async () => {
       try {
-        const response = await axiosPrivate.get("Kit/MyRecords/All");
+        const response = await axiosPrivate.get(`Kit/PatientRecords/All/${id}`);
         console.log("response.data", response.data);
         return response.data || [];
       } catch (err) {
@@ -96,7 +96,7 @@ const RecordList = () => {
     }
   };
   const handleViewClick = (recordId) => {
-    navigate(`/auth/patient/viewRecord/${recordId}`);
+    navigate(`/auth/doctor/viewRecord/${recordId}`);
   };
   const fillTable = () => {
     return (

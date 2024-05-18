@@ -15,20 +15,20 @@ const Home = () => {
       <Row className="vission-row align-items-center justify-content-center">
         {/* Vision Container */}
         <Col md={2} className="mx-2 vission-col py-2 text-center">
-          <h2>123+</h2>
+          <h2>12+</h2>
           <h2>Doctors</h2>
         </Col>
 
         {/* Mission Container */}
         <Col md={2} className="mx-2 vission-col py-2 text-center">
-          <h2>223+</h2>
+          <h2>23+</h2>
           <h2>Patients</h2>
         </Col>
 
         {/* Who We Are Container */}
         <Col md={2} className="mx-2 vission-col py-2 text-center">
-          <h2>89+</h2>
-          <h2>Hospitals</h2>
+          <h2>999+</h2>
+          <h2>Records</h2>
         </Col>
       </Row>
     </Container>

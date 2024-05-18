@@ -10,7 +10,7 @@ import {
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import useDoctorAppointmentsApi from "../../api/Doctor/doctorAppointments";
+import useDoctorAppointmentsApi from "../../api/Doctor/patientAppointments";
 import { useQuery, QueryClient, useMutation } from "@tanstack/react-query";
 import ErrorComponent from "../General/Error";
 import LoadingComponent from "../General/Loading";

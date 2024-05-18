@@ -8,7 +8,7 @@ import "react-datepicker/dist/react-datepicker.css";
 import { Form, Container, Tabs, Tab, Button, Row, Col } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrash } from "@fortawesome/free-solid-svg-icons";
-import useDoctorAppointmentsApi from "../../../../api/Doctor/doctorAppointments"; // Adjust the path accordingly
+import useDoctorAppointmentsApi from "../../../../api/Doctor/patientAppointments"; // Adjust the path accordingly
 import { useQuery } from "@tanstack/react-query";
 const locales = {
   "en-US": require("date-fns/locale/en-US"),

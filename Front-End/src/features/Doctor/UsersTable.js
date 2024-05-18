@@ -30,9 +30,8 @@ function UsersTable({ headers, data, userRole, deleteProfileFunction }) {
     setCallDelete(true);
   };
 
-  const handleViewClick = (profileData, setSelectedProfileData) => {
-    setSelectedProfileData(profileData);
-    navigate(`/auth/doctor/viewPatientProfile`);
+  const handleViewClick = (profileId, setSelectedProfileData) => {
+    navigate(`/auth/doctor/viewPatientProfile/${profileId}`);
     setSelectedProfileData(null);
   };
   const getRandomImage = () => {
@@ -65,30 +64,11 @@ function UsersTable({ headers, data, userRole, deleteProfileFunction }) {
     return items;
   };
 
-  const CategoryList = ["Urgent", "Today", "All"];
-  const [selectedCategory, setSelectedCategory] = useState(CategoryList[0]);
-
-  const handleCategoryChange = (e) => {
-    setSelectedCategory(e.target.value);
-  };
   return data ? (
     <Card>
       <Card.Header className="d-flex flex-row lightblue-bg justify-content-between align-items-center">
         <h5 className=" white-color p-0 m-0">Patients</h5>
         <div className="d-flex flex-row justify-content-end align-items-center">
-          <Form.Group className="mx-3" controlId="categorySelect">
-            <Form.Control
-              as="select"
-              value={selectedCategory}
-              onChange={handleCategoryChange}
-            >
-              {CategoryList.map((category) => (
-                <option key={category} value={category}>
-                  {category}
-                </option>
-              ))}
-            </Form.Control>
-          </Form.Group>
           <Pagination className="p-0 m-0">{renderPaginationItems()}</Pagination>
         </div>
       </Card.Header>
@@ -146,19 +126,12 @@ function UsersTable({ headers, data, userRole, deleteProfileFunction }) {
                     <div className="d-flex flex-row justify-content-center">
                       <Button
                         onClick={() =>
-                          handleViewClick(item, setSelectedProfileData)
+                          handleViewClick(item._id, setSelectedProfileData)
                         }
                         variant="outline-primary"
                         className="m-auto rounded-circle"
                       >
                         <FontAwesomeIcon icon={faEye} />
-                      </Button>
-                      <Button
-                        onClick={() => handleDeleteClick(item)}
-                        variant="outline-primary"
-                        className="m-auto rounded-circle"
-                      >
-                        <FontAwesomeIcon icon={faTrash} />
                       </Button>
                     </div>
                   </td>

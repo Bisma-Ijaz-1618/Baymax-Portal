@@ -1,77 +1,95 @@
 import React from "react";
-import { Image, Row, Col } from "react-bootstrap";
-import useDoctorProfileApi from "../../../../api/Doctor/myProfileDoctor";
+import { Image, Container, Row, Col } from "react-bootstrap";
+import useDoctorApi from "../../../../api/Patient/doctorController";
 import { useState, useRef } from "react";
-import { Button } from "react-bootstrap";
+import { Form, Button } from "react-bootstrap";
+import { useParams } from "react-router-dom";
+
 import {
   FaUser,
   FaMapMarkerAlt,
   FaIdCard,
+  FaTransgender,
   FaCalendarAlt,
   FaPhone,
   FaEnvelope,
+  FaUserMd,
   FaEdit,
   FaUpload,
   FaSave,
+  FaGenderless,
   FaFemale,
+  FaServicestack,
+  FaSortNumericUpAlt,
   FaRegIdBadge,
+  FaAccusoft,
   FaUserTimes,
 } from "react-icons/fa";
 import { formatStartTime } from "../../../../utils/dateUtil";
+import { useQuery } from "@tanstack/react-query";
+import useAxiosPrivate from "../../../../hooks/useAxiosPrivate";
 function Basic() {
-  const { GetProfile, uploadProfilePicture, getProfilePicture } =
-    useDoctorProfileApi();
-
+  const axiosPrivate = useAxiosPrivate();
+  const { id } = useParams();
   const [profile, setProfile] = useState(null);
-  const fileInputRef = useRef(null);
-
-  const handleUploadClick = () => {
-    fileInputRef.current.click();
-  };
-
-  const handleImageChange = async (e) => {
-    const image = e.target.files[0];
-    try {
-      const formData = new FormData();
-      formData.append("image", image);
-      await uploadProfilePicture.mutateAsync(formData);
-      await getProfilePicture.refetch();
-    } catch (error) {
-      console.error("Error uploading image:", error);
+  const arrayBufferToBase64 = (buffer) => {
+    let binary = "";
+    const bytes = new Uint8Array(buffer);
+    for (let i = 0; i < bytes.byteLength; i++) {
+      binary += String.fromCharCode(bytes[i]);
     }
+    return window.btoa(binary);
   };
+  const GetProfileById = useQuery({
+    queryKey: ["Patients", id],
+    queryFn: async () => {
+      try {
+        console.log("in get profile");
+        const response = await axiosPrivate.get(`Patients/${id}`);
+        console.log("data of get profile", response.data);
+        return response.data || [];
+      } catch (error) {
+        console.error("Error fetching profile:", error);
+        throw error; // Rethrow the error to be handled by react-query
+      }
+    },
+    onSuccess: (data) => {
+      console.log("here is the dataaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", data);
+    },
+  });
+  const getProfilePictureById = useQuery({
+    queryKey: ["profilePicture", id],
+    queryFn: async () => {
+      try {
+        console.log("in get pic");
+        const response = await axiosPrivate.get(
+          `Patients/getProfilePicture/${id}`,
+          {
+            responseType: "arraybuffer",
+          }
+        );
+        const imageData = arrayBufferToBase64(response.data);
+        const url = `data:image/jpeg;base64,${imageData}`;
+        return url;
+      } catch (error) {
+        console.error("Error fetching profile picture:", error);
+        throw error; // Rethrow the error to be handled by react-query
+      }
+    },
+    onSuccess: (data) => {
+      console.log("here is the data of getpic", data);
+    },
+    retry: 3,
+  });
   return (
     <>
-      {true && (
+      {!GetProfileById.isError && !GetProfileById.isLoading && (
         <Row className="mt-3 profile-section white-bg water-border rounded">
           <Row className="py-2 profile-heading-row">
             <Col xs={8}>
               <h4 className="profile-heading-text water-color">
-                Personal Information
+                {GetProfileById.data.userId.username || "N/A"}
               </h4>
-            </Col>
-            <Col
-              xs={4}
-              className="mx-0 px-0 d-flex justify-content-end align-items-center"
-            >
-              <input
-                type="file"
-                ref={fileInputRef}
-                style={{ display: "none" }}
-                onChange={handleImageChange}
-              />
-              <Button
-                className="mx-2 profile-section-btn water-color"
-                onClick={handleUploadClick}
-              >
-                <FaUpload />
-              </Button>
-              <Button className="mx-2 profile-section-btn water-color">
-                <FaEdit />
-              </Button>
-              <Button className="mx-2 profile-section-btn water-color">
-                <FaSave />
-              </Button>
             </Col>
           </Row>
           <Col className="white-bg borderd rounded">
@@ -79,7 +97,7 @@ function Basic() {
               <Col className="position-relative" xs="auto">
                 <Image
                   className="profileImage"
-                  src={getProfilePicture.data}
+                  src={getProfilePictureById.data || "N/A"}
                   rounded
                 />
               </Col>
@@ -98,63 +116,65 @@ function Basic() {
                   <div className="pill-profile water-border water-color  mb-1 me-1 white-bg p-2  d-flex flex-row align-items-center justify-content-around">
                     <FaUser className="mx-2" />
                     <h6 className="mb-0">
-                      {GetProfile.data.data.userId.username}
+                      {GetProfileById.data.userId.username || "N/A"}
                     </h6>
                   </div>
                   <div className="pill-profile water-border water-color  mb-1 me-1 white-bg p-2  d-flex flex-row align-items-center justify-content-around">
                     <FaEnvelope className="mx-2" />
                     <h6 className="mb-0">
-                      {GetProfile.data.data.userId.email}
+                      {GetProfileById.data.userId.email || "N/A"}
                     </h6>
                   </div>
                   <div className="pill-profile water-border water-color  mb-1 me-1 white-bg p-2  d-flex flex-row align-items-center justify-content-around">
                     <FaMapMarkerAlt className="mx-2" />
                     <h6 className="mb-0">
-                      {GetProfile.data.data.address.address}
+                      {GetProfileById.data.address.city ||
+                        "N/A" + GetProfileById.data.address.address ||
+                        "N/A"}
                     </h6>
                   </div>
                   <div className="pill-profile water-border water-color  mb-1 me-1 white-bg p-2  d-flex flex-row align-items-center justify-content-around">
                     <FaPhone className="mx-2" />
                     <h6 className="mb-0">
-                      {GetProfile.data.data.contactNumber}
-                    </h6>
-                  </div>
-                  <div className="pill-profile water-border water-color  mb-1 me-1 white-bg p-2  d-flex flex-row align-items-center justify-content-around">
-                    <FaRegIdBadge className="mx-2" />
-                    <h6 className="mb-0">
-                      Licence : {GetProfile.data.data.licenseNumber}
-                    </h6>
-                  </div>
-                  <div className="pill-profile water-border water-color  mb-1 me-1 white-bg p-2  d-flex flex-row align-items-center justify-content-around">
-                    <FaUserTimes className="mx-2" />
-                    <h6 className="mb-0">Age : {GetProfile.data.data.age}</h6>
-                  </div>
-                  <div className="pill-profile water-border water-color  mb-1 me-1 white-bg p-2  d-flex flex-row align-items-center justify-content-around">
-                    <FaIdCard className="mx-2" />
-                    <h6 className="mb-0">
-                      CNIC : {GetProfile.data.data.cnicNumber}
+                      {GetProfileById.data.contactNumber || "N/A"}
                     </h6>
                   </div>
                   <div className="pill-profile water-border water-color  mb-1 me-1 white-bg p-2  d-flex flex-row align-items-center justify-content-around">
                     <FaFemale className="mx-2" />
-                    <h6 className="mb-0">{GetProfile.data.data.gender}</h6>
+                    <h6 className="mb-0">
+                      {GetProfileById.data.gender || "N/A"}
+                    </h6>
+                  </div>
+
+                  <div className="pill-profile water-border water-color  mb-1 me-1 white-bg p-2  d-flex flex-row align-items-center justify-content-around">
+                    <FaUserTimes className="mx-2" />
+                    <h6 className="mb-0">
+                      Age : {GetProfileById.data.age || "N/A"}
+                    </h6>
                   </div>
                   <div className="pill-profile water-border water-color  mb-1 me-1 white-bg p-2  d-flex flex-row align-items-center justify-content-around">
-                    <FaPhone className="mx-2" />
-                    Experience : {GetProfile.data.data.yearsOfExperience}
+                    <FaIdCard className="mx-2" />
+                    <h6 className="mb-0">
+                      CNIC : {GetProfileById.data.cnicNumber || "N/A"}
+                    </h6>
+                  </div>
+                  <div className="pill-profile water-border water-color  mb-1 me-1 white-bg p-2  d-flex flex-row align-items-center justify-content-around">
+                    <FaIdCard className="mx-2" />
+                    Blood Group : {GetProfileById.data.bloodGroup || "N/A"}
                     <h6 className="mb-0"></h6>
                   </div>
                   <div className="pill-profile water-border water-color  mb-1 me-1 white-bg p-2  d-flex flex-row align-items-center justify-content-around">
                     <FaCalendarAlt className="mx-2" />
                     <h6 className="mb-0">
-                      Date of Birth :{}
-                      {formatStartTime(GetProfile.data.data.DOB).date}
+                      Date of Birth :{" "}
+                      {formatStartTime(GetProfileById.data.DOB).date || "N/A"}
                     </h6>
                   </div>
                   <div className="pill-profile water-border water-color  mb-1 me-1 white-bg p-2  d-flex flex-row align-items-center justify-content-around">
                     <FaPhone className="mx-2" />
                     <h6 className="mb-0">
-                      Experience : {GetProfile.data.data.yearsOfExperience}
+                      {"Emergency Contact : " +
+                        GetProfileById.data.eContactNumber || "N/A"}
                     </h6>
                   </div>
                 </div>

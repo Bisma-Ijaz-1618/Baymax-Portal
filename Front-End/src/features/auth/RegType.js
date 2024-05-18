@@ -1,12 +1,7 @@
-import { useRef, useState, useEffect, useContext } from "react";
-import { Container, Row, Col, Button, Form, Image } from "react-bootstrap";
-import axios from "../../api/axios";
-import { Link, Navigate, useNavigate, useLocation } from "react-router-dom";
-import useAuth from "../../hooks/useAuthHook";
-import { Outlet } from "react-router-dom";
-const RegType = () => {
-  const navigate = useNavigate();
+import { Row, Col, Button, Form, Image } from "react-bootstrap";
+import { Link } from "react-router-dom";
 
+const RegType = () => {
   return (
     <>
       <>
@@ -16,17 +11,17 @@ const RegType = () => {
         <Row className="col-md-10 h-100 m-auto align-items-center">
           <Col className=" reg-type-container  py-4 m-auto">
             <Row className="mx-5 px-5 py-2 justify-content-around">
-              <Link to="hospital">
+              {/* <Link to="hospital">
                 <Button className="w-100 water-bg my-2">
                   Register your Hospital/Clinic
                 </Button>
-              </Link>
-              <Link to="doctor">
+              </Link> */}
+              <Link to="doctor" className="my-2">
                 <Button className="w-100 water-bg my-2">
                   Register as a Doctor
                 </Button>
               </Link>
-              <Link to="patient">
+              <Link to="patient" className="my-2">
                 <Button className="w-100 water-bg my-2">
                   Register as a Patient
                 </Button>

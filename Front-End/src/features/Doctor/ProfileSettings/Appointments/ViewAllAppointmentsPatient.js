@@ -16,7 +16,7 @@ function AppointmentList() {
   const navigate = useNavigate();
   const handleCallButtonClick = (id) => {
     console.log("GOING OT CALL");
-    navigate(`/auth/doctor/call/${id}`);
+    navigate(`/auth/patient/call/${id}`);
   };
 
   const {
@@ -124,7 +124,7 @@ function AppointmentList() {
             <Table className=" p-0 m-0">
               <thead>
                 <tr>
-                  <th>Patient Name</th>
+                  <th>Doctor Name</th>
                   <th>Status</th>
                   <th>Date</th>
                   <th>Start Time</th>
@@ -136,7 +136,7 @@ function AppointmentList() {
                 {getSelectedQuery().data.map((appointment, index) => {
                   return (
                     <tr key={index}>
-                      <td>{appointment.patientId.username || "N/A"}</td>
+                      <td>{appointment.doctorId.username || "N/A"}</td>
                       <td>{appointment.status || "N/A"}</td>
                       <td>
                         {formatStartTime(appointment.startTime).date || "N/A"}

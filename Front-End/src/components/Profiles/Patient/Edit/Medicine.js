@@ -163,7 +163,7 @@ function PatientMedicineAccordion() {
           <Col xs={8}>
             <h4 className="profile-heading-text">Medicine Schedule</h4>
           </Col>
-          {/* <Col
+          <Col
             xs={4}
             className="mx-0 px-0 d-flex justify-content-end align-items-center"
           >
@@ -179,7 +179,7 @@ function PatientMedicineAccordion() {
             >
               <FaSave />
             </Button>
-          </Col> */}
+          </Col>
         </Row>
         <Row className="w-100">
           <Container fluid className="profile-sub-section">

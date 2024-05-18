@@ -11,7 +11,12 @@ import {
   Row,
   Modal,
 } from "react-bootstrap";
-import { FaGraduationCap, FaPlusCircle, FaSave } from "react-icons/fa";
+import {
+  FaBandAid,
+  FaGraduationCap,
+  FaPlusCircle,
+  FaSave,
+} from "react-icons/fa";
 
 function DoctorEducationAccordion() {
   const [educations, setEducations] = useState([
@@ -76,7 +81,7 @@ function DoctorEducationAccordion() {
       <Row className="my-2" key={index}>
         <Row xs="auto" className="my-2">
           <div className="timeline-badge black-color">
-            <FaGraduationCap />
+            <FaBandAid />
           </div>
           <h4 className="my-2 timeline-title ">{education.Condition}</h4>
         </Row>
